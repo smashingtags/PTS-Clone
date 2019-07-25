@@ -23,8 +23,8 @@ number of minutes. (IE - 1440 minutes = 1 day | 14440 minutes = 10 days)
 
 WARNING: Do not set this too low because legitmate files!
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF

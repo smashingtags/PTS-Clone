@@ -141,6 +141,9 @@ pgclonevars() {
     variable /var/plexguide/vfs_ll "NOTICE"
     vfs_ll=$(cat /var/plexguide/vfs_ll)
 
+    # For BWLimit
+    variable /var/plexguide/timetable.bw "00:00,off 15:00,60M Sat-08:00,30M Sun-08:00,30M"
+
     # Upgrade old var format to new var format
 
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
@@ -149,11 +152,11 @@ pgclonevars() {
         echo "rclone/v1.48" >/var/plexguide/uagent
     fi
 
-    if [[ $(cat /var/plexguide/blitz.bw) != *"M"* ]]; then
+    if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then
         echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw
     fi
 
-    if [[ $(cat /var/plexguide/move.bw) != *"M"* ]]; then
+    if [[ $(cat /var/plexguide/move.bw) != *"M"* && $(cat /var/plexguide/move.bw) != 0 ]]; then
         echo "$(cat /var/plexguide/move.bw)M" >/var/plexguide/move.bw
     fi
 

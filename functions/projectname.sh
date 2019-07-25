@@ -41,8 +41,8 @@ CURRENT PROJECT: $pgcloneproject
 [2] Project: Build New & Set Project
 [3] Project: Destroy
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -89,7 +89,7 @@ EOF
   projectlist
   tee <<-EOF
 
-Qutting? Type >>> Exit
+Qutting? Type >>> z or exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -p '↘️  Use Which Existing Project? | Press [ENTER]: ' typed </dev/tty
@@ -128,7 +128,7 @@ EOF
   projectlist
   tee <<-EOF
 
-Qutting? Type >>> Exit
+Qutting? Type >>> z or exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -p '↘️  Destroy Which Project? | Press [ENTER]: ' typed </dev/tty

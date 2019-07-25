@@ -29,9 +29,9 @@ NOTE: PG Clone is a service that automates mergerfs; with mount, rclone,
 and key development to mount user drives and move/store data accordingly.
 Visit the link above before starting this process!
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [1] PG Clone Method: $transport
 [Z] Exit
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -53,50 +53,6 @@ EOF
       ;;
     esac
   fi
-}
-
-setthrottleblitz() {
-  tee <<-EOF
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: BW Limit Notice        📓 Reference: blitz.pgblitz.com
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-💬  This restricts upload bandwidth, useful to prevent network saturation. 
-    upload speeds are limited by your server's max upload connection and gdrive limits.
-
-    We recommend setting this between 30-60% of your total server bandwidth,
-    as you should reserve bandwidth for streaming.
-
-This change will take effect immediately.
-
-EOF
-  read -rp '↘️  Type a Speed from 1 - 1000 | Press [ENTER]: ' typed </dev/tty
-  if [[ "$typed" -ge "1" && "$typed" -le "1000" ]]; then
-    echo "${typed}M" >/var/plexguide/blitz.bw
-  else setthrottleblitz; fi
-}
-
-setthrottlemove() {
-  tee <<-EOF
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: BW Limit Notice        📓 Reference: move.pgblitz.com
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-💬 This restricts upload bandwidth. 
-
-    [9] is default limit to allow up to 750gb a day.
-    A higher value is not advised!
-    Allowing more than 750gb in 24 hours, will cause a 24 hour ban.
-
-This change will take effect immediately.
-
-EOF
-  read -rp '↘️  Type a Speed from 1 - 1000 | Press [ENTER]: ' typed </dev/tty
-  if [[ "$typed" -ge "1" && "$typed" -le "1000" ]]; then
-    echo "${typed}M" >/var/plexguide/move.bw
-  else setthrottlemove; fi
 }
 
 rcpiece() {
@@ -161,8 +117,9 @@ deletemelateron() {
 [A] Keys Backup  ~ NOT READY
 [B] Keys Restore ~ NOT READY
 [C] Keys Destroy
-[Z] Exit
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF

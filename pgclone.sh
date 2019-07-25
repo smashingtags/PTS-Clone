@@ -7,7 +7,7 @@
 ################################################################################
 source /opt/pgclone/functions/functions.sh
 source /opt/pgclone/functions/variables.sh
-source /opt/pgclone/functions/mountnumbers.sh
+source /opt/pgclone/functions/rclonesettings.sh
 source /opt/pgclone/functions/keys.sh
 source /opt/pgclone/functions/keyback.sh
 source /opt/pgclone/functions/pgclone.sh
@@ -29,6 +29,7 @@ source /opt/pgclone/functions/deployblitz.sh
 source /opt/pgclone/functions/multihd.sh
 source /opt/pgclone/functions/deploylocal.sh
 source /opt/pgclone/functions/createtdrive.sh
+source /opt/pgclone/functions/bwlimit.sh
 ################################################################################
 rcloneinstall
 

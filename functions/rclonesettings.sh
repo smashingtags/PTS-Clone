@@ -5,33 +5,53 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
-mountnumbers() {
+rcloneSettings() {
     pgclonevars
+
+    bwlimitVar="move.bw"
+    if [[ "$transport" == "be" || "$transport" == "bu" ]]; then
+        bwlimitVar="blitz.bw"
+    fi
+
+    bwlimit=$(cat "/var/plexguide/$bwlimitVar")
 
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 RClone Settings ~ pgclone.pgblitz.com
+💪 RClone Settings                       📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-RClone Variable Name           Default   ~   Current Settings
+Please read each setting description carefully as it explains the function
+and has useful tips on how to change these settings.
 
-[1] Buffer-Size                16M          [$vfs_bs]
-[2] Drive-Chunk-Size           64M          [$vfs_dcs]
-[3] Dir-Cache-Time             2m           [$vfs_dct]
-[4] VFS-Read-Chunk-Size        64M          [$vfs_rcs]
-[5] VFS-Read-Chunk-Size-Limit  2048M        [$vfs_rcsl]
-[6] VFS-Cache-Mode             writes       [$vfs_cm]
-[7] VFS-Cache-Max-Age          1h           [$vfs_cma]
-[8] VFS-Cache-Max-Size         off          [$vfs_cms]
-[9] Log-Level                  NOTICE       [$vfs_ll]
-[10] User Agent                rclone/1.48  [${uagent}]
+Once you are done updating these settings, [A] Quick Deploy to take effect.
 
-[A] Quick Deploy VFS Options
+⏫ Upload Settings              Default    Current
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[1]  BW Limit                    9M        [$bwlimit]
+[2]  Drive-Chunk-Size            64M       [$vfs_dcs]
+
+⏬ Download Settings            Default    Current
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3]  Buffer-Size                 16M       [$vfs_bs]
+[4]  VFS-Read-Chunk-Size         64M       [$vfs_rcs]
+[5]  VFS-Read-Chunk-Size-Limit   2048M     [$vfs_rcsl]
+
+🔄 VFS Cache Mode Settings      Default    Current
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[6]  VFS-Cache-Mode              writes    [$vfs_cm]
+[7]  VFS-Cache-Max-Age           1h        [$vfs_cma]
+[8]  VFS-Cache-Max-Size          100G      [$vfs_cms]
+
+🔣 Misc Settings                Default    Current
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[9]  Dir-Cache-Time              2m        [$vfs_dct]
+[10] Log-Level                   NOTICE    [$vfs_ll]
+[11] User Agent                            [$uagent]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[A] Apply RClone Settings
 [Z] Exit
-
-Please read the wiki on how changing these settings impact stability and performance!
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -40,40 +60,43 @@ EOF
 
     case $fluffycat in
     1)
-        mountset
+        setThrottle
         ;;
     2)
-        mountset
+        setIntegerVariable
         ;;
     3)
-        mountset
+        setIntegerVariable
         ;;
     4)
-        mountset
+        setIntegerVariable
         ;;
     5)
-        mountset
+        setIntegerVariable
         ;;
     6)
-        mountset
+        setIntegerVariable
         ;;
     7)
-        mountset
+        setIntegerVariable
         ;;
     8)
-        mountset
+        setIntegerVariable
         ;;
     9)
-        mountset
+        setIntegerVariable
         ;;
     10)
+        setIntegerVariable
+        ;;
+    11)
         uagent
         ;;
     a)
-        reloadservices
+        reloadServices
         ;;
     A)
-        reloadservices
+        reloadServices
         ;;
     z)
         exit
@@ -82,17 +105,17 @@ EOF
         exit
         ;;
     *)
-        mountnumbers
+        rcloneSettings
         ;;
     esac
 
 }
 
-mountset() {
+setIntegerVariable() {
 
-    mountselection="$fluffycat"
+    menuSelection="$fluffycat"
 
-    if [[ "$mountselection" == "1" ]]; then
+    if [[ "$menuSelection" == "3" ]]; then
         name="Buffer-Size"
         sizeSuffix="M"
         start="0"
@@ -102,7 +125,7 @@ mountset() {
 The buffer size should be a relatively small amount. It's intended to smooth out network congestion and blips.
 Having a larger buffer is not better! The buffer will get cleared when the file is closed or if the file is seeked backwards.
         
-WARNING: 
+⚠️ WARNING: 
 
 This is highly dependent on the amount of RAM and number of opened files.
 Apps open several files during library scans and each file open will consume up to the amount of RAM specified.
@@ -111,9 +134,9 @@ If you set this too high and don't have enough free RAM, you will cause the moun
 buffer-size should be smaller than the [vfs-read-chunk-size] to prevent too many requests from being sent when opening a file.
 
 Setting this too high will slow down scans and cause buffering with direct plays.
-Some plex clients open and close the file during playback, this means the buffer is constantly cleared.
 
 RClone will always try to fill the buffer-size, so having it higher will slow down plex scans and loading the page for it in plex.
+Some plex clients open and close the file during playback, this means the buffer is constantly cleared.
 This is not the plex client buffer, that's controlled by the plex client.
 
 Set this value to 0 to disable the buffer.
@@ -123,14 +146,14 @@ RECOMMENDATIONS:
 Set the buffer size to 1/2 the value of the read-chunk-size for the best results."
     fi
 
-    if [[ "$mountselection" == "2" ]]; then
+    if [[ "$menuSelection" == "2" ]]; then
         name="Drive-Chunk-Size"
         sizeSuffix="M"
         start="8"
         end="1024"
         note="The larger the chunk size, the faster uploads will be, however it uses more RAM.
 
-64-128MB will max out 1Gbps. 
+64-128 will max out 1Gbps. 
 Values over 128 are not recommended on 1Gbps.
 Use 256 or 512 for 10Gbps.
 
@@ -142,7 +165,7 @@ There is no need to quick deploy for this setting.
 "
     fi
 
-    if [[ "$mountselection" == "3" ]]; then
+    if [[ "$menuSelection" == "9" ]]; then
         name="Dir-Cache-Time"
         sizeSuffix="m"
         start="1"
@@ -152,7 +175,7 @@ This may delay external changes (such as from gdrive website) from being seen on
 You should set this high unless you make lots of external changes."
     fi
 
-    if [[ "$mountselection" == "4" ]]; then
+    if [[ "$menuSelection" == "4" ]]; then
         name="VFS-Read-Chunk-Size"
         sizeSuffix="M"
         start="16"
@@ -171,7 +194,7 @@ Transcoding: 64MB-128MB recommended.
 4K Remux: 128MB if you direct play big remux files for faster start times, however smaller files will take longer to start playback."
     fi
 
-    if [[ "$mountselection" == "5" ]]; then
+    if [[ "$menuSelection" == "5" ]]; then
         name="VFS-Read-Chunk-Size-Limit"
         sizeSuffix="M"
         start="0"
@@ -186,7 +209,7 @@ This value is mostly used during transcodes or direct stream, it's not used for 
 Recommendations: 2048 or 0 (for unlimited growth)."
     fi
 
-    if [[ "$mountselection" == "6" ]]; then
+    if [[ "$menuSelection" == "6" ]]; then
         name="VFS-Cache-Mode"
         sizeSuffix=""
         start="1"
@@ -215,7 +238,7 @@ writes is recommended for use when using encrypt or when using some community ap
     ◽️ This mode should support all normal file system operations."
     fi
 
-    if [[ "$mountselection" == "7" ]]; then
+    if [[ "$menuSelection" == "7" ]]; then
         name="VFS-Cache-Max-Age"
         sizeSuffix="h"
         start="1"
@@ -223,7 +246,7 @@ writes is recommended for use when using encrypt or when using some community ap
         note="Impacts how long files are cached on disk, only used if [vfs-cache-mode] is NOT off!"
     fi
 
-    if [[ "$mountselection" == "8" ]]; then
+    if [[ "$menuSelection" == "8" ]]; then
         name="VFS-Cache-Max-Size"
         sizeSuffix="G"
         start="0"
@@ -232,7 +255,7 @@ writes is recommended for use when using encrypt or when using some community ap
 Set this value to 0 to disable."
     fi
 
-    if [[ "$mountselection" == "9" ]]; then
+    if [[ "$menuSelection" == "9" ]]; then
         name="Log-Level"
         sizeSuffix=""
         start="1"
@@ -255,21 +278,21 @@ Type a number between [$start] and [$end]
 
 Input must be a valid positive integer. 
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
 
     read -p '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
     if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" || "$typed" == "z" || "$typed" == "Z" ]]; then
-        mountnumbers
+        rcloneSettings
     else
         if ! [[ "$typed" =~ ^[0-9]+$ ]]; then
             invalidInputNotice
         elif [[ "$typed" -lt "$start" || "$typed" -gt "$end" ]]; then
             invalidInputNoticeNotice
-        elif [[ "$mountselection" == "2" && "$typed" != "8" && "$typed" != "16" && "$typed" != "32" && "$typed" != "64" && "$typed" != "128" && "$typed" != "256" && "$typed" != "512" && "$typed" != "1024" ]]; then
+        elif [[ "$menuSelection" == "3" && "$typed" != "8" && "$typed" != "16" && "$typed" != "32" && "$typed" != "64" && "$typed" != "128" && "$typed" != "256" && "$typed" != "512" && "$typed" != "1024" ]]; then
             invalidPowerInputNotice
         else
             processInput
@@ -279,25 +302,25 @@ EOF
 
 processInput() {
 
-    if [[ "$mountselection" == "1" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_bs; fi
-    if [[ "$mountselection" == "2" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dcs; fi
-    if [[ "$mountselection" == "3" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dct; fi
-    if [[ "$mountselection" == "4" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_rcs; fi
-    if [[ "$mountselection" == "7" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_cma; fi
+    if [[ "$menuSelection" == "1" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_bs; fi
+    if [[ "$menuSelection" == "2" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dcs; fi
+    if [[ "$menuSelection" == "3" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dct; fi
+    if [[ "$menuSelection" == "4" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_rcs; fi
+    if [[ "$menuSelection" == "7" ]]; then echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_cma; fi
 
-    if [[ "$mountselection" == "2" ]]; then
+    if [[ "$menuSelection" == "2" ]]; then
         echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dcs
     fi
 
-    if [[ "$mountselection" == "3" ]]; then
+    if [[ "$menuSelection" == "3" ]]; then
         echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_dct
     fi
 
-    if [[ "$mountselection" == "4" ]]; then
+    if [[ "$menuSelection" == "4" ]]; then
         echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_rcs
     fi
 
-    if [[ "$mountselection" == "5" ]]; then
+    if [[ "$menuSelection" == "5" ]]; then
         if [[ "$typed" == "0" ]]; then
             echo "off" >/var/plexguide/vfs_rcsl
         else
@@ -305,32 +328,33 @@ processInput() {
         fi
     fi
 
-    if [[ "$mountselection" == "7" ]]; then
+    if [[ "$menuSelection" == "7" ]]; then
         echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_cma
     fi
 
-    if [[ "$mountselection" == "8" ]]; then
+    if [[ "$menuSelection" == "8" ]]; then
         if [[ "$typed" == "0" ]]; then
             echo "off" >/var/plexguide/vfs_cms
         else
             echo "${typed}${sizeSuffix}" >/var/plexguide/vfs_cms
         fi
 
-        if [[ "$mountselection" == "6" ]]; then
+        if [[ "$menuSelection" == "6" ]]; then
             if [[ "$typed" == "1" ]]; then echo "off" >/var/plexguide/vfs_cm; fi
             if [[ "$typed" == "2" ]]; then echo "minimal" >/var/plexguide/vfs_cm; fi
             if [[ "$typed" == "3" ]]; then echo "writes" >/var/plexguide/vfs_cm; fi
             if [[ "$typed" == "4" ]]; then echo "full" >/var/plexguide/vfs_cm; fi
         fi
 
-        if [[ "$mountselection" == "9" ]]; then
+        if [[ "$menuSelection" == "9" ]]; then
             if [[ "$typed" == "1" ]]; then echo "DEBUG" >/var/plexguide/vfs_ll; fi
             if [[ "$typed" == "2" ]]; then echo "INFO" >/var/plexguide/vfs_ll; fi
             if [[ "$typed" == "3" ]]; then echo "NOTICE" >/var/plexguide/vfs_ll; fi
             if [[ "$typed" == "4" ]]; then echo "ERROR" >/var/plexguide/vfs_ll; fi
         fi
     fi
-    mountnumbers
+
+    rcloneSettingUpdatedNotice
 }
 
 invalidInputNotice() {
@@ -347,7 +371,7 @@ Do not input suffix letters (M,G,H)!
 
 EOF
     read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-    mountset
+    setIntegerVariable
 }
 
 invalidPowerInputNotice() {
@@ -364,19 +388,19 @@ NOTE: The value you enter must be a power of two!
 
 EOF
     read -rp '↘️  Acknowledge Info | Press [ENTER] ' fluffycat </dev/tty
-    mountset
+    setIntegerVariable
 }
 
-reloadservices() {
+reloadServices() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Quick Deploy ~ pgclone.pgblitz.com
+🚀 Quick Deploy                           📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-This will restart the rclone services for vfs option changes take effect.
+This will restart the rclone services for rclone settings changes to take effect.
 
-Warning!
+⚠ Warning!
 
 Please check Plex/Emby/Jellyfin and Sonarr/Radarr/Lidarr to see if they are
 scanning before continuing. Restarting these services during scans is unpredictable!
@@ -395,7 +419,7 @@ EOF
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Quick Deploy Complete ~ pgclone.pgblitz.com
+💪 Quick Deploy Complete                  📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 RClone services have been reloaded and your VFS options have now taken effect!
@@ -404,11 +428,11 @@ EOF
 
     read -p '↘️  Acknowledge Info | Press [ENTER]' typed </dev/tty
 
-    mountnumbers
+    rcloneSettings
 }
 
 uagent() {
-
+    uagent="$(cat /var/plexguide/uagent)"
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -423,15 +447,20 @@ Changing the useragent is useful when experience 429 problems from Google
 
 Do not wrap the string in double quotes!
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
-    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then mountnumbers; fi
+    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-    mountnumbers
+    rcloneSettingUpdatedNotice
+}
+
+rcloneSettingUpdatedNotice() {
+    read -rp '↘️  Setting has been updated | Press [ENTER] to continue ' typed </dev/tty
+    rcloneSettings
 }
