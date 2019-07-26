@@ -2,7 +2,15 @@
 
 All notable changes to the PGClone will be added to this repo. For changes to the core project, see [PGBlitz changelog](https://github.com/PGBlitz/PGBlitz.com/blob/v8.6base/CHANGELOG.md).
 
-All changes require a PGClone redeploy to get them!
+Most changes require a PGClone redeploy to get them!
+
+## 2019-07-25
+
+**New features**
+
+- Moved BWLimit setting to be under Rclone Settings menu so it can utilize quick deploy.
+- Added TimeTable option when setting BWLimit! Now you can set different limits based on time/day.
+- Moved RClone settings to be a top menu item
 
 ## 2019-07-24
 
