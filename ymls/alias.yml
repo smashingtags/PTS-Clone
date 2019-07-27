@@ -35,10 +35,7 @@
     - tblitz
     - trclone
     - stcrypt
-    - tlogs
     - nrcloneenv
-    - pglog
-    - pglogs
     - npgexclude
     - npgexcludes
 
@@ -63,8 +60,5 @@
     - srclone
     - stcrypt
     - stdrive
-    - tlogs
-    - pglog
-    - pglogs
     - npgexclude
     - npgexcludes
