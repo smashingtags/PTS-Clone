@@ -20,6 +20,7 @@ NOTE: Please visit the link and understand what your doing first!
 [5] Local Edition  : Local HDs     | Easy    | Utilizes System's HD's Only
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
 
     read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty

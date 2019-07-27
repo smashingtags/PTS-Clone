@@ -81,6 +81,7 @@ keyphase2() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Key Generator ~ [$num] keys
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
 
   gdsacount() {
@@ -188,6 +189,7 @@ NOTE: No Accounts for Project ~ $pgcloneproject
 are detected! Exiting!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Acknowledge Info! | PRESS [ENTER] ' token </dev/tty
     clonestart
@@ -220,6 +222,7 @@ containers! Deleting keys in use by this project will result in those
 containers losing metadata (due to being unable to access teamdrives)!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
 
   read -p '↘️  Type y or n | PRESS [ENTER]: ' typed </dev/tty

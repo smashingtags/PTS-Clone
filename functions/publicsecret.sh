@@ -28,6 +28,7 @@ Change the Stored Values?
 [1] No [2] Yes
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
         read -p '↘️  Input Value | Press [Enter]: ' typed </dev/tty
         case $typed in
@@ -164,6 +165,7 @@ setting them; PGBlitz cannot create keys, nor create rclone configurations
 to mount the required drives!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
         read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
         clonestart

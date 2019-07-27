@@ -33,6 +33,7 @@ WARNING: Changing the values will RESET & DELETE the following:
 3. Service Keys
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Input Value | Press [Enter]: ' typed </dev/tty
     case $typed in
@@ -143,6 +144,7 @@ NOTE: If you set this up again, ensure to reuse the same passwords in
 order to read the data!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
   read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   clonestart
@@ -165,6 +167,7 @@ NOTE: When setting the passwords, they act as a private key in order
 to encrypt your data!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
     clonestart

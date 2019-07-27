@@ -91,6 +91,7 @@ NOTE: If you change projects or use a different login, rerun this again!
 If not, nothing will work!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
   read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   clonestart
@@ -162,6 +163,7 @@ NOTE2: If a bad token, ensure that you are using the correct account when
 signing in (and/or conducting a proper copy and paste of the token)!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Acknowlege Info | Press [ENTER] ' typed </dev/tty
     clonestart
@@ -189,6 +191,7 @@ you and if others share your content, you have no control (and your team
 drive can be shutdown!)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
   read -p '↘️  Acknowledge Info | PRESS [ENTER] ' temp </dev/tty
 }
@@ -219,6 +222,7 @@ NOTE: If any mount says [NOT-SET]; that process must be completed first!
 We will continue to block this process until completed!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
   read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   clonestart
@@ -240,6 +244,7 @@ NOTE: Unless we know your Team Drive name, we have no way of configuring
 the Team Drive! Please complete this first!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
     clonestart

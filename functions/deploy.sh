@@ -113,6 +113,7 @@ POSSIBLE REASONS:
 2. Client ID and/or Secret are invalid and/or no longer exist
 $emessage
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
     clonestart
@@ -209,6 +210,7 @@ NOTE: Without any keys, PG Blitz cannot upload any data without the use
 of service accounts
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
 
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
