@@ -38,6 +38,8 @@
     - nrcloneenv
     - npgexclude
     - npgexcludes
+    - ndrive
+    - ndrives
 
 - name: Installing service helpers
   template:
@@ -62,3 +64,5 @@
     - stdrive
     - npgexclude
     - npgexcludes
+    - ndrive
+    - ndrives
