@@ -1,23 +1,27 @@
-### Falls under PG Prune for Execution to Save Time & Sanity
+#!/bin/bash
+#
+# Title:      PGBlitz (Reference Title File)
+# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# URL:        https://pgblitz.com - http://github.pgblitz.com
+# GNU:        General Public License v3.0
+################################################################################
 
-# Outside Variables
-dlpath=$(cat /var/plexguide/server.hd.path)
-cleaner="$(cat /var/plexguide/cloneclean)"
+cloneclean() {
+    # Outside Variables
+    hdpath="$(cat /var/plexguide/server.hd.path)"
+    cleaner="$(cat /var/plexguide/cloneclean)"
 
-# Starting Actions
-touch /var/plexguide/logs/pgblitz.log
-mkdir -p "$dlpath/move"
+    find "$hdpath/downloads/nzbget" -mindepth 1 -type f -cmin +$cleaner -size -4G 2>/dev/null -exec rm -rf {} \;
+    find "$hdpath/downloads/sabnzbd" -mindepth 1 -type f -cmin +$cleaner -size -4G 2>/dev/null -exec rm -rf {} \;
 
-# Repull excluded folder 
- wget -qN https://raw.githubusercontent.com/PGBlitz/PGClone/v8.6/functions/exclude -P /var/plexguide/
+    # Remove empty directories
+    find "$hdpath/move" -mindepth 2 -type d -empty -delete
+    #DO NOT decrease DEPTH on this, leave it at 3. Leave this alone!
+    find "$hdpath/downloads" -mindepth 3 -type d \( ! -name syncthings ! -name .stfolder \) -empty -delete
 
-# Permissions
-chown -R 1000:1000 "$dlpath/move"
-chmod -R 775 "$dlpath/move"
+    # Prevents category folders underneath the downloaders from being deleted, while removing empties from the import process.
+    # This was done to address some apps having an issue if the category underneath the downloader is missing.
+    find "$hdpath/downloads" -mindepth 2 -type d \( ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
+}
 
-# Remove empty directories
-find "$dlpath/move/" -type d -mmin +2 -empty -exec rm -rf {} \;
-
-# Removes garbage
-find "$dlpath/downloads" -mindepth 2 -type d -cmin +$cleaner $(printf "! -name %s " $(cat /var/plexguide/exclude)) -empty -exec rm -rf {} \;
-find "$dlpath/downloads" -mindepth 2 -type f -cmin +$cleaner $(printf "! -name %s " $(cat /var/plexguide/exclude)) -size +1M -exec rm -rf {} \;
+cloneclean

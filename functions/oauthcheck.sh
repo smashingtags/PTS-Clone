@@ -1,14 +1,14 @@
 #!/bin/bash
 #
 # Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705
+# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
-oauthcheck () {
-pgclonevars
+oauthcheck() {
+  pgclonevars
 
-tee <<-EOF
+  tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Conducting Validation Checks: $oauthcheck
@@ -22,7 +22,7 @@ EOF
   fi
 
   if [ "$rcheck" != "plexguide" ]; then
-tee <<-EOF
+    tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔  Validation Checks Failed: $oauthcheck
@@ -33,19 +33,22 @@ NOTES:
 2. Is your project active?
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
-rm -rf /opt/appdata/plexguide/.$oauthcheck 1>/dev/null 2>&1
+    rm -rf /opt/appdata/plexguide/.$oauthcheck 1>/dev/null 2>&1
 
     if [[ "$oauthcheck" == "gdrive" ]]; then rm -rf /opt/appdata/plexguide/.gcrypt 1>/dev/null 2>&1; fi
     if [[ "$oauthcheck" == "tdrive" ]]; then rm -rf /opt/appdata/plexguide/.tcrypt 1>/dev/null 2>&1; fi
 
-    read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 < /dev/tty
+    read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
     clonestart
-else
-tee <<-EOF
+  else
+    tee <<-EOF
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 System Message: Validation Checks Passed - $oauthcheck
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 EOF
   fi
 }

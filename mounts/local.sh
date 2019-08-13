@@ -5,19 +5,7 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
-[Unit]
-Description=PGUnion
-After=multi-user.target
-
-[Service]
-Type=simple
-User=0
-Group=0
-ExecStart=/bin/bash /opt/appdata/plexguide/pgunion.sh
-ExecStop=/bin/fusermount -uzq /mnt/unionfs
-TimeoutStopSec=60
-KillMode=process
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
+sleep 2
+hdpath="$(cat /var/plexguide/server.hd.path)"
+mergerfs -o sync_read,auto_cache,dropcacheonclose=true,use_ino,allow_other,func.getattr=newest,category.create=ff,minfreespace=0,fsname=pgunion \
+$hdpath/move=RO:$hdpath/downloads=RW:{{multihds}} /mnt/unionfs

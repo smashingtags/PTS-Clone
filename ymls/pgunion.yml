@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705 - Deiteq
+# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -10,33 +10,44 @@
   gather_facts: false
   tasks:
     - name: include PGClone aliases
-      include_tasks: '/opt/pgclone/ymls/alias.yml'
+      include_tasks: '/opt/pgclone/bin/bin.yml'
+
+    - name: include PGClone cron jobs
+      include_tasks: '/opt/pgclone/ymls/cron.yml'
+
+    - name: Register HD Path
+      shell: 'cat /var/plexguide/server.hd.path'
+      register: hdpath
+
+    - name: Register vfs_dcs
+      shell: 'cat /var/plexguide/vfs_dcs'
+      register: vfs_dcs
 
     - debug: msg="PGBlitz Type - {{transport}}"
-    - debug: msg="HD Path - {{hdpath}}"
+    - debug: msg="HD Path - {{hdpath.stdout}}"
 
     - name: 'If Fact Matches - Encrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath}}/move'
+        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath.stdout}}/move'
       when: transport == "be"
 
     - name: 'If Fact Matches - Encrypted Move'
       set_fact:
-        path: 'remotes = gdrive: gcrypt: {{hdpath}}/move'
+        path: 'remotes = gdrive: gcrypt: {{hdpath.stdout}}/move'
       when: transport == "me"
 
     - name: 'If Fact Matches - UnEncrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: {{hdpath}}/move'
+        path: 'remotes = gdrive: tdrive: {{hdpath.stdout}}/move'
       when: transport == "bu"
 
     - name: 'If Fact Matches - UnEncrypted Move'
       set_fact:
-        path: 'remotes = gdrive: {{hdpath}}/move'
+        path: 'remotes = gdrive: {{hdpath.stdout}}/move'
       when: transport == "mu"
 
     - name: Creating required paths
-      file: 'path={{hdpath}}/{{item}} state=directory mode=0775 owner=1000 group=1000 recurse=true'
+      file: 'path={{hdpath.stdout}}/{{item}} state=directory mode=0755 owner=1000 group=1000 recurse=true'
       with_items:
         - 'move'
         - 'downloads'
@@ -46,23 +57,29 @@
       shell: 'chown -R 1000:1000 /var/plexguide/logs'
 
     - name: 'Setting ownership'
-      shell: 'chown -R 1000:1000 {{hdpath}}/{{item}}'
+      shell: 'chown -R 1000:1000 {{hdpath.stdout}}/{{item}}'
       with_items:
         - 'move'
         - 'downloads'
         - 'incomplete'
 
     - name: 'Setting permissions'
-      shell: 'chmod -R 775 {{hdpath}}/{{item}}'
+      shell: 'chmod -R 755 {{hdpath.stdout}}/{{item}}'
       with_items:
         - 'move'
         - 'downloads'
         - 'incomplete'
 
+    - name: 'Creating transport exclude file'
+      copy:
+        src: /opt/pgclone/transport/transport.exclude
+        dest: /opt/appdata/plexguide/transport.exclude
+        force: no
+
     - name: Transport Type
       shell: 'echo "" >> /opt/appdata/plexguide/rclone.conf'
 
-    - name: Line Rmur
+    - name: Transport Type
       shell: 'sed -i -e "/\[(unionfs|pgunion)\]/,+2d" /opt/appdata/plexguide/rclone.conf'
 
     - name: Transport Type
@@ -73,20 +90,19 @@
 
     - name: 'PG Blitz Execution'
       block:
-
         - name: Bandwidth Limit
           shell: 'cat /var/plexguide/blitz.bw'
           register: bandwidth
 
         - name: Install PG Blitz Script
           template:
-            src: /opt/pgclone/scripts/pgblitz.sh
+            src: /opt/pgclone/transport/pgblitz.sh
             dest: /opt/appdata/plexguide/pgblitz.sh
             force: yes
 
         - name: Install PG Blitz Service
           template:
-            src: /opt/pgclone/mounts/pgblitz.service
+            src: /opt/pgclone/transport/pgblitz.service
             dest: /etc/systemd/system/pgblitz.service
             force: yes
 
@@ -116,13 +132,13 @@
 
         - name: Install MOVE Script
           template:
-            src: /opt/pgclone/scripts/pgmove.sh
+            src: /opt/pgclone/transport/pgmove.sh
             dest: /opt/appdata/plexguide/pgmove.sh
             force: yes
 
         - name: Install MOVE Service
           template:
-            src: /opt/pgclone/mounts/pgmove.service
+            src: /opt/pgclone/transport/pgmove.service
             dest: /etc/systemd/system/pgmove.service
             force: yes
 
@@ -138,7 +154,7 @@
 
     - name: Install PGUnion Script
       template:
-        src: /opt/pgclone/scripts/pgunion.sh
+        src: /opt/pgclone/mounts/pgunion.sh
         dest: /opt/appdata/plexguide/pgunion.sh
         force: yes
 
@@ -156,14 +172,4 @@
         name: pgunion
 
     - name: 'Waiting for PGUnion to initialize'
-      wait_for:
-        path: /mnt/unionfs/plexguide
-        timeout: 15
-        delay: 2
-
-    - name: Register HD Path
-      shell: 'cat /var/plexguide/server.hd.path'
-      register: hdpath
-
-    - name: Restart All Docker Containers
-      shell: docker restart $(docker ps -a -q)
+      wait_for: timeout=2

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705 - Deiteq
+# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -10,38 +10,41 @@
   gather_facts: false
   vars:
     service_vars:
-      - {name: crypt.service}
-      - {name: pgdrive.service}
-      - {name: gdrive.service}
-      - {name: gcrypt.service}
-      - {name: tdrive.service}
-      - {name: tcrypt.service}
-      - {name: supertransfer2.service}
-      - {name: unionfs.service}
-      - {name: pgunion.service}
-      - {name: pgmove.service}
-      - {name: move.service}
-      - {name: pgblitz.service}
-      - {name: plexdrive.service}
-      - {name: st2monitor.service}
+      - { name: crypt.service }
+      - { name: pgdrive.service }
+      - { name: gdrive.service }
+      - { name: gcrypt.service }
+      - { name: tdrive.service }
+      - { name: tcrypt.service }
+      - { name: supertransfer2.service }
+      - { name: unionfs.service }
+      - { name: pgmove.service }
+      - { name: move.service }
+      - { name: pgblitz.service }
+      - { name: plexdrive.service }
+      - { name: st2monitor.service }
+      - { name: pgunion.service }
   tasks:
     - name: Stop All Docker Containers
       shell: docker stop $(docker ps -a -q)
 
-    - name: Checking Existing Service Name
+    - name: Get existing services
       stat:
-        path: "/etc/systemd/system/{{ item.name }}"
-      with_items: "{{ service_vars }}"
+        path: '/etc/systemd/system/{{ item.name }}'
+      with_items: '{{ service_vars }}'
       register: check_service_name
 
-    - name: Stop If Service Is Running
+    - name: Stop services
       systemd: state=stopped name={{ item.item.name }} daemon_reload=yes enabled=no
-      with_items: "{{ check_service_name.results }}"
+      with_items: '{{ check_service_name.results }}'
       when: item.stat.exists
 
-    - name: Remove Services
+    - name: 'Waiting for 5 seconds for services to stop and mounts to unmount cleanly.'
+      wait_for: timeout=5
+
+    - name: Remove services
       file:
-        path: "/etc/systemd/system/{{ item.item.name }}"
+        path: '/etc/systemd/system/{{ item.item.name }}'
         state: absent
-      with_items: "{{ check_service_name.results }}"
+      with_items: '{{ check_service_name.results }}'
       when: item.stat.exists
