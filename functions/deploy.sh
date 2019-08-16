@@ -232,19 +232,10 @@ prunedocker() {
 }
 ################################################################################
 createmountfolders() {
-  mkdir /mnt/gdrive -p
-  mkdir /mnt/tdrive -p
-  mkdir /mnt/gcrypt -p
-  mkdir /mnt/tcrypt -p
+  mkdir -p /mnt/{gdrive,tdrive,gcrypt,tcrypt}
 
-  chown 1000:1000 -R /mnt/gdrive >/dev/null
-  chown 1000:1000 -R /mnt/tdrive >/dev/null
-  chown 1000:1000 -R /mnt/gcrypt >/dev/null
-  chown 1000:1000 -R /mnt/tcrypt >/dev/null
-  chmod 755 -R /mnt/gdrive >/dev/null
-  chmod 755-R /mnt/tdrive >/dev/null
-  chmod 755 -R /mnt/gcrypt >/dev/null
-  chmod 755 -R /mnt/tcrypt >/dev/null
+  chown 1000:1000 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
+  chmod 755 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
 }
 
 cleanmounts() {
