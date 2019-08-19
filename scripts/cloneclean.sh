@@ -11,10 +11,12 @@ cloneclean() {
     hdpath="$(cat /var/plexguide/server.hd.path)"
     cleaner="$(cat /var/plexguide/cloneclean)"
 
+    #NOTE NZB CLIENTS USED THEN SAME NOW 
     find "$hdpath/downloads/nzb" -mindepth 1 -type f -cmin +$cleaner -size -4G 2>/dev/null -exec rm -rf {} \;
-    find "$hdpath/downloads/nzb/backup" -mindepth 1 -type f -cmin +$cleaner 2>/dev/null -exec rm -rf {} \;
-	
-    find "$hdpath/downloads/torrent" -mindepth 2 -type f -cmin +2880 -size -4G 2>/dev/null -exec rm -rf {} \;
+    find "$hdpath/nzb/backup" -name "*.nzb.*" -type f -cmin +$cleaner 2>/dev/null -exec rm -rf {} \;
+
+    #NOTE TORRENT CLIENTS USED THE SAME NOW 
+    find "$hdpath/downloads/torrent" -mindepth 2 -type f -cmin +$cleaner -size -4G 2>/dev/null -exec rm -rf {} \;
 
     # Remove empty directories
     find "$hdpath/move" -mindepth 2 -type d -empty -delete
