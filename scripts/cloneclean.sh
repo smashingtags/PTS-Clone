@@ -1,8 +1,9 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
-# URL:        https://pgblitz.com - http://github.pgblitz.com
+# Title:      remove the old garbage files 
+# orginal Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# MOD from MrDoobPG
+# fuck of all haters 
 # GNU:        General Public License v3.0
 ################################################################################
 
