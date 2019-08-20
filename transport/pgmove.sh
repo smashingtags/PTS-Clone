@@ -19,13 +19,18 @@ touch /var/plexguide/logs/pgmove.log
 truncate -s 0 /var/plexguide/logs/pgmove.log
 echo "" >>/var/plexguide/logs/pgmove.log
 echo "" >>/var/plexguide/logs/pgmove.log
-echo "---Starting Move: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
+echo " -- Starting Move: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
 hdpath="$(cat /var/plexguide/server.hd.path)"
 while true; do
 
+    # USER specifying VARS 
     useragent="$(cat /var/plexguide/uagent)"
     bwlimit="$(cat /var/plexguide/move.bw)"
+
+    # VFS var
     vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
+
+
     let "cyclecount++"
 
     if [[ $cyclecount -gt 4294967295 ]]; then
@@ -34,21 +39,12 @@ while true; do
 
     echo "" >>/var/plexguide/logs/pgmove.log
     echo "---Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
-    echo "Checking for files to upload..." >>/var/plexguide/logs/pgmove.log
+    echo " Checking for files to upload... " >>/var/plexguide/logs/pgmove.log
 
     rsync "$hdpath/downloads/" "$hdpath/move/" \
         -aq --remove-source-files --link-dest="$hdpath/downloads/" \
         --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-        --exclude="**_HIDDEN~" --exclude=".unionfs/**" \
-        --exclude="**partial~" --exclude=".unionfs-fuse/**" \
-        --exclude=".fuse_hidden**" --exclude="**.grab/**" \
-        --exclude="**sabnzbd**" --exclude="**nzbget**" \
-        --exclude="**qbittorrent**" --exclude="**rutorrent**" \
-        --exclude="**deluge**" --exclude="**transmission**" \
-        --exclude="**jdownloader**" --exclude="**makemkv**" \
-        --exclude="**handbrake**" --exclude="**bazarr**" \
-        --exclude="**ignore**" --exclude="**inProgress**" \
-        --exclude="**torrent**" --exclude="**nzb**"
+        --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
     if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
 
@@ -61,27 +57,18 @@ while true; do
             --checkers=16 \
             --no-traverse \
             --fast-list \
-            --max-transfer 750G \
+            --max-transfer 720G \
             --bwlimit="$bwlimit" \
             --drive-chunk-size="$vfs_dcs" \
             --user-agent="$useragent" \
             --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-            --exclude="**_HIDDEN~" --exclude=".unionfs/**" \
-            --exclude="**partial~" --exclude=".unionfs-fuse/**" \
-            --exclude=".fuse_hidden**" --exclude="**.grab/**" \
-            --exclude="**sabnzbd**" --exclude="**nzbget**" \
-            --exclude="**qbittorrent**" --exclude="**rutorrent**" \
-            --exclude="**deluge**" --exclude="**transmission**" \
-            --exclude="**jdownloader**" --exclude="**makemkv**" \
-            --exclude="**handbrake**" --exclude="**bazarr**" \
-            --exclude="**ignore**" --exclude="**inProgress**" \
-            --exclude="**torrent**" --exclude="**nzb**"
+            --exclude-from="/opt/pgclone/excluded/excluded.folder""
 
-        echo "Upload has finished." >>/var/plexguide/logs/pgmove.log
+        echo " Upload has finished. " >>/var/plexguide/logs/pgmove.log
     else
-        echo "No files in $hdpath/move to upload." >>/var/plexguide/logs/pgmove.log
+        echo " No files in $hdpath/move to upload. " >>/var/plexguide/logs/pgmove.log
     fi
-    echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
+    echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
 
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
 
