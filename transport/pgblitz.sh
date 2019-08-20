@@ -20,9 +20,11 @@ hdpath="$(cat /var/plexguide/server.hd.path)"
 startscript() {
     while read p; do
 
-        # Update the vars
+        # User specifying  VARS 
         useragent="$(cat /var/plexguide/uagent)"
         bwlimit="$(cat /var/plexguide/blitz.bw)"
+
+        # VFS vars
         vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
         vfs_mt="$(cat /var/plexguide/vfs_mt)"
         vfs_t="$(cat /var/plexguide/vfs_t)"
@@ -41,7 +43,7 @@ startscript() {
         rsync "$hdpath/downloads/" "$hdpath/move/" \
             -aq --remove-source-files --link-dest="$hdpath/downloads/" \
             --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-            --exclude-from="/opt/appdata/plexguide/excluded.folder"
+            --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
         if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
             rclone moveto "$hdpath/move" "${p}{{encryptbit}}:/" \
@@ -59,7 +61,7 @@ startscript() {
                 --drive-chunk-size="$vfs_dcs" \
                 --user-agent="$useragent" \
                 --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-                --exclude-from="/opt/appdata/plexguide/excluded.folder"
+                --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
             echo " Upload has finished. " >>/var/plexguide/logs/pgblitz.log
         else
