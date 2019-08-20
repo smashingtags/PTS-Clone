@@ -1,8 +1,9 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
-# URL:        https://pgblitz.com - http://github.pgblitz.com
+# Title:      GDrive GCrypt Uploader 
+# Authors:    Admin9705, Deiteq, subse7even , and many PGBlitz Contributors
+# mod from    MrDoobPG
+# URL:        you will find us 
 # GNU:        General Public License v3.0
 ################################################################################
 # NOTES
