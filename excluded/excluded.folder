@@ -4,6 +4,7 @@
 **partial~
 .unionfs-fuse/**
 .fuse_hidden**
+.FUSE_HIDDEN**
 **.grab/**
 **sabnzbd**
 **nzbget**
