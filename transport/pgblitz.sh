@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
-# URL:        https://pgblitz.com - http://github.pgblitz.com
-# GNU:        General Public License v3.0
+# Title:      TDrive Uploader 
+# orgAuthors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# Mod from MrDoobPG for all 
+#
+# fuck off brandings 
 ################################################################################
 
 source /opt/pgclone/scripts/cloneclean.sh
