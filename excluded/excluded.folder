@@ -1,0 +1,22 @@
+#rClone excluded folders
+**_HIDDEN~
+*.unionfs/**
+**partial~
+.unionfs-fuse/**
+.fuse_hidden**
+.FUSE_HIDDEN**
+**.grab/**
+**sabnzbd**
+**nzbget**
+**qbittorrent**
+**rutorrent**
+**deluge**
+**transmission**
+**jdownloader**
+**makemkv**
+**handbrake**
+**bazarr**
+**ignore**
+**inProgress**
+**torrent**
+**nzb**
