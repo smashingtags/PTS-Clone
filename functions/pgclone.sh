@@ -96,7 +96,7 @@ EOF
 
 tokenscript() {
   cat /var/plexguide/teamdrive.output | grep "\"id\":" | awk '{ print $2 }' | cut -c2- | rev | cut -c3- | rev > /var/plexguide/teamdrive.id
-  cat /var/plexguide/teamdrive.output | grep "\"name\":" | awk '{ print $2 }' | cut -c2- | rev | cut -c2- | rev > /var/plexguide/teamdrive.name
+  cat /var/plexguide/teamdrive.output | grep "\"name\":" | cut -d':' -f2 | cut -d'"' -f2 > /var/plexguide/teamdrive.name
 
   tee <<-EOF
 
