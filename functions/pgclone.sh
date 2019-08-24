@@ -77,7 +77,7 @@ EOF
   curl --request POST --data "code=$token&client_id=$public&client_secret=$secret&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code" https://accounts.google.com/o/oauth2/token >/var/plexguide/pgtokentm.output
   cat /var/plexguide/pgtokentm.output | grep access_token | awk '{ print $2 }' | cut -c2- | rev | cut -c3- | rev >/var/plexguide/pgtokentm2.output
   primet=$(cat /var/plexguide/pgtokentm2.output)
-  curl -H "GData-Version: 3.0" -H "Authorization: Bearer $primet" https://www.googleapis.com/drive/v3/teamdrives?pageSize=100 >/var/plexguide/teamdrive.output
+  curl -H "GData-Version: 3.0" -H "Authorization: Bearer $primet" https://www.googleapis.com/drive/v3/teamdrives >/var/plexguide/teamdrive.output
   tokenscript
 
   name=$(sed -n ${typed}p /var/plexguide/teamdrive.name)
