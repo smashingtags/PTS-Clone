@@ -216,7 +216,7 @@ setCustomTimeTable() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 BW Limit TimeTable  rclone.org/docs/#bwlimit-bandwidth-spec
+📅 BW Limit TimeTable              rclone.org/docs/#bwlimit-bandwidth-spec
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [1] Add Timeslot to TimeTable
@@ -239,7 +239,6 @@ EOF
         if [[ "$typed" == "a" || "$typed" == "A" ]]; then
             if [[ $(cat /var/plexguide/timetable.bw) != "" ]]; then
                 echo -n "$(cat /var/plexguide/timetable.bw)" >/var/plexguide/$bwlimitVar
-                rcloneSettingUpdatedNotice
             else
                 badinput
                 setCustomTimeTable
@@ -277,7 +276,7 @@ dayofweek() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🗓️ Choose day of the week
+🗓️ Choose day of the week 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [0] Everyday
