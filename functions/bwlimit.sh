@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# Author(s):  Admin9705
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
@@ -32,7 +32,7 @@ setThrottle() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⏫ Upload Limit                          📓 Reference: pgclone.pgblitz.com
+⏫ Upload Limit 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 This restricts upload bandwidth, useful to prevent network saturation.
@@ -75,12 +75,12 @@ addCustomTimeTablePart() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 BW Limit TimeSlot Configuration       📓 Reference: pgclone.pgblitz.com
+📅 BW Limit TimeSlot Configuration 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-[1] Set the day when the limit should take effect:     [$day]
-[2] Set then time when the limit should take effect:   [$time]
-[3] Set BW Limit:                                      [$limit]
+[1] Set Start Day:    [$day]
+[2] Set Start Time:   [$time]
+[3] Set BW Limit:     [$limit]
 
 EOF
     if [[ $time == "" || $limit == "" ]]; then
@@ -135,14 +135,10 @@ EOF
         ;;
 
     2)
-        read -rp '↘️  Type a time (hh:ss) when the limit should take effect | Press [ENTER]: ' typed </dev/tty
+        read -rp '↘️  Type a time of day (hh:ss) 0:00 to 23:59 | Press [ENTER]: ' typed </dev/tty
 
         if [[ "$typed" =~ ^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$ ]]; then
             time="$typed"
-            if [[ $time =~ ^([0-9]):[0-5][0-9]$ ]]; then
-                time="0$time"
-            fi
-
             addCustomTimeTablePart
         else
             invalidTimeNotice
@@ -165,7 +161,7 @@ EOF
 
 EOF
 
-        read -rp '↘️  Type a BWLimit from 0 - 1000 | Press [ENTER]: ' typed </dev/tty
+        read -rp '↘️  Type a Speed from 0 - 1000 | Press [ENTER]: ' typed </dev/tty
         if [[ "$typed" -ge "1" && "$typed" -le "10000" ]]; then
             limit="${typed}M"
             addCustomTimeTablePart
@@ -180,17 +176,9 @@ EOF
     a)
 
         addTimeSlotToTable
-        time=""
-        day=""
-        limit=""
-        read -rp '↘️  TimeSlot Added!' typed </dev/tty
         ;;
     A)
         addTimeSlotToTable
-        time=""
-        day=""
-        limit=""
-        read -rp '↘️  TimeSlot Added!' typed </dev/tty
         ;;
     z) setCustomTimeTable ;;
     Z) setCustomTimeTable ;;
@@ -228,13 +216,8 @@ setCustomTimeTable() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📅 BW Limit TimeTable              rclone.org/docs/#bwlimit-bandwidth-spec
+📅 BW Limit TimeTable  rclone.org/docs/#bwlimit-bandwidth-spec
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-It's highly recommended you read the rclone docs on the BWLimit TimeTable.
-While this does perform minor validation, it's still possible to make an invalid table which prevent uploads from working.
-
-Read the docs: https://rclone.org/docs/#bwlimit-bandwidth-spec
 
 [1] Add Timeslot to TimeTable
 [2] Reset TimeTable
@@ -282,9 +265,7 @@ invalidTimeNotice() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 NOTE: The value must be a time in hh:ss format.
-Do not use am/pm! Use 24 hour (military) time. 
-
-You must pad with a zero, so 0:00 should be 00:00 or 4:00 should be 04:00
+Do not use am/pm, use 24 hour (military) time. Lead with a zero if under 12
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -296,7 +277,7 @@ dayofweek() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🗓️ Choose day of the week                📓 Reference: pgclone.pgblitz.com
+🗓️ Choose day of the week
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [0] Everyday
