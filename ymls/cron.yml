@@ -21,6 +21,6 @@
 
 - cron:
     name: Weekly log cleaner
-    special_time: 'weekly'
+    special_time: 'daily'
     job: 'tlogs'
     state: present
