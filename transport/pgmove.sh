@@ -63,7 +63,7 @@ while true; do
             --drive-chunk-size="$vfs_dcs" \
             --user-agent="$useragent" \
             --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-            --exclude-from="/opt/pgclone/excluded/excluded.folder""
+            --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
         echo " Upload has finished. " >>/var/plexguide/logs/pgmove.log
     else
