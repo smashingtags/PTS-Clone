@@ -23,14 +23,15 @@ mustset() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Welcome to PG Clone ~ http://pgclone.pgblitz.com
+💪 Welcome to rClone 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOTE: PG Clone is a service that automates mergerfs; with mount, rclone,
+NOTE: rClone is a service that automates mergerfs; with mount, rclone,
 and key development to mount user drives and move/store data accordingly.
 Visit the link above before starting this process!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[1] PG Clone Method: $transport
+[1] rClone Method: $transport
+
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -81,7 +82,7 @@ deletemelateron() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 PG Clone Key Management ~ http://pgclone.pgblitz.com
+💪 rClone Key Management
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [1] Google Account Login   [$pgcloneemail]

@@ -11,9 +11,9 @@ keystart() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Key Builder ~ http://pgclone.pgblitz.com
+🚀 Key Builder
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-QUESTION - Create how many keys for PGBlitz? (From 2 thru 20 )
+QUESTION - Create how many keys for Blitz? (From 2 thru 20 )
 
 MATH:
 2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily

@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
-# URL:        https://pgblitz.com - http://github.pgblitz.com
-# GNU:        General Public License v3.0
+# Title:      TDrive Uploader 
+# orgAuthors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# Mod from MrDoobPG for all 
+#
+# fuck off brandings 
 ################################################################################
 
 source /opt/pgclone/scripts/cloneclean.sh
@@ -14,15 +15,17 @@ truncate -s 0 /var/plexguide/logs/pgblitz.log
 
 echo "" >>/var/plexguide/logs/pgblitz.log
 echo "" >>/var/plexguide/logs/pgblitz.log
-echo "---Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
+echo " -- Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
 hdpath="$(cat /var/plexguide/server.hd.path)"
 
 startscript() {
     while read p; do
 
-        # Update the vars
+        # User specifying  VARS 
         useragent="$(cat /var/plexguide/uagent)"
         bwlimit="$(cat /var/plexguide/blitz.bw)"
+
+        # VFS vars
         vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
         vfs_mt="$(cat /var/plexguide/vfs_mt)"
         vfs_t="$(cat /var/plexguide/vfs_t)"
@@ -35,22 +38,13 @@ startscript() {
         fi
 
         echo "" >>/var/plexguide/logs/pgblitz.log
-        echo "---Begin cycle $cyclecount - $p: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
+        echo " -- Begin cycle $cyclecount --  $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
         echo "Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
 
         rsync "$hdpath/downloads/" "$hdpath/move/" \
             -aq --remove-source-files --link-dest="$hdpath/downloads/" \
             --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-            --exclude="**_HIDDEN~" --exclude=".unionfs/**" \
-            --exclude="**partial~" --exclude=".unionfs-fuse/**" \
-            --exclude=".fuse_hidden**" --exclude="**.grab/**" \
-            --exclude="**sabnzbd**" --exclude="**nzbget**" \
-            --exclude="**qbittorrent**" --exclude="**rutorrent**" \
-            --exclude="**deluge**" --exclude="**transmission**" \
-            --exclude="**jdownloader**" --exclude="**makemkv**" \
-            --exclude="**handbrake**" --exclude="**bazarr**" \
-            --exclude="**ignore**" --exclude="**inProgress**" \
-            --exclude="**torrent**" --exclude="**nzb**"
+            --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
         if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
             rclone moveto "$hdpath/move" "${p}{{encryptbit}}:/" \
@@ -68,24 +62,15 @@ startscript() {
                 --drive-chunk-size="$vfs_dcs" \
                 --user-agent="$useragent" \
                 --exclude-from="/opt/appdata/plexguide/transport.exclude" \
-                --exclude="**_HIDDEN~" --exclude=".unionfs/**" \
-                --exclude="**partial~" --exclude=".unionfs-fuse/**" \
-                --exclude=".fuse_hidden**" --exclude="**.grab/**" \
-                --exclude="**sabnzbd**" --exclude="**nzbget**" \
-                --exclude="**qbittorrent**" --exclude="**rutorrent**" \
-                --exclude="**deluge**" --exclude="**transmission**" \
-                --exclude="**jdownloader**" --exclude="**makemkv**" \
-                --exclude="**handbrake**" --exclude="**bazarr**" \
-                --exclude="**ignore**" --exclude="**inProgress**" \
-                --exclude="**torrent**" --exclude="**nzb**"
+                --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
-            echo "Upload has finished." >>/var/plexguide/logs/pgblitz.log
+            echo " Upload has finished. " >>/var/plexguide/logs/pgblitz.log
         else
-            echo "No files in $hdpath/move to upload." >>/var/plexguide/logs/pgblitz.log
+            echo " No files in $hdpath/move to upload. " >>/var/plexguide/logs/pgblitz.log
         fi
 
-        echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
-        echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
+        echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
+        echo "  $(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
         #sed -i -e "/Duplicate directory found in destination/d" /var/plexguide/logs/pgblitz.log
         sleep 30
 
