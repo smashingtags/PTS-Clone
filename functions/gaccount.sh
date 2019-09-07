@@ -19,7 +19,7 @@ glogin() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Set E-Mail Address ~ http://pgclone.pgblitz.com
+💪 Set E-Mail Address
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 What email address from the Google Console do you want to be associated
 with from your Google GSuite? Ensure that it exists!

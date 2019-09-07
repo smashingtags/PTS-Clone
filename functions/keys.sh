@@ -48,6 +48,7 @@ EOF
 
 TIPS:
 1. Did you set up your gcrypt accordingly to the wiki?
+
 2. Did you ensure that the gcrypt overlapped on gdrive per the wiki?
 
 EOF
@@ -395,42 +396,34 @@ deploykeys3() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 SYSTEM MESSAGE: Key Number Selection!
+🚀 SYSTEM MESSAGE: Key Number Selection! (From 2 thru 20 )
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUESTION - Create how many keys for Blitz? 
 
-[1] Create 2 Keys:  Daily Limit - 1.5  TB
-[2] Create 4 Keys:  Daily Limit - 3.0  TB
-[3] Create 6 Keys:  Daily Limit - 4.5  TB  <--- Realistic
-[4] Create 8 Keys:  Daily Limit - 6.0  TB  <--- The max you'll ever need
-[5] Create 10 Keys: Daily Limit - 7.5  TB  <--- only GCE-FEEDER, it won't unless your on GCE!
-[6] Create 20 Keys: Daily Limit - 15   TB <--- only GCE-FEEDER, it won't unless your on GCE!
+MATH:
+2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily
+10 Keys = 7.5 TB Daily | 20 Keys = 15  TB Daily
+
+NOTE 1: Creating more keys DOES NOT SPEED up your transfers
+NOTE 2: Realistic key generation for most are 6 keys
+NOTE 3: 20 Keys are only for GCE Feeder !!
 
 💬 # of Keys Generated Sets Your Daily Upload Limit!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-  read -p '↘️  Type Choice | Press [ENTER]: ' typed </dev/tty
+  read -p '↘️  Type a Number [ 1 thru 20 ] | Press [ENTER]: ' typed </dev/tty
 
+  num=$typed
   echo ""
-  echo "NOTE: Please Wait"
-  echo ""
-  if [ "$typed" == "1" ]; then
-    echo "Creating 2 Keys - Daily Upload Limit Set to 1.5TB" && keys=2
-  elif [ "$typed" == "2" ]; then
-    echo "Creating 4 Keys - Daily Upload Limit Set to 3.0TB" && keys=4
-  elif [ "$typed" == "3" ]; then
-    echo "Creating 6 Keys - Daily Upload Limit Set to 4.5TB" && keys=6
-  elif [ "$typed" == "4" ]; then
-    echo "Creating 8 Keys - Daily Upload Limit Set to 6.0TB" && keys=8
-  elif [ "$typed" == "5" ]; then
-    echo "Creating 10 Keys - Daily Upload Limit Set to 7.5TB" && keys=10
-  elif [ "$typed" == "6" ]; then
-    echo "Creating 20 Keys - Daily Upload Limit Set to 15.0TB" && keys=20
+ if [[ "$typed" -le "0" || "$typed" -ge "51" ]]; then
+    echo "Creating $typed Keys" && keys=$typed
+  else
   fi
   sleep 2
   echo ""
 
-  if [[ "$typed" -le "0" && "$typed" -ge 7 ]]; then deploykeys3; fi
+   if [[ "$typed" -le "0" || "$typed" -ge "51" ]]; then deploykeys3; fi
 
   num=$keys
   count=0
@@ -507,7 +500,7 @@ projectid() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Projects Interface Menu            📓 Reference: project.pgblitz.com
+🚀 Projects Interface Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $projectlist
@@ -538,15 +531,7 @@ ufsbuilder() {
   downloadpath=$(cat /var/plexguide/server.hd.path)
   ls -la /opt/appdata/plexguide/keys/processed | awk '{ print $9}' | tail -n +4 >/tmp/pg.gdsa.ufs
   rm -rf /tmp/pg.gdsa.build 1>/dev/null 2>&1
-  #echo -n "/mnt/tdrive=RO:" > /tmp/pg.gdsa.build
-  #echo -n "/mnt/gdrive=RO:" >> /tmp/pg.gdsa.build
-  ##### Encryption Portion ### Start
-  #tcrypt=$(grep "tcrypt" /opt/appdata/plexguide/rclone.conf)
-  #gcrypt=$(grep "gcrypt" /opt/appdata/plexguide/rclone.conf)
 
-  #if [ "$tcrypt" == "[tcrypt]" ]  && [ "$gcrypt" == "[gcrypt]" ]; then
-  #    encryption="on"
-  #  else
   encryption="off"
   #fi
 
@@ -655,7 +640,7 @@ pgbdeploy() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: PG Blitz Deployed!
+🚀 System Message: Blitz Deployed!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -676,7 +661,7 @@ keymenu() {
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 PG Blitz Key Generation             📓 Reference: pgblitz.pgblitz.com
+🚀 Blitz Key Generation 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [1] Google Account Login: $display5
