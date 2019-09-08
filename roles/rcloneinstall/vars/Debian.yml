@@ -1,8 +1,6 @@
 ---
-
 PACKAGES:
   - unzip
-  - man-db
 
 MAN_PAGES:
   OWNER: root
