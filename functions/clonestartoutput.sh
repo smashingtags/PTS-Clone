@@ -348,7 +348,7 @@ clonestartactions() {
             publicsecretchecker
             passwordcheck
             mountchecker
-            keybackup
+            keybackup;;
 			
         s)
             rcloneSettings
