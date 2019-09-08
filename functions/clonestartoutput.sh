@@ -348,8 +348,8 @@ clonestartactions() {
             publicsecretchecker
             passwordcheck
             mountchecker
-            keybackup;;
-			
+            keybackup
+            ;;
         s)
             rcloneSettings
             ;;
@@ -456,7 +456,7 @@ clonestartactions() {
             publicsecretchecker
             passwordcheck
             mountchecker
-            keybackup
+            keybackup ;;
         o) optionsmenu ;;
         O) optionsmenu ;;
         s)
