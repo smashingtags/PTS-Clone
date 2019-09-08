@@ -31,8 +31,6 @@ EOF
 # Allow non-root users to specify the allow_other or allow_root mount options.
 user_allow_other
 EOF
-
         ansible-playbook /opt/pgclone/rclone.yml
     fi
-
 }
