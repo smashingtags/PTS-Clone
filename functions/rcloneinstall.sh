@@ -8,7 +8,7 @@
 rcloneinstall() {
 
     # install what version of rclone
-    rversion=1.48
+    rversion="$(curl -s https://api.github.com/repos/rclone/rclone/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')"
 
     rcheck1=$(rclone --version 2>&1)
     rcheck2=$(echo $rcheck1 | cut -c1-12)
