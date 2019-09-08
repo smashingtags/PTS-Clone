@@ -5,6 +5,8 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
+rcstored="$(rclone --version | awk '{print $2}' | tail -n 3 | head -n 1 )"
+mgstored="$(tail -n 1 /var/plexguide/checkers/mgfs.log)"
 clonestartoutput() {
     pgclonevars
 
@@ -34,6 +36,7 @@ EOF
 [6] GDrive OAuth          [$gstatus]
 [7] Key Management        [$displaykey] Built
 [8] TDrive (E-Mail Share Generator)
+
 EOF
     elif [[ "$transport" == "be" ]]; then
         tee <<-EOF
@@ -60,7 +63,7 @@ errorteamdrive() {
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Setup the TDrive Label First! ~ http://pgclone.pgblitz.com
+🚀 Setup the TDrive Label First!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 NOTE: Set up your TDrive Label prior to executing the TDrive OAuth.
@@ -133,7 +136,7 @@ EOF
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Welcome to rClone
+💪 Welcome to rClone  rclone $rcstored || mergerfs $mgstored
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
