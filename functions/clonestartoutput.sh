@@ -349,7 +349,7 @@ clonestartactions() {
             passwordcheck
             mountchecker
             keybackup
-			
+            ;;
         s)
             rcloneSettings
             ;;
