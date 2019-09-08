@@ -10,7 +10,7 @@ mgstored="$(tail -n 1 /var/plexguide/checkers/mgfs.log)"
 clonestartoutput() {
     pgclonevars
 
-    echo "ACTIVELY DEPLOYED: 	[$dversionoutput]"
+    echo "ACTIVELY DEPLOYED: 	   $dversionoutput "
     echo ""
 
     if [[ "$demo" == "ON " ]]; then mainid="********"; else mainid="$pgcloneemail"; fi
