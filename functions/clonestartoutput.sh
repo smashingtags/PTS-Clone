@@ -38,7 +38,7 @@ EOF
 [2] Project Name          [ $pgcloneproject ]
 [3] Client ID & Secret    [ ${pgcloneid} ]
 [4] TDrive Label          [ $tdname ]
-[5] TDrive OAuth          [ $tstatu s]
+[5] TDrive OAuth          [ $tstatus ]
 [6] GDrive OAuth          [ $gstatus ] 
 [7] Key Management        [ $displaykey ] Built
 [8] TDrive            ( E-Mail Share Generator )
