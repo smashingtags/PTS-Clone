@@ -418,7 +418,6 @@ EOF
   echo ""
  if [[ "$typed" -le "0" || "$typed" -ge "51" ]]; then
     echo "Creating $typed Keys" && keys=$typed
-  else
   fi
   sleep 2
   echo ""

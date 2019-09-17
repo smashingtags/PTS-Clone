@@ -8,14 +8,14 @@
 rcloneinstall() {
 
     # install what version of rclone
-    rversion=1.48
+    rcversion="$(curl -s https://api.github.com/repos/rclone/rclone/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')"
+    rcstored="$(rclone --version | awk '{print $2}' | tail -n 3 | head -n 1 )"
+	
+    if [[ "$rcversion" == "$rcstored" ]]; then
+    echo ""
+    elif [[ "$rcversion" != "$rcstored" ]]; then
 
-    rcheck1=$(rclone --version 2>&1)
-    rcheck2=$(echo $rcheck1 | cut -c1-12)
-
-    if [[ "rclone v$rversion" != "$rcheck2" ]]; then
-
-        tee <<-EOF
+ tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💪 Installing RClone Version ~ $rversion
@@ -23,7 +23,6 @@ rcloneinstall() {
 
 EOF
         sleep 1.5
-
         tee "/etc/fuse.conf" >/dev/null <<EOF
 # /etc/fuse.conf - Configuration file for Filesystem in Userspace (FUSE)
 # Set the maximum number of FUSE mounts allowed to non-root users.
@@ -32,8 +31,6 @@ EOF
 # Allow non-root users to specify the allow_other or allow_root mount options.
 user_allow_other
 EOF
-
         ansible-playbook /opt/pgclone/rclone.yml
     fi
-
 }
