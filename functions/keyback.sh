@@ -8,23 +8,51 @@
 
 ### NOTE TO DELETE KEYS THAT EXIST WHEN BACKING UP
 keybackup() {
-
-  serverid=$(cat /var/plexguide/pg.serverid)
+  tree -d -L 1 /mnt/gdrive/plexguide/backup | awk '{print $2}' | tail -n +2 | head -n -2 >/tmp/server.list
+  servers=$(cat /var/plexguide/program.temp)
+  server_id=$(cat /var/plexguide/server.id)
 
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: Backing Up to GDrive - $serverid
+🚀 System Message: Server Name for Backup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📂 Current [${server_id}] & Prior Servers Detected:
+
+$servers
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Z] Exit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+  read -p '🌍 Type Server Name | Press [ENTER]: ' server </dev/tty
+  echo $server >/tmp/server.select
+
+  idbackup=$(cat /tmp/server.select)
+
+  tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 System Message: Backing Up to GDrive - $idbackup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 NOTE: Standby, takes a minute!
 
 EOF
-  rclone purge --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid &&
-  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/conf -v --checksum --drive-chunk-size=64M &&
-  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/keys/processed/ gdrive:/plexguide/backup/keys/$serverid/keys -v --checksum --drive-chunk-size=64M &&
-  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/.blitzkeys/ gdrive:/plexguide/backup/keys/$serverid/blitzkeys -v --checksum --drive-chunk-size=64M
-  
+  rclone copy /opt/appdata/plexguide gdrive:/plexguide/system/$idbackup \
+   --config=/opt/appdata/plexguide/rclone.conf \
+   --stats-one-line \
+   --log-level=INFO --stats=5s --stats-file-name-length=0 \
+   --tpslimit=10 \
+   --checkers=4 \
+   --transfers=4 \
+   --no-traverse \
+   --fast-list \
+   --exclude="*traefik.check*" \
+   --user-agent="key_backup:pts"
+   
  tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -35,75 +63,58 @@ EOF
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
 }
 
+########################### 
+####restore keys rclone.conf GDSA keys
+########################### 
+
 keyrestore() {
-  tee <<-EOF
+  tree -d -L 1 /mnt/gdrive/plexguide/backup | awk '{print $2}' | tail -n +2 | head -n -2 >/tmp/server.list
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Standby! Conducting Key Restore Check!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EOF
-  rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/ | awk '{ print $5 }' >/tmp/service.keys
-  checkcheck=$(cat /tmp/service.keys)
-
-  if [ "$checkcheck" == "" ]; then
-    tee <<-EOF
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Either You Failed to Configure RClone with GDrive or No Backups Exist!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EOF
-    read -p '🌍 Acknowledge Info | Press [ENTER] ' typed </dev/tty
-    keymenu
-  fi
+  servers=$(cat /var/plexguide/program.temp)
+  server_id=$(cat /var/plexguide/server.id)
 
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Type the Name of the Backup to Restore
+🚀 System Message: Server Name for Restore
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-NOTE: Quit? Type > exit
+📂 Current [${server_id}] & Prior Servers Detected:
 
-EOF
-  cat /tmp/service.keys
-
-  echo
-  read -p '🌍 Type Name | Press [ENTER]: ' typed </dev/tty
-
-  if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" || "$typed" == "z" || "$typed" == "Z" ]]; then keymenu; fi
-
-  grepcheck=$(cat /tmp/service.keys | grep $typed)
-  if [ "$grepcheck" == "" ]; then
-    tee <<-EOF
+$servers
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Failed to Type Name of a Backup on the list! Restarting process!
+[Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-    read -p '🌍 Acknowledge Info | Press [ENTER] ' typed </dev/tty
-    keyrestore
-  fi
+  read -p '🌍 Type Server Name | Press [ENTER]: ' server </dev/tty
+  echo $server >/tmp/server.select
 
-  serverid="$typed"
-  mkdir -p /opt/appdata/plexguide/processed
+  idbackup=$(cat /tmp/server.select)
 
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: Restoring Keys - $serverid
+🚀 System Message: Restore from GDrive - $idbackup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+NOTE: Standby, takes a minute!
+
 EOF
+  rclone copy gdrive:/plexguide/system/$idbackup /opt/appdata/plexguide \
+   --config=/opt/appdata/plexguide/rclone.conf \
+   --stats-one-line \
+   --log-level=INFO --stats=5s --stats-file-name-length=0 \
+   --tpslimit=10 \
+   --checkers=4 \
+   --transfers=4 \
+   --no-traverse \
+   --fast-list \
+   --exclude="*traefik.check*" \
+   --user-agent="key_restore:pts"
+ tee <<-EOF
 
-  rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/conf /opt/appdata/plexguide/ -v --checksum --drive-chunk-size=64M &&
-  rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/keys /opt/appdata/plexguide/keys/processed/ -v --checksum --drive-chunk-size=64M &&
-  rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/blitzkeys /opt/appdata/plexguide/.blitzkeys/ -v --checksum --drive-chunk-size=64M
-
-  tee <<-EOF
-  
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 System Message: Key Restoration Complete!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
