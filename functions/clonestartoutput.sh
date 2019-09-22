@@ -342,25 +342,21 @@ clonestartactions() {
             ;; ## flll
         b)
             publicsecretchecker
-            passwordcheck
             mountchecker
             keybackup
             ;; ## fill
         B)
             publicsecretchecker
-            passwordcheck
             mountchecker
             keybackup
             ;; ## flll
         r)
             publicsecretchecker
-            passwordcheck
             mountchecker
             keybackup
             ;; ## fill
         R)
             publicsecretchecker
-            passwordcheck
             mountchecker
             keybackup
             ;;
