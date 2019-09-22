@@ -23,8 +23,8 @@ EOF
   
   rclone purge --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid
   rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/conf -v --checksum --drive-chunk-size=64M
-  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/keys/processed/ gdrive:/plexguide/backup/keys/$serverid/keys -v --checksum --drive-chunk-size=64M
-  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/.blitzkeys/ gdrive:/plexguide/backup/keys/$serverid/blitzkeys -v --checksum --drive-chunk-size=64M
+  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/keys/processed gdrive:/plexguide/backup/keys/$serverid/keys -v --checksum --drive-chunk-size=64M
+  rclone copy --config /opt/appdata/plexguide/rclone.conf /opt/appdata/plexguide/.blitzkeys gdrive:/plexguide/backup/keys/$serverid/blitzkeys -v --checksum --drive-chunk-size=64M
  
 tee <<-EOF
 
