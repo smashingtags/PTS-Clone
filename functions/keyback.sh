@@ -41,7 +41,10 @@ EOF
 NOTE: Standby, takes a minute!
 
 EOF
-  rclone copy /opt/appdata/plexguide gdrive:/plexguide/system/$idbackup \
+  mkdir -p /tmp/backup/
+  tar --warning=no-file-changed --ignore-failed-read --absolute-names --warning=no-file-removed -C /opt/appdata/plexguide/ -czf /tmp/backup/plexguide-backup.tar.gz ./
+
+  rclone moveto /tmp/backup/ gdrive:/plexguide/system/$idbackup \
    --config=/opt/appdata/plexguide/rclone.conf \
    --stats-one-line \
    --log-level=INFO --stats=5s --stats-file-name-length=0 \
@@ -52,6 +55,8 @@ EOF
    --fast-list \
    --exclude="*traefik.check*" \
    --user-agent="key_backup:pts"
+
+  rm -rf /tmp/backup/*
    
  tee <<-EOF
 
@@ -103,7 +108,7 @@ EOF
 NOTE: Standby, takes a minute!
 
 EOF
-  rclone copy gdrive:/plexguide/system/$idbackup /opt/appdata/plexguide \
+  rclone copyto  gdrive:/plexguide/system/$idbackup /tmp/backup/ \
    --config=/opt/appdata/plexguide/rclone.conf \
    --stats-one-line \
    --log-level=INFO --stats=5s --stats-file-name-length=0 \
@@ -113,7 +118,12 @@ EOF
    --no-traverse \
    --fast-list \
    --exclude="*traefik.check*" \
-   --user-agent="key_restore:pts"
+   --user-agent="key_backup:pts"
+  mkdir -p /tmp/backup/ 
+  mkdir -p /opt/appdata/plexguide/
+  tar -C /opt/appdata/plexguide/ -xvf /tmp/backup/plexguide-backup.tar.gz
+  chown -cR 1000:1000 /opt/appdata/plexguide/*
+  rm -rf /tmp/backup/*
 
  tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
