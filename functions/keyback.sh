@@ -97,6 +97,7 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
+
   rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/conf /opt/appdata/plexguide/ -v --checksum --drive-chunk-size=64M &&
   rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/keys /opt/appdata/plexguide/keys/processed/ -v --checksum --drive-chunk-size=64M &&
   rclone copy --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide/backup/keys/$serverid/blitzkeys /opt/appdata/plexguide/.blitzkeys/ -v --checksum --drive-chunk-size=64M
