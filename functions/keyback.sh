@@ -63,6 +63,7 @@ EOF
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
 }
 
+
 ########################### 
 ####restore keys rclone.conf GDSA keys
 ########################### 
@@ -113,14 +114,14 @@ EOF
    --fast-list \
    --exclude="*traefik.check*" \
    --user-agent="key_restore:pts"
- tee <<-EOF
 
+ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 System Message: Key Restoration Complete!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 NOTE: When conducting a restore, no need to share out emails and etc! Just
-redeploy PGBlitz!
+redeploy rClone!
 
 EOF
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
