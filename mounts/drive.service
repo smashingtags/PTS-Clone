@@ -9,6 +9,8 @@
 [Unit]
 Description={{drive}} Daemon
 After=multi-user.target
+StartLimitBurst=5
+StartLimitIntervalSec=10
 
 [Service]
 Type=notify
@@ -33,6 +35,8 @@ ExecStop=/bin/fusermount -uz /mnt/{{drive}} > /dev/null
 TimeoutSec=60
 User=0
 Group=0
+Restart=on-failure
+RestartSec=60s
 
 [Install]
 WantedBy=multi-user.target
