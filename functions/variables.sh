@@ -200,8 +200,15 @@ pgclonevars() {
         echo "2048M" >/var/plexguide/vfs_rcsl
     fi
 
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    variable /var/plexguide/uagent "$randomagent"    
+
+    uagent=$(cat /var/plexguide/uagent)
+    echo "$randomagent" >/var/plexguide/uagent
+    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent   
 
     variable /var/plexguide/uagent "$randomagent"
-    uagent=$(cat /var/plexguide/uagent)
+    #uagent=$(cat /var/plexguide/uagent) 
+
 }
