@@ -496,8 +496,6 @@ for Random useragent typ >> random or RANDOM
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-
-EOF
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
     if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 #######userinput##
