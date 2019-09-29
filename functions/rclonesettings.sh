@@ -511,8 +511,10 @@ EOF
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-    settingUpdatedNotice
-    rcloneSettings
+
+    settingUpdatedNotice ;
+    rcloneSettings ;
+     fi
 }
 
 settingUpdatedNotice() {
