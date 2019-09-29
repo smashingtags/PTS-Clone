@@ -496,21 +496,23 @@ for Random useragent typ >> random or RANDOM
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-    read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
 
+EOF
+    read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
+    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
+#######userinput##
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
     settingUpdatedNotice
     rcloneSettings
-    if [[ "$varinput" == "random" || "$varinput" == "RANDOM"  ]]; then rcloneSettings; fi
-    #######random part###
+#######random part###
+    if [[ "$varinput" == "random" || "$varinput" == "RANDOM"  ]]; then
     randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
     settingUpdatedNotice
     rcloneSettings
-    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 }
 
 settingUpdatedNotice() {
