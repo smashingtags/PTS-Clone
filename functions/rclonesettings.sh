@@ -99,7 +99,7 @@ EOF
         setIntegerVariable
         ;;
     13)
-        bash /opt/pgclone/function/uagent.sh
+        bash /opt/pgclone/functions/uagent.sh
         ;;
     s)
         rcloneSpeedTest
