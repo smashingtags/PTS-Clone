@@ -9,7 +9,7 @@
 ### NOTE TO DELETE KEYS THAT EXIST WHEN BACKING UP
 keybackup() {
   tree -d -L 1 /mnt/gdrive/plexguide/backup | awk '{print $2}' | tail -n +2 | head -n -2 >/tmp/server.list
-  servers=$(cat /var/plexguide/program.temp)
+  servers=$(cat /tmp/server.list)
   server_id=$(cat /var/plexguide/server.id)
 
   tee <<-EOF
@@ -23,13 +23,10 @@ keybackup() {
 $servers
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[Z] Exit
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
   read -p '🌍 Type Server Name | Press [ENTER]: ' server </dev/tty
   echo $server >/tmp/server.select
-
   idbackup=$(cat /tmp/server.select)
 
   tee <<-EOF
@@ -65,7 +62,9 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
+
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
+  clonestart
 }
 
 
@@ -75,8 +74,7 @@ EOF
 
 keyrestore() {
   tree -d -L 1 /mnt/gdrive/plexguide/backup | awk '{print $2}' | tail -n +2 | head -n -2 >/tmp/server.list
-
-  servers=$(cat /var/plexguide/program.temp)
+  servers=$(cat /tmp/server.list)
   server_id=$(cat /var/plexguide/server.id)
 
   tee <<-EOF
@@ -90,13 +88,10 @@ keyrestore() {
 $servers
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[Z] Exit
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
   read -p '🌍 Type Server Name | Press [ENTER]: ' server </dev/tty
   echo $server >/tmp/server.select
-
   idbackup=$(cat /tmp/server.select)
 
   tee <<-EOF
@@ -135,5 +130,5 @@ redeploy rClone!
 
 EOF
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
-  keymenu
+  clonestart
 }
