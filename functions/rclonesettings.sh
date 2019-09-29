@@ -523,8 +523,7 @@ EOF
 		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
     settingUpdatedNotice ;
-    rcloneSettings ;
-
+    rcloneSettings
 }
 
 settingUpdatedNotice() {
