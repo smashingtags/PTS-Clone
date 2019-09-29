@@ -502,12 +502,12 @@ EOF
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
     sleep 5	
-    settingUpdatedNotice;
 	tee <<-EOF
 		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 		🚀 Updated User Agent for RClone now $varinput
 		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
+    settingUpdatedNotice;
     rcloneSettings
 #######random part###
     if [[ "$varinput" == "random" || "$varinput" == "RANDOM"  ]]; then
@@ -515,15 +515,16 @@ EOF
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
+    fi	
 	sleep 5
 	tee <<-EOF
 		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-		🚀 Updated User Agent for RClone now $randomagent
+		🚀 Updated User Agent for RClone now $(cat /var/plexguide/uagent)
 		━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
     settingUpdatedNotice ;
     rcloneSettings ;
-    fi
+
 }
 
 settingUpdatedNotice() {
