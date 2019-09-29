@@ -62,7 +62,9 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
+
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
+
 }
 
 
