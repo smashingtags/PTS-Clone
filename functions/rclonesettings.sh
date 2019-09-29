@@ -451,6 +451,8 @@ EOF
     systemctl restart tdrive 2>/dev/null
     systemctl restart tcrypt 2>/dev/null
 
+#### site Note ### dicker restart for apps building
+
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -494,6 +496,16 @@ EOF
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
     settingUpdatedNotice
     rcloneSettings
+
+    #######random part###
+    #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    #uagent=$(cat /var/plexguide/uagent)
+    #echo "$randomagent" >/var/plexguide/uagent
+    #echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
+
+    #settingUpdatedNotice
+    #rcloneSettings
+    ########
 }
 
 settingUpdatedNotice() {
