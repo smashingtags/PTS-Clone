@@ -64,7 +64,7 @@ EOF
 EOF
 
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
-
+  clonestart
 }
 
 
@@ -130,5 +130,5 @@ redeploy rClone!
 
 EOF
   read -p '🌍 Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
-  keymenu
+  clonestart
 }
