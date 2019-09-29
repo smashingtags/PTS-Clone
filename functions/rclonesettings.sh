@@ -437,8 +437,9 @@ This will restart the rclone services for rclone settings changes to take effect
 
 ⚠ Warning!
 
-Please check Plex/Emby/Jellyfin and Sonarr/Radarr/Lidarr to see if they are
-scanning before continuing. Restarting these services during scans is unpredictable!
+Dockers would be restarted automaticly
+Mediaserver = Plex and Emby 
+Arss*  = Sonarr | Radarr | Lidarr 
 
 EOF
 
@@ -450,8 +451,12 @@ EOF
     systemctl restart gcrypt 2>/dev/null
     systemctl restart tdrive 2>/dev/null
     systemctl restart tcrypt 2>/dev/null
-
-#### site Note ### dicker restart for apps building
+    docker restart plex 2>/dev/null
+	docker restart emby 2>/dev/null
+	docker restart sonarr 2>/dev/null
+	docker restart radarr 2>/dev/null
+	docker restart lidarr 2>/dev/null
+    #### site Note ### docker restart for apps building
 
     tee <<-EOF
 
@@ -484,28 +489,28 @@ Changing the useragent is useful when experience 429 problems from Google
 
 Do not wrap the string in double quotes!
 
+for Random useragent typ >> random or RANDOM
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
-    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
     settingUpdatedNotice
     rcloneSettings
-
+    if [[ "$varinput" == "random" || "$varinput" == "RANDOM"  ]]; then rcloneSettings; fi
     #######random part###
-    #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    #uagent=$(cat /var/plexguide/uagent)
-    #echo "$randomagent" >/var/plexguide/uagent
-    #echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-
-    #settingUpdatedNotice
-    #rcloneSettings
-    ########
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    uagent=$(cat /var/plexguide/uagent)
+    echo "$randomagent" >/var/plexguide/uagent
+    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
+    settingUpdatedNotice
+    rcloneSettings
+    if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 }
 
 settingUpdatedNotice() {
