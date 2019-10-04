@@ -11,7 +11,7 @@ badinput() {
     echo
     read -p '⛔️ ERROR - Bad Input! | Press [ENTER] ' typed </dev/tty
 }
-variable=/var/plexguide/project.email "NOT-SET"
+variable /var/plexguide/project.email "NOT-SET"
 emailaccount=$(cat /var/plexguide/project.email)
 
 glogin() {
