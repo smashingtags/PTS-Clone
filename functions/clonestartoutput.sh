@@ -6,7 +6,7 @@
 # GNU:        General Public License v3.0
 ################################################################################
 rcstored="$(rclone --version | awk '{print $2}' | tail -n 3 | head -n 1 )"
-mgstored="$(tail -n 1 /var/plexguide/checkers/mgfs.log)"
+mgstored="$(mergerfs -v | grep 'mergerfs version:' | awk '{print $3}')"
 clonestartoutput() {
     pgclonevars
 echo "ACTIVELY DEPLOYED: 	  $dversionoutput "

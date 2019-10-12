@@ -11,11 +11,16 @@ badinput() {
     echo
     read -p '⛔️ ERROR - Bad Input! | Press [ENTER] ' typed </dev/tty
 }
+variable /var/plexguide/project.email "NOT-SET"
+emailaccount=$(cat /var/plexguide/project.email)
 
 glogin() {
-
-    emailaccount=$(cat /var/plexguide/project.email)
-
+if [[ "$emailaccount" == "NOT-SET" ]]; then
+    echo
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo " Email Account - NOT-SET - First Start "
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+ fi
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
