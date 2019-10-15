@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
-# URL:        https://pgblitz.com - http://github.pgblitz.com
-# GNU:        General Public License v3.0
+# Title:           {{drive}} Daemon 
+# org. Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
+#
+# Modded:          MrDoobPG for PTS 
+#
 ################################################################################
 
 [Unit]
@@ -23,6 +24,7 @@ ExecStart=/usr/bin/rclone mount {{drive}}: /mnt/{{drive}} \
 --allow-other \
 --timeout=1h \
 --tpslimit=10 \
+--stats \
 --user-agent="${uagent}" \
 --dir-cache-time="${vfs_dct}" \
 --vfs-cache-mode="${vfs_cm}" \
@@ -31,6 +33,7 @@ ExecStart=/usr/bin/rclone mount {{drive}}: /mnt/{{drive}} \
 --vfs-read-chunk-size-limit="${vfs_rcsl}" \
 --vfs-read-chunk-size="${vfs_rcs}" \
 --buffer-size="${vfs_bs}"
+
 ExecStop=/bin/fusermount -uz /mnt/{{drive}} > /dev/null
 TimeoutSec=60
 User=0
