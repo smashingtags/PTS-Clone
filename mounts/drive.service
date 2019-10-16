@@ -24,7 +24,6 @@ ExecStart=/usr/bin/rclone mount {{drive}}: /mnt/{{drive}} \
 --allow-other \
 --timeout=1h \
 --tpslimit=10 \
---stats \
 --user-agent="${uagent}" \
 --dir-cache-time="${vfs_dct}" \
 --vfs-cache-mode="${vfs_cm}" \
