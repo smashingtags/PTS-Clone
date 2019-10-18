@@ -20,7 +20,7 @@ cloneclean() {
     find "$hdpath/downloads/torrent" -mindepth 3 -type d -cmin +$cleaner -size -3G 2>/dev/null -exec rm -rf {} \;
 
     # Remove empty directories
-    find "$hdpath/move" -mindepth 3 -type d -empty -delete
+    find "$hdpath/move" -mindepth 2 -type d -empty -delete
 
     #DO NOT decrease DEPTH on this, leave it at 3. Leave this alone!
     find "$hdpath/downloads" -mindepth 2 -type d \( ! -name syncthings ! -name .stfolder \) -empty -delete
