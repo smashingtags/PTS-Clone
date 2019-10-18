@@ -210,12 +210,17 @@ There is no need to quick deploy for this setting."
 
     if [[ "$menuSelection" == "11" ]]; then
         name="Dir-Cache-Time"
-        sizeSuffix="m"
+        sizeSuffix="h"
         start="2"
-        end="720"
+        end="8760"
         note="This controls the cache time for remote directory information and contents.
 This may delay external changes (such as from gdrive website) from being seen on your server until the cache expires.
-You should set this to at least 60m unless you make lots of external changes."
+You should set this to at least 60m unless you make lots of external changes.
+[INFO]
+min 2h  till 8760h  , please test your setting before you ask any user or create an issuse
+"
+
+--attr-timeout
     fi
 
     if [[ "$menuSelection" == "6" ]]; then
