@@ -18,7 +18,7 @@ rcloneSettings() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 RClone Settings                 
+💪 RClone Settings                       📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Please read each setting description carefully as it explains the function
@@ -136,7 +136,7 @@ setIntegerVariable() {
         name="Buffer-Size"
         sizeSuffix="M"
         start="0"
-        end="4096"
+        end="8096"
         note="Open files will be buffered to RAM up to this limit. This limit is per opened file.
 
 The buffer size should be a relatively small amount. It's intended to smooth out network congestion and blips.
@@ -167,7 +167,7 @@ Set the buffer size to 1/2 the value of the read-chunk-size for the best results
         name="Drive-Chunk-Size"
         sizeSuffix="M"
         start="8"
-        end="512"
+        end="1024"
         note="The larger the chunk size, the faster uploads will be, however it uses more RAM.
 
 64-128 will max out 1Gbps. 
@@ -175,7 +175,7 @@ Values over 128 are not recommended on 1Gbps.
 Use 256 or 512 for 10Gbps.
 
 Input must be one of the following numbers (power of 2)!
-[8] [16] [32] [64] [128] [256] [512]
+[8] [16] [32] [64] [128] [256] [512] [1024]
 
 This setting takes effect on the next upload.
 There is no need to quick deploy for this setting.
@@ -210,24 +210,19 @@ There is no need to quick deploy for this setting."
 
     if [[ "$menuSelection" == "11" ]]; then
         name="Dir-Cache-Time"
-        sizeSuffix="h"
+        sizeSuffix="m"
         start="2"
-        end="8760"
+        end="7620"
         note="This controls the cache time for remote directory information and contents.
 This may delay external changes (such as from gdrive website) from being seen on your server until the cache expires.
-You should set this to at least 60m unless you make lots of external changes.
-[INFO]
-min 2h  till 8760h  , please test your setting before you ask any user or create an issuse
-"
-
---attr-timeout
+You should set this to at least 60m unless you make lots of external changes."
     fi
 
     if [[ "$menuSelection" == "6" ]]; then
         name="VFS-Read-Chunk-Size"
         sizeSuffix="M"
         start="16"
-        end="512"
+        end="1024"
         note="This allows reading the source objects in parts, by requesting only chunks from the remote that are actually read at the cost of an increased number of requests.
 Setting this too small will result in API bans for too many reads, setting this too high will waste download quota and it will take longer to start playback.
 
@@ -246,7 +241,7 @@ Transcoding: 64MB-128MB recommended.
         name="VFS-Read-Chunk-Size-Limit"
         sizeSuffix="M"
         start="0"
-        end="4096"
+        end="8096"
         note="The chunk size for each open file will get doubled for each chunk read, until the specified value is reached.
 This limit must be greater than vfs-read-chunk-size and it's only used when the [vfs-cache-mode] is not set to full.
 
@@ -298,7 +293,7 @@ writes is recommended for use when using encrypt or when using some community ap
         name="VFS-Cache-Max-Size"
         sizeSuffix="G"
         start="0"
-        end="500"
+        end="8000"
         note="The max total size of objects in the cache, only used if [vfs-cache-mode] is NOT off.
 Set this value to 0 to disable."
     fi
@@ -422,7 +417,7 @@ Power of Two Notice
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 NOTE: The value you enter must be a power of two!
-[8] [16] [32] [64] [128] [256] [512]
+[8] [16] [32] [64] [128] [256] [512] [1024]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -435,16 +430,15 @@ reloadServices() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Quick Deploy 
+🚀 Quick Deploy                           📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 This will restart the rclone services for rclone settings changes to take effect.
 
 ⚠ Warning!
 
-Dockers would be restarted automaticly
-Mediaserver = Plex and Emby 
-Arss*  = Sonarr | Radarr | Lidarr 
+Please check Plex/Emby/Jellyfin and Sonarr/Radarr/Lidarr to see if they are
+scanning before continuing. Restarting these services during scans is unpredictable!
 
 EOF
 
@@ -456,17 +450,11 @@ EOF
     systemctl restart gcrypt 2>/dev/null
     systemctl restart tdrive 2>/dev/null
     systemctl restart tcrypt 2>/dev/null
-    docker restart plex 2>/dev/null
-	docker restart emby 2>/dev/null
-	docker restart sonarr 2>/dev/null
-	docker restart radarr 2>/dev/null
-	docker restart lidarr 2>/dev/null
-    #### site Note ### docker restart for apps building
 
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Quick Deploy Complete
+💪 Quick Deploy Complete                  📓 Reference: pgclone.pgblitz.com
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 RClone services have been reloaded and your VFS options have now taken effect!
@@ -494,41 +482,18 @@ Changing the useragent is useful when experience 429 problems from Google
 
 Do not wrap the string in double quotes!
 
-for Random useragent typ >> random or RANDOM
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
     if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
-#######userinput##
+
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-        sleep 5
-        tee <<-EOF
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        🚀 Updated User Agent for RClone now $(cat /var/plexguide/uagent)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-		EOF
     settingUpdatedNotice
     rcloneSettings
-#######random part###
-uagentrandom="$(cat /var/plexguide/uagent)"
-    if [[ "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM"  ]]; then
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    uagent=$(cat /var/plexguide/uagent)
-    echo "$randomagent" >/var/plexguide/uagent
-    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-        sleep 5
-        tee <<-EOF
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        🚀 Updated User Agent for RClone now $(cat /var/plexguide/uagent)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-			EOF
-    fi
 }
 
 settingUpdatedNotice() {
