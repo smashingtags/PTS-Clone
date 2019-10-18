@@ -18,7 +18,7 @@ rcloneSettings() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 RClone Settings                       📓 Reference: pgclone.pgblitz.com
+💪 RClone Settings
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Please read each setting description carefully as it explains the function
@@ -430,15 +430,15 @@ reloadServices() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Quick Deploy                           📓 Reference: pgclone.pgblitz.com
+🚀 Quick Deploy 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 This will restart the rclone services for rclone settings changes to take effect.
 
 ⚠ Warning!
 
-Please check Plex/Emby/Jellyfin and Sonarr/Radarr/Lidarr to see if they are
-scanning before continuing. Restarting these services during scans is unpredictable!
+Dockers would be restarted automaticly
+Mediaserver = Plex and Emby 
+Arss*  = Sonarr | Radarr | Lidarr 
 
 EOF
 
@@ -450,11 +450,17 @@ EOF
     systemctl restart gcrypt 2>/dev/null
     systemctl restart tdrive 2>/dev/null
     systemctl restart tcrypt 2>/dev/null
+    docker restart plex 2>/dev/null
+	docker restart emby 2>/dev/null
+	docker restart sonarr 2>/dev/null
+	docker restart radarr 2>/dev/null
+	docker restart lidarr 2>/dev/null
+    #### site Note ### docker restart for apps building
 
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Quick Deploy Complete                  📓 Reference: pgclone.pgblitz.com
+💪 Quick Deploy Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 RClone services have been reloaded and your VFS options have now taken effect!
