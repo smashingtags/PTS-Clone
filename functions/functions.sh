@@ -23,14 +23,14 @@ mustset() {
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Welcome to rClone 
+💪 Welcome to rClone  
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NOTE: rClone is a service that automates mergerfs; with mount, rclone,
 and key development to mount user drives and move/store data accordingly.
 Visit the link above before starting this process!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[1] rClone Method: $transport
+[1] rClone Method: [ $transport ]
 
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -68,7 +68,7 @@ EOF
 }
 
 removepgservices() {
-  ansible-playbook /opt/pgclone/pgservices.yml
+  ansible-playbook /opt/pgclone/ymls/remove.yml
 }
 
 keysprocessed() {
