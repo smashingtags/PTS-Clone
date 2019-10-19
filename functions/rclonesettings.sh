@@ -12,7 +12,7 @@ rcloneSettings() {
     if [[ "$transport" == "be" || "$transport" == "bu" ]]; then
         bwlimitVar="blitz.bw"
     fi
-
+    uagent=$(cat /var/plexguide/uagent)
     bwlimit=$(cat "/var/plexguide/$bwlimitVar")
 
     tee <<-EOF
