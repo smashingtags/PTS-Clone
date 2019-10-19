@@ -14,7 +14,7 @@ pgclonevars() {
     touch /var/plexguide/uagent
     uagentrandom="$(cat /var/plexguide/uagent)"
     if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
@@ -172,10 +172,6 @@ pgclonevars() {
 
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
 
-    # if [[ $(cat /var/plexguide/uagent) == "" ]]; then
-        # echo "rclone/v1.48" >/var/plexguide/uagent
-    # fi
-
     if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then
         echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw
     fi
@@ -211,16 +207,4 @@ pgclonevars() {
     if [[ $(cat /var/plexguide/vfs_rcsl) != *"M" && $(cat /var/plexguide/vfs_rcsl) != "off" ]]; then
         echo "2048M" >/var/plexguide/vfs_rcsl
     fi
-
-    # #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    # randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    # variable /var/plexguide/uagent "$randomagent"    
-
-    # uagent=$(cat /var/plexguide/uagent)
-    # echo "$randomagent" >/var/plexguide/uagent
-    # echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent   
-
-    # variable /var/plexguide/uagent "$randomagent"
-    # #uagent=$(cat /var/plexguide/uagent) 
-
 }
