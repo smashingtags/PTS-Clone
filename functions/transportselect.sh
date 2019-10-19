@@ -22,6 +22,7 @@ LINK : https://github.com/MrDoobPG/PGBlitz.com/wiki/PG-Clone
 
 [5] Local Edition  : Local HDs     | Easy    | Utilizes System's HD's Only
 
+[Z] EXIT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -49,6 +50,12 @@ EOF
         echo "le" >/var/plexguide/pgclone.transport
         echo "Local Edition" >/var/plexguide/pg.transport
         ;;
+	z)
+      exit
+      ;;
+    Z)
+      exit
+      ;;
     *)
         transportselect
         ;;
