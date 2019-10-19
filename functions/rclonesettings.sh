@@ -504,8 +504,7 @@ EOF
 
     uagentrandom="$(cat /var/plexguide/uagent)"
     if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    uagent=$(cat /var/plexguide/uagent)
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
 
