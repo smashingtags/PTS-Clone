@@ -11,7 +11,14 @@ pgclonevars() {
         file="$1"
         if [ ! -e "$file" ]; then touch "$1"; fi
     }
-
+    touch /var/plexguide/uagent
+    uagentrandom="$(cat /var/plexguide/uagent)"
+    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" ]]; then
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    uagent=$(cat /var/plexguide/uagent)
+    echo "$randomagent" >/var/plexguide/uagent
+    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
+	
     # rest standard
     mkdir -p /var/plexguide/rclone
     variable /var/plexguide/project.account "NOT-SET"
@@ -160,9 +167,9 @@ pgclonevars() {
 
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
 
-    if [[ $(cat /var/plexguide/uagent) == "" ]]; then
-        echo "rclone/v1.48" >/var/plexguide/uagent
-    fi
+    # if [[ $(cat /var/plexguide/uagent) == "" ]]; then
+        # echo "rclone/v1.48" >/var/plexguide/uagent
+    # fi
 
     if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then
         echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw
@@ -200,15 +207,15 @@ pgclonevars() {
         echo "2048M" >/var/plexguide/vfs_rcsl
     fi
 
-    #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    variable /var/plexguide/uagent "$randomagent"    
+    # #randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    # randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    # variable /var/plexguide/uagent "$randomagent"    
 
-    uagent=$(cat /var/plexguide/uagent)
-    echo "$randomagent" >/var/plexguide/uagent
-    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent   
+    # uagent=$(cat /var/plexguide/uagent)
+    # echo "$randomagent" >/var/plexguide/uagent
+    # echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent   
 
-    variable /var/plexguide/uagent "$randomagent"
-    #uagent=$(cat /var/plexguide/uagent) 
+    # variable /var/plexguide/uagent "$randomagent"
+    # #uagent=$(cat /var/plexguide/uagent) 
 
 }

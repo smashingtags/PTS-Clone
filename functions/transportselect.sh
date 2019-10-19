@@ -13,10 +13,13 @@ transportselect() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NOTE: Please visit the link and understand what your doing first!
 
+LINK : https://github.com/MrDoobPG/PGBlitz.com/wiki/PG-Clone
+
 [1] Move  Unencrypt: Data > GDrive | Novice  | 750GB Daily Transfer Max
 [2] Move  Encrypted: Data > GDrive | Novice  | 750GB Daily Transfer Max
 [3] Blitz Unencrypt: Data > TDrive | Complex | Exceed 750GB Transport Cap
 [4] Blitz Encrypted: Data > TDrive | Complex | Exceed 750GB Transport Cap
+
 [5] Local Edition  : Local HDs     | Easy    | Utilizes System's HD's Only
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
