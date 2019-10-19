@@ -18,6 +18,11 @@ pgclonevars() {
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
+
+    touch /var/plexguide/cloneclean
+    cloneclean="$(cat /var/plexguide/cloneclean)"
+    if [[ "$cloneclean" == "600" || "$cloneclean" == "" ||"$cloneclean" == "NON-SET" ]]; then
+    echo "600" >/var/plexguide/cloneclean; fi
 	
     # rest standard
     mkdir -p /var/plexguide/rclone
