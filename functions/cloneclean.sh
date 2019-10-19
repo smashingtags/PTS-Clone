@@ -5,6 +5,9 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
+# For Clone Clean
+variable /var/plexguide/cloneclean "600"
+
 changeCloneCleanInterval() {
   pgclonevars
 

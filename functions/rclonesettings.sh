@@ -12,13 +12,13 @@ rcloneSettings() {
     if [[ "$transport" == "be" || "$transport" == "bu" ]]; then
         bwlimitVar="blitz.bw"
     fi
-
+    uagent=$(cat /var/plexguide/uagent)
     bwlimit=$(cat "/var/plexguide/$bwlimitVar")
 
     tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 RClone Settings                 
+💪 RClone Settings
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Please read each setting description carefully as it explains the function
@@ -432,7 +432,6 @@ reloadServices() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Quick Deploy 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 This will restart the rclone services for rclone settings changes to take effect.
 
 ⚠ Warning!
@@ -489,41 +488,28 @@ Changing the useragent is useful when experience 429 problems from Google
 
 Do not wrap the string in double quotes!
 
-for Random useragent typ >> random or RANDOM
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
     if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
-#######userinput##
+
+
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-        sleep 5
-        tee <<-EOF
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        🚀 Updated User Agent for RClone now $(cat /var/plexguide/uagent)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-		EOF
+#    settingUpdatedNotice
+#    rcloneSettings
+
+    uagentrandom="$(cat /var/plexguide/uagent)"
+    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    echo "$randomagent" >/var/plexguide/uagent
+    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
+
     settingUpdatedNotice
     rcloneSettings
-#######random part###
-uagentrandom="$(cat /var/plexguide/uagent)"
-    if [[ "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM"  ]]; then
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    uagent=$(cat /var/plexguide/uagent)
-    echo "$randomagent" >/var/plexguide/uagent
-    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-        sleep 5
-        tee <<-EOF
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        🚀 Updated User Agent for RClone now $(cat /var/plexguide/uagent)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-			EOF
-    fi
 }
 
 settingUpdatedNotice() {

@@ -20,7 +20,7 @@
     state: present
 
 - cron:
-    name: Weekly log cleaner
+    name: Daily log cleaner
     special_time: 'daily'
     job: 'tlogs'
     state: present

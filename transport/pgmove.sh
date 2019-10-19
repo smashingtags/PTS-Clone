@@ -43,7 +43,7 @@ while true; do
     echo " Checking for files to upload... " >>/var/plexguide/logs/pgmove.log
 
     rsync "$hdpath/downloads/" "$hdpath/move/" \
-        -aq --remove-source-files --link-dest="$hdpath/downloads/" \
+        -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
         --exclude-from="/opt/appdata/plexguide/transport.exclude" \
         --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
