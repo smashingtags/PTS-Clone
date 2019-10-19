@@ -496,8 +496,19 @@ EOF
     read -p '↘️  Type User Agent | PRESS [ENTER]: ' varinput </dev/tty
     if [[ "$varinput" == "exit" || "$varinput" == "Exit" || "$varinput" == "EXIT" || "$varinput" == "z" || "$varinput" == "Z" ]]; then rcloneSettings; fi
 
+
     echo "$varinput" >/var/plexguide/uagent
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
+#    settingUpdatedNotice
+#    rcloneSettings
+
+    uagentrandom="$(cat /var/plexguide/uagent)"
+    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
+    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    uagent=$(cat /var/plexguide/uagent)
+    echo "$randomagent" >/var/plexguide/uagent
+    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
+
     settingUpdatedNotice
     rcloneSettings
 }
