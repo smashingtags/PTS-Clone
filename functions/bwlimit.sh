@@ -62,12 +62,24 @@ EOF
     else
         if [[ "$typed" -ge "0" && "$typed" -le "10000" ]]; then
             echo "${typed}M" >"/var/plexguide/$bwlimitVar"
-            rcloneSettingUpdatedNotice
+            settingUpdatedNotice
         else
             badinput
             setThrottle
         fi
     fi
+}
+
+settingUpdatedNotice() {
+
+    tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✔️ Settings have been updated!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+    read -rp '↘️  Press [ENTER] to continue ' typed </dev/tty
 }
 
 addCustomTimeTablePart() {
