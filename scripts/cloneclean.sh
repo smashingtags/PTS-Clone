@@ -13,12 +13,12 @@ cloneclean() {
     cleaner="$(cat /var/plexguide/cloneclean)"
 
     #permissions part for clonecleaner */move folder*
-    find "$hdpath/move/" -mindepth 1 -type d -exec chmod -R 775 {} \+ >/dev/null 2>&1
-    find "$hdpath/move/" -mindepth 1 -type f -exec chmod -R 775 {} \+ >/dev/null 2>&1
+    find "$hdpath/move/" -mindepth 1 -type d -exec chmod -R 775 {} \+
+    find "$hdpath/move/" -mindepth 1 -type f -exec chmod -R 775 {} \+
 
     #permissions part for clonecleaner */move folder*
-    find "$hdpath/move/" -mindepth 1 -type d -exec chwon -cR 1000:1000 {} \+ >/dev/null 2>&1
-    find "$hdpath/move/" -mindepth 1 -type f -exec chwon -cR 1000:1000 {} \+ >/dev/null 2>&1
+    find "$hdpath/move/" -mindepth 1 -type d -exec chwon -cR 1000:1000 {} \+
+    find "$hdpath/move/" -mindepth 1 -type f -exec chwon -cR 1000:1000 {} \+
     
     #NOTE NZB CLIENTS USED THEN SAME NOW
     find "$hdpath/downloads/nzb" -mindepth 1 -type f -cmin +$cleaner -size -3G 2>/dev/null -exec rm -rf  \{\} \;
