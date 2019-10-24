@@ -25,8 +25,9 @@ ExecStart=/usr/bin/rclone mount {{drive}}: /mnt/{{drive}} \
 --timeout=1h \
 --tpslimit=10 \
 --drive-skip-gdocs \
---poll-interval 15s \
+--poll-interval 10s \
 --dir-cache-time 1000h \
+ --cache-db-purge \
 --attr-timeout 1000h \
 --user-agent="${uagent}" \
 --dir-cache-time="${vfs_dct}" \
