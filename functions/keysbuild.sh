@@ -12,6 +12,7 @@ keyslists() {
 FIRSTV=$keyposs
 SECONDV=1
 keysposscount=$(expr $FIRSTV - $SECONDV)
+echo $keysposscount
 }
 
 keystart() {
