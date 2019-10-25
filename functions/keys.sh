@@ -47,9 +47,9 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TIPS:
-1. Did you set up your gcrypt accordingly to the wiki?
+[ 1. ] Did you set up your gcrypt accordingly to the wiki?
 
-2. Did you ensure that the gcrypt overlapped on gdrive per the wiki?
+[ 2. ] Did you ensure that the gcrypt overlapped on gdrive per the wiki?
 
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
@@ -102,7 +102,7 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TIPS:
-1. Did you set up your $type accordingly to the wiki?
+[ 1. ] Did you set up your $type accordingly to the wiki?
 
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
@@ -155,7 +155,7 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TIPS:
-1. Did you set up your $type accordingly to the wiki?
+[ 1. ] Did you set up your $type accordingly to the wiki?
 
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
@@ -208,7 +208,7 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TIPS:
-1. Did you set up your keys and share out your emails per the blitz wiki?
+[ 1. ] Did you set up your keys and share out your emails per the blitz wiki?
 
 EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
@@ -262,9 +262,9 @@ EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TIPS:
-1. Did you copy your username and password correctly?
-2. When you created the credentials, did you select "Other"?
-3. Did you enable your API?
+[ 1. ] Did you copy your username and password correctly?
+[ 2. ] When you created the credentials, did you select "Other"?
+[ 3. ] Did you enable your API?
 
 EOF
     echo "Not Active" >/var/plexguide/gdrive.pgclone
@@ -391,16 +391,16 @@ gdsabuild() {
     echo "password2 = $ENC_SALT" >>$rpath
   fi
 }
-keyslists() {
-gcloud90=$(gcloud iam service-accounts list | tail -n 1 | grep -c "blitz89")
-gcloud80=$(gcloud iam service-accounts list | tail -n 1 | grep -c "blitz79")
 
-if [[ $gcloud90 == "1" ]]; then
-echo -e "only 10 keys"
-elif [[ $gcloud80 == "0" ]]; then
-echo -e "20 keys or more"
-fi
+keyslists() {
+ kread=$(gcloud --account=amderkum@free-4-live.rocks iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
+ keyposs=$( cat /var/plexguide/.gcloudposs )
+
+FIRSTV=$keyposs
+SECONDV=1
+keysposscount=$(expr $FIRSTV - $SECONDV)
 }
+
 
 deploykeys3() {
   tee <<-EOF
@@ -414,7 +414,7 @@ MATH:
 2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily
 10 Keys = 7.5 TB Daily | 20 Keys = 15  TB Daily
 
-Possible $keyslists
+Possible $keysposscount
 
 NOTE 1: Creating more keys DOES NOT SPEED up your transfers
 NOTE 2: Realistic key generation for most are 6 - 8 keys
@@ -675,8 +675,8 @@ keymenu() {
 🚀 Blitz Key Generation 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-[1] Google Account Login: $display5
-[2] Project Options     : [$project]
+[1] Google Account Login: [ $display5 ]
+[2] Project Options     : [ $project ]
 [3] Create Service Keys
 [4] EMail Generator
 

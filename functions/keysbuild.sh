@@ -5,27 +5,36 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
+keyslists() {
+ kread=$(gcloud --account=amderkum@free-4-live.rocks iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
+ keyposs=$( cat /var/plexguide/.gcloudposs )
+
+FIRSTV=$keyposs
+SECONDV=1
+keysposscount=$(expr $FIRSTV - $SECONDV)
+}
+
 keystart() {
   pgclonevars
 
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Key Builder
+🚀 SYSTEM MESSAGE: Key Number Selection! (From 2 thru 20 )
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-QUESTION - Create how many keys for Blitz? (From 2 thru 20 )
+QUESTION - Create how many keys for Blitz? 
 
 MATH:
 2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily
 10 Keys = 7.5 TB Daily | 20 Keys = 15  TB Daily
 
+Possible $keysposscount
+
 NOTE 1: Creating more keys DOES NOT SPEED up your transfers
-NOTE 2: Realistic key generation for most are 6 keys
-NOTE 3: Generating 100 keys over time, you must delete them all to create
-        more, which is why making tons of keys is not ideal!
-        
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[Z] Exit
+NOTE 2: Realistic key generation for most are 6 - 8 keys
+NOTE 3: 20 Keys are only for GCE Feeder !!
+
+💬 # of Keys Generated Sets Your Daily Upload Limit!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
