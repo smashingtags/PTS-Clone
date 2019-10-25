@@ -5,18 +5,16 @@
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
 ################################################################################
-keyslists() {
+keystart() {
+  pgclonevars
+
  kread=$(gcloud --account=amderkum@free-4-live.rocks iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
  keyposs=$( cat /var/plexguide/.gcloudposs )
 
 FIRSTV=$keyposs
 SECONDV=1
 keysposscount=$(expr $FIRSTV - $SECONDV)
-echo $keysposscount
-}
-
-keystart() {
-  pgclonevars
+#echo $keysposscount
 
   tee <<-EOF
 
