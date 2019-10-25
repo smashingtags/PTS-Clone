@@ -392,7 +392,7 @@ gdsabuild() {
   fi
 }
 deploykeys3() {
- kread=$(gcloud --account=amderkum@free-4-live.rocks iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
+ kread=$(gcloud --account=${pgcloneemail} iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
  keyposs=$( cat /var/plexguide/.gcloudposs )
 
 FIRSTV=$keyposs

@@ -8,7 +8,7 @@
 keystart() {
   pgclonevars
 
- kread=$(gcloud --account=amderkum@free-4-live.rocks iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
+ kread=$(gcloud --account=${pgcloneemail} iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
  keyposs=$( cat /var/plexguide/.gcloudposs )
 
 FIRSTV=$keyposs
@@ -27,7 +27,7 @@ MATH:
 2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily
 10 Keys = 7.5 TB Daily | 20 Keys = 15  TB Daily
 
-Possible $keysposscount
+Possible $keysposscount keys to build for $pgcloneproject
 
 NOTE 1: Creating more keys DOES NOT SPEED up your transfers
 NOTE 2: Realistic key generation for most are 6 - 8 keys
