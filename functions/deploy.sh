@@ -204,9 +204,9 @@ deployblitzstartcheck() {
 ⛔ Fail Notice
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-💬  There are [0] keys generated for PG Blitz! Create those first!
+💬  There are [0] keys generated for Blitz! Create those first!
 
-NOTE: Without any keys, PG Blitz cannot upload any data without the use
+NOTE: Without any keys, Blitz cannot upload any data without the use
 of service accounts
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -370,7 +370,7 @@ deploySuccess() {
 💪 DEPLOYED: $finaldeployoutput
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-PGClone has been deployed sucessfully!
+rClone has been deployed sucessfully!
 All services are active and running normally.
 
 EOF
