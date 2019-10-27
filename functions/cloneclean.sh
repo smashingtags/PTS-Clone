@@ -10,7 +10,7 @@ variable /var/plexguide/cloneclean "600"
 
 changeCloneCleanInterval() {
   pgclonevars
-
+cleaner="$(cat /var/plexguide/cloneclean)"
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -20,9 +20,15 @@ changeCloneCleanInterval() {
 Clone Clean deletes garbage files in your downloads folder per every
 [$cloneCleanInterval] minutes!
 
-TORRENT USERS: Recommend that you set this number higher! If seeding,
-Clone Clean will destory the seed files. Please set this number to a high
-number of minutes. (IE - 1440 minutes = 1 day | 14440 minutes = 10 days)
+TORRENT USERS: 
+if you take a time of 600 now this is 
+automatically doubled for the torrent folder,
+
+sample :  
+cc = 300  * 2 = 600  ( torrent folder )
+cc = 600  * 2 = 1200 ( torrent folder )
+cc = 800  * 2 = 1600 ( torrent folder )
+cc = 1000 * 2 = 2000 ( torrent folder )
 
 WARNING: Do not set this too low because legitmate files!
 
