@@ -7,7 +7,7 @@
 ################################################################################
 ---
 - cron:
-    name: Hourly Clean PG Clone Clean
+    name: Hourly Clean Clone Clean
     special_time: 'hourly'
     job: 'bash /opt/pgclone/bin/templates/cloneclean.sh'
     state: absent
