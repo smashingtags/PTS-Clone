@@ -9,10 +9,10 @@
 - hosts: localhost
   gather_facts: false
   tasks:
-    - name: include PGClone aliases
+    - name: include rClone aliases
       include_tasks: '/opt/pgclone/bin/bin.yml'
 
-    - name: include PGClone cron jobs
+    - name: include rClone cron jobs
       include_tasks: '/opt/pgclone/ymls/cron.yml'
 
     - name: Register HD Path
@@ -23,7 +23,7 @@
       shell: 'cat /var/plexguide/vfs_dcs'
       register: vfs_dcs
 
-    - debug: msg="PGBlitz Type - {{transport}}"
+    - debug: msg="Blitz Type - {{transport}}"
     - debug: msg="HD Path - {{hdpath.stdout}}"
 
     - name: 'If Fact Matches - Encrypted Blitz'
@@ -88,25 +88,25 @@
         echo "type = union" >> /opt/appdata/plexguide/rclone.conf
         echo "{{path}}" >> /opt/appdata/plexguide/rclone.conf
 
-    - name: 'PG Blitz Execution'
+    - name: 'Blitz Execution'
       block:
         - name: Bandwidth Limit
           shell: 'cat /var/plexguide/blitz.bw'
           register: bandwidth
 
-        - name: Install PG Blitz Script
+        - name: Install Blitz Script
           template:
             src: /opt/pgclone/transport/pgblitz.sh
             dest: /opt/appdata/plexguide/pgblitz.sh
             force: yes
 
-        - name: Install PG Blitz Service
+        - name: Install Blitz Service
           template:
             src: /opt/pgclone/transport/pgblitz.service
             dest: /etc/systemd/system/pgblitz.service
             force: yes
 
-        - name: Reload PG Blitz Service
+        - name: Reload Blitz Service
           systemd:
             daemon_reload: yes
             enabled: yes
@@ -116,7 +116,7 @@
       when: (transport == "be") or
         (transport == "bu")
 
-    - name: 'PG Move Execution'
+    - name: 'Move Execution'
       block:
         - name: Bandwidth Limit
           shell: 'cat /var/plexguide/move.bw'
@@ -152,24 +152,24 @@
       when: (transport == "me") or
         (transport == "mu")
 
-    - name: Install PGUnion Script
+    - name: Install Union Script
       template:
         src: /opt/pgclone/mounts/pgunion.sh
         dest: /opt/appdata/plexguide/pgunion.sh
         force: yes
 
-    - name: Install PGUnion Service
+    - name: Install Union Service
       template:
         src: /opt/pgclone/mounts/pgunion.service
         dest: /etc/systemd/system/pgunion.service
         force: yes
 
-    - name: Reload PGUnion Service
+    - name: Reload Union Service
       systemd:
         daemon_reload: yes
         enabled: yes
         state: reloaded
         name: pgunion
 
-    - name: 'Waiting for PGUnion to initialize'
+    - name: 'Waiting for Union to initialize'
       wait_for: timeout=2
