@@ -411,11 +411,12 @@ MATH:
 2  Keys = 1.5 TB Daily | 6  Keys = 4.5 TB Daily
 10 Keys = 7.5 TB Daily | 20 Keys = 15  TB Daily
 
-Possible $keysposscount
+Possible $keysposscount before you hit the 100 SAC's
 
 NOTE 1: Creating more keys DOES NOT SPEED up your transfers
 NOTE 2: Realistic key generation for most are 6 - 8 keys
 NOTE 3: 20 Keys are only for GCE Feeder !!
+NOTE 4: maximum of SAC is 100 , remove unused keys !!
 
 💬 # of Keys Generated Sets Your Daily Upload Limit!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
