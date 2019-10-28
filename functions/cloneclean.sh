@@ -21,8 +21,8 @@ Clone Clean deletes garbage files in your downloads folder per every
 [$cloneCleanInterval] minutes!
 
 TORRENT USERS: 
-if you take a time of 600 now this is 
-automatically doubled for the torrent folder,
+If you take a time of 600 now, this will
+automatically doubled for the torrent folder
 
 sample :  
 cc = 300  * 2 = 600  ( torrent folder )
