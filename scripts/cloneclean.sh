@@ -11,8 +11,9 @@ cloneclean() {
     # Outside Variables
     hdpath="$(cat /var/plexguide/server.hd.path)"
     cleaner="$(cat /var/plexguide/cloneclean)"
-    #### Mathe part for torrent files
-    ((produkt=$cleaner*2))
+    #### Mathe part for torrent / nzb files
+    ((torrent=$cleaner*2))
+    ((nzb=$cleaner/3))
 
     #permissions part for clonecleaner */move folder*
 #    find "$hdpath/move" -mindepth 1 -exec chmod -cR 755 {} \+
@@ -24,10 +25,11 @@ cloneclean() {
 
     #NOTE NZB CLIENTS USED THEN SAME NOW
     find "$hdpath/downloads/nzb/" -mindepth 1 -type d -mmin +$cleaner 2>/dev/null -exec rm -rf \{} \;
-    find "$hdpath/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +$cleaner 2>/dev/null -exec rm -rf \{} \;
+    find "$hdpath/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +$nzb 2>/dev/null -exec rm -rf \{} \;
+    find "$hdpath/incomplete/nzb/" -mindepth 1 -type d -mmin +$cleaner 2>/dev/null -exec rm -rf \{} \;
 
     #NOTE TORRENT CLIENTS USED THE SAME NOW
-    find "$hdpath/downloads/torrent" -mindepth 2 -type d -mmin +$produkt 2>/dev/null -exec rm -rf \{} \;
+    find "$hdpath/downloads/torrent" -mindepth 2 -type d -mmin +$torrent 2>/dev/null -exec rm -rf \{} \;
 
     # Remove empty directories
     find "$hdpath/move" -mindepth 2 -type d -empty -exec rmdir \{} \;
