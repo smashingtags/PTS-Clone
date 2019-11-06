@@ -26,7 +26,6 @@ cloneclean() {
     #NOTE NZB CLIENTS USED THEN SAME NOW
     find "$hdpath/downloads/nzb/" -mindepth 1 -type d -mmin +$cleaner 2>/dev/null -exec rm -rf \{} \;
     find "$hdpath/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +$nzb 2>/dev/null -exec rm -rf \{} \;
-    find "$hdpath/incomplete/nzb/" -mindepth 1 -type d -mmin +$cleaner 2>/dev/null -exec rm -rf \{} \;
 
     #NOTE TORRENT CLIENTS USED THE SAME NOW
     find "$hdpath/downloads/torrent" -mindepth 2 -type d -mmin +$torrent 2>/dev/null -exec rm -rf \{} \;
