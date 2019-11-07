@@ -7,3 +7,5 @@
 *SAMPLE*
 *.png
 *.html
+*.backup~
+*.partical~
