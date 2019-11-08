@@ -10,7 +10,7 @@ deploypgblitz() {
 
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
-  echo "#PGClone| Visit https://pgblitz.com" >>/opt/appdata/plexguide/rclone.conf
+  echo "# rClone.config created over rclone " >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
 
   cat /opt/appdata/plexguide/.gdrive >>/opt/appdata/plexguide/rclone.conf
@@ -35,7 +35,7 @@ deploypgblitz() {
 deploypgmove() {
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
-  echo "#PGClone| Visit https://pgblitz.com" >>/opt/appdata/plexguide/rclone.conf
+  echo "# rClone.config created over rclone"  >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
 
   cat /opt/appdata/plexguide/.gdrive >/opt/appdata/plexguide/rclone.conf
