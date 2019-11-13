@@ -7,6 +7,18 @@
 ################################################################################
 rcstored="$(rclone --version | awk '{print $2}' | tail -n 3 | head -n 1 )"
 mgstored="$(mergerfs -v | grep 'mergerfs version:' | awk '{print $3}')"
+sudocheck() {
+  if [[ $EUID -ne 0 ]]; then
+    tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔️  You Must Execute as a SUDO USER (with sudo) or as ROOT!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+    exit 1
+  fi
+}
 clonestartoutput() {
     pgclonevars
 echo "ACTIVELY DEPLOYED: 	  $dversionoutput "
