@@ -234,8 +234,8 @@ prunedocker() {
 createmountfolders() {
   mkdir -p /mnt/{gdrive,tdrive,gcrypt,tcrypt}
 
-  chown 1000:1000 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
-  chmod 755 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
+  chown -R 1000:1000 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
+  chmod -R 755 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
 }
 
 cleanmounts() {
@@ -336,18 +336,19 @@ deployFail() {
 ⛔ DEPLOY FAILED: $finaldeployoutput
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-An error has occurred when deploying PGClone.
+An error has occurred when deploying rClone.
 Your apps are currently stopped to prevent data loss.
 
-Things to try: If you just finished the initial setup, you likely made a typo
-or other error when configuring PGClone. Please redo the pgclone config first
-before reporting an issue.
+Things to try: 
+If you just finished the initial setup, you likely made a typo
+or other error when configuring rClone. 
+Please redo the rclone config first before reporting an issue.
 
 If this issue still persists:
 Please share this error on discord or the forums before proceeding.
 
 If there error says the mount is not empty, then you need to reboot your
-server and redeploy PGClone to fix.
+server and redeploy rClone to fix.
 
 Error details: 
 $erroroutput

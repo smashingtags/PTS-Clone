@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Title:      PGBlitz (Reference Title File)
-# Author(s):  Admin9705
-# URL:        https://pgblitz.com - http://github.pgblitz.com
+# Title:      bwlimit for rclone
+# Author(s):  subse7en
 # GNU:        General Public License v3.0
 ################################################################################
 
