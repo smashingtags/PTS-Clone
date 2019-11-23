@@ -11,7 +11,7 @@ keyinputpublic() {
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 PG Clone - Change Values? ~ pgclone.pgblitz.com
+🚀 rClone - Change Values?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CLIENT ID
 $pgclonepublic
@@ -162,8 +162,8 @@ publicsecretchecker() {
 
 💬  Public & Secret Key - NOT SET!
 
-NOTE: Nothing can occur unless the public & secret key are set! Without
-setting them; PTS cannot create keys, or create rclone configurations
+NOTE: Nothing can occur unless the public & secret key are set! 
+Without setting them; PTS cannot create keys, or create rclone configurations
 to mount the required drives!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
