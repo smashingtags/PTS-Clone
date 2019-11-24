@@ -184,45 +184,28 @@ EOF
 
 localstartoutput() {
     case $typed in
-    1)
-        executelocal
-        ;;
-    2)
-        bash /opt/plexguide/menu/pgcloner/multihd.sh
-        ;;
-    3)
-        transportselect
-        ;;
-    z)
-        exit
-        ;;
-    Z)
-        exit
-        ;;
-    *)
-        clonestart
-        ;;
+    1) executelocal ;;
+    2) bash /opt/plexguide/menu/multihd/multihd.sh ;;
+    3) transportselect ;;
+    z) exit ;;
+    Z) exit ;;
+    *) clonestart ;;
     esac
+
     clonestart
 }
 
 clonestartactions() {
     if [[ "$transport" == "mu" ]]; then
         case $typed in
-        1)
-            keyinputpublic
-            ;;
+        1)  keyinputpublic ;;
         2)
             publicsecretchecker
             echo "gdrive" >/var/plexguide/rclone/deploy.version
             oauth
             ;;
-        z)
-            exit
-            ;;
-        Z)
-            exit
-            ;;
+        z)  exit ;;
+        Z)  exit ;;
         a)
             publicsecretchecker
             mountchecker
@@ -234,23 +217,15 @@ clonestartactions() {
             deploypgmove
             ;; ## flll
         o) optionsmenumove ;;
-
         O) optionsmenumove ;;
-        s)
-            rcloneSettings
-            ;;
-        S)
-            rcloneSettings
-            ;;
-        *)
-            clonestart
-            ;;
+        s) rcloneSettings ;;
+        S) rcloneSettings ;;
+        *) clonestart ;;
         esac
+
     elif [[ "$transport" == "me" ]]; then
         case $typed in
-        1)
-            keyinputpublic
-            ;;
+        1)  keyinputpublic ;;
         2)
             publicsecretchecker
             blitzpasswordmain
@@ -261,12 +236,8 @@ clonestartactions() {
             echo "gdrive" >/var/plexguide/rclone/deploy.version
             oauth
             ;;
-        z)
-            exit
-            ;;
-        Z)
-            exit
-            ;;
+        z) exit ;;
+        Z) exit ;;
         a)
             publicsecretchecker
             passwordcheck
@@ -278,31 +249,19 @@ clonestartactions() {
             passwordcheck
             mountchecker
             deploypgmove
-            ;; ## flll
-        s)
-            rcloneSettings
             ;;
-        S)
-            rcloneSettings
-            ;;
+        s) rcloneSettings ;;
+        S) rcloneSettings ;;
         o) optionsmenumove ;;
-
         O) optionsmenumove ;;
-        *)
-            clonestart
-            ;;
+        *) clonestart ;;
         esac
+
     elif [[ "$transport" == "bu" ]]; then
         case $typed in
-        1)
-            glogin
-            ;;
-        2)
-            exisitingproject
-            ;;
-        3)
-            keyinputpublic
-            ;;
+        1)  glogin ;;
+        2)  exisitingproject ;;
+        3)  keyinputpublic ;;
         4)
             publicsecretchecker
             tlabeloauth
@@ -334,12 +293,8 @@ clonestartactions() {
             deployblitzstartcheck
             emailgen
             ;;
-        z)
-            exit
-            ;;
-        Z)
-            exit
-            ;;
+        z)  exit ;;
+        Z)  exit ;;
         a)
             publicsecretchecker
             tlabelchecker
@@ -365,37 +320,25 @@ clonestartactions() {
         r)
             publicsecretchecker
             mountchecker
-            keybackup
+            keyrestore
             ;; ## fill
         R)
             publicsecretchecker
             mountchecker
-            keybackup
+            keyrestore
             ;;
-        s)
-            rcloneSettings
-            ;;
-        S)
-            rcloneSettings
-            ;;
+        s) rcloneSettings;;
+        S) rcloneSettings ;;
         o) optionsmenumove ;;
-
         O) optionsmenumove ;;
-        *)
-            clonestart
-            ;;
+        *) clonestart ;;
         esac
+
     elif [[ "$transport" == "be" ]]; then
         case $typed in
-        1)
-            glogin
-            ;;
-        2)
-            exisitingproject
-            ;;
-        3)
-            keyinputpublic
-            ;;
+        1)  glogin ;;
+        2)  exisitingproject ;;
+        3)  keyinputpublic ;;
         4)
             publicsecretchecker
             blitzpasswordmain
@@ -417,7 +360,6 @@ clonestartactions() {
             echo "gdrive" >/var/plexguide/rclone/deploy.version
             oauth
             ;;
-
         8)
             publicsecretchecker
             passwordcheck
@@ -436,60 +378,50 @@ clonestartactions() {
             deployblitzstartcheck
             emailgen
             ;;
-        z)
-            exit
-            ;;
-        Z)
-            exit
-            ;;
+        z) exit ;;
+        Z) exit ;;
         a)
             publicsecretchecker
             passwordcheck
             tlabelchecker
             mountchecker
             deploypgblitz
-            ;; ## fill
+            ;; 
         A)
             publicsecretchecker
             passwordcheck
             tlabelchecker
             mountchecker
             deploypgblitz
-            ;; ## flll
+            ;; 
         b)
             publicsecretchecker
             passwordcheck
             mountchecker
             keybackup
-            ;; ## fill
+            ;; 
         B)
             publicsecretchecker
             passwordcheck
             mountchecker
             keybackup
-            ;; ## flll
+            ;; 
         r)
             publicsecretchecker
             passwordcheck
             mountchecker
-            keybackup
-            ;; ## fill
+            keyrestore
+            ;; 
         R)
             publicsecretchecker
             passwordcheck
             mountchecker
-            keybackup ;;
+            keyrestore ;;
         o) optionsmenu ;;
         O) optionsmenu ;;
-        s)
-            rcloneSettings
-            ;;
-        S)
-            rcloneSettings
-            ;;
-        *)
-            clonestart
-            ;;
+        s) rcloneSettings ;;
+        S) rcloneSettings ;;
+        *) clonestart ;;
         esac
     fi
     clonestart
@@ -525,37 +457,16 @@ EOF
     read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
 
     case $typed in
-    1)
-        transportselect
-        clonestart
-        ;;
-    2)
-        bash /opt/plexguide/menu/pgcloner/multihd.sh
-        ;;
-    3)
-        deletekeys
-        ;;
-    4)
-        projectnameset
-        ;;
-    5)
-        demomode
-        ;;
-    6)
-        changeCloneCleanInterval
-        ;;
-    7)
-        ctdrive
-        ;;
-    Z)
-        clonestart
-        ;;
-    z)
-        clonestart
-        ;;
-    *)
-        optionsmenu
-        ;;
+    1)  transportselect && clonestart ;;
+    2)  bash /opt/plexguide/menu/multihd/multihd.sh ;;
+    3)  deletekeys ;;
+    4)  projectnameset ;;
+    5)  demomode ;;
+    6)  changeCloneCleanInterval ;;
+    7)  ctdrive ;;
+    Z)  clonestart ;;
+    z)  clonestart ;;
+    *)  optionsmenu ;;
     esac
     optionsmenu
 }
@@ -585,25 +496,12 @@ EOF
     read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
 
     case $typed in
-    1)
-        transportselect
-        clonestart
-        ;;
-    2)
-        bash /opt/plexguide/menu/pgcloner/multihd.sh
-        ;;
-    3)
-        changeCloneCleanInterval
-        ;;
-    Z)
-        clonestart
-        ;;
-    z)
-        clonestart
-        ;;
-    *)
-        optionsmenu
-        ;;
+    1) transportselect && clonestart ;;
+    2) bash /opt/plexguide/menu/multihd/multihd.sh ;;
+    3) changeCloneCleanInterval ;;
+    Z) clonestart ;;
+    z) clonestart ;;
+    *) optionsmenu ;;
     esac
     optionsmenu
 }
