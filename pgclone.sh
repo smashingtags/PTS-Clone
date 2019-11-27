@@ -24,7 +24,6 @@ source /opt/pgclone/functions/oauthcheck.sh
 source /opt/pgclone/functions/keysbuild.sh
 source /opt/pgclone/functions/emails.sh
 source /opt/pgclone/functions/deploy.sh
-source /opt/pgclone/functions/rcloneinstall.sh
 source /opt/pgclone/functions/deploymove.sh
 source /opt/pgclone/functions/deployblitz.sh
 source /opt/pgclone/functions/multihd.sh
