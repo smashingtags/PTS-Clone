@@ -40,18 +40,10 @@ EOF
     read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
 
     case $typed in
-    1)
-      transportselect
-      ;;
-    z)
-      exit
-      ;;
-    Z)
-      exit
-      ;;
-    *)
-      mustset
-      ;;
+    1) transportselect ;;
+    z) exit ;;
+    Z) exit ;;
+    *) mustset ;;
     esac
   fi
 }
