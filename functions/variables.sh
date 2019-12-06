@@ -30,11 +30,16 @@ pgclonevars() {
     variable /var/plexguide/rclone/deploy.version "null"
     variable /var/plexguide/pgclone.transport "NOT-SET"
     variable /var/plexguide/move.bw "9M"
-    variable /var/plexguide/blitz.bw "1000M"
+    # variable /var/plexguide/blitz.bw "1000M"
     variable /var/plexguide/pgclone.salt ""
     variable /var/plexguide/multihd.paths ""
     variable /var/plexguide/server.hd.path "/mnt"
     hdpath="$(cat /var/plexguide/server.hd.path)"
+
+    gce="/var/plexguide/gce.check"
+   if [[ ! -e $gce ]]; then
+       variable /var/plexguide/blitz.bw "1000M"
+   else variable /var/plexguide/blitz.bw "4500M"; fi
 
     variable /var/plexguide/oauth.check ""
     oauthcheck=$(cat /var/plexguide/oauth.check)
@@ -129,10 +134,10 @@ pgclonevars() {
     variable /var/plexguide/vfs_bs "16M"
     vfs_bs=$(cat /var/plexguide/vfs_bs)
 
-    variable /var/plexguide/vfs_dcs "128M"
+    variable /var/plexguide/vfs_dcs "64M"
     vfs_dcs=$(cat /var/plexguide/vfs_dcs)
 
-    variable /var/plexguide/vfs_dct "5m"
+    variable /var/plexguide/vfs_dct "360m"
     vfs_dct=$(cat /var/plexguide/vfs_dct)
 
     variable /var/plexguide/vfs_cm "writes"
@@ -141,32 +146,40 @@ pgclonevars() {
     variable /var/plexguide/vfs_cma "1h"
     vfs_cma=$(cat /var/plexguide/vfs_cma)
 
-    variable /var/plexguide/vfs_cms "off"
+    variable /var/plexguide/vfs_cms "100G"
     vfs_cms=$(cat /var/plexguide/vfs_cms)
 
     variable /var/plexguide/vfs_rcs "64M"
     vfs_rcs=$(cat /var/plexguide/vfs_rcs)
 
-    variable /var/plexguide/vfs_rcsl "1024M"
+    variable /var/plexguide/vfs_rcsl "2048M"
     vfs_rcsl=$(cat /var/plexguide/vfs_rcsl)
 
-    variable /var/plexguide/vfs_ll "NOTICE"
+    variable /var/plexguide/vfs_ll "ERROR"
     vfs_ll=$(cat /var/plexguide/vfs_ll)
 
-    variable /var/plexguide/vfs_t "8"
+   if [[ ! -e $gce ]]; then
+     variable /var/plexguide/vfs_t "8"
+   else variable /var/plexguide/vfs_t "16"; fi
     vfs_t=$(cat /var/plexguide/vfs_t)
 
-    variable /var/plexguide/vfs_c "16"
+   if [[ ! -e $gce ]]; then
+     variable /var/plexguide/vfs_c "16"
+   else variable /var/plexguide/vfs_c "32"; fi
     vfs_c=$(cat /var/plexguide/vfs_c)
     
-    variable /var/plexguide/vfs_mt "750G"
+    variable /var/plexguide/vfs_mt "720G"
     vfs_mt=$(cat /var/plexguide/vfs_mt)
 
-    variable /var/plexguide/vfs_test "4G"
+   if [[ ! -e $gce ]]; then
+     variable /var/plexguide/vfs_test "4G"
+   else variable /var/plexguide/vfs_test "16G"; fi
     vfs_test=$(cat /var/plexguide/vfs_test)
 
     # For BWLimit
-    variable /var/plexguide/timetable.bw "00:00,off 15:00,60M Sat-08:00,30M Sun-08:00,30M"
+   if [[ ! -e $gce ]]; then
+    variable /var/plexguide/timetable.bw "14:00,40M"
+   else variable /var/plexguide/vfs_test "off"; fi
 
     # Upgrade old var format to new var format
 
