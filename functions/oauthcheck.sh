@@ -31,7 +31,7 @@ EOF
 NOTES:
 
 [1] Did you set up your $oauthcheck accordingly to the wiki?
-[2[ Is your project active?
+[2] Is your project active?
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

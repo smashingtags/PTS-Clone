@@ -233,7 +233,6 @@ prunedocker() {
 ################################################################################
 createmountfolders() {
   mkdir -p /mnt/{gdrive,tdrive,gcrypt,tcrypt}
-
   chown -R 1000:1000 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
   chmod -R 755 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
 }
@@ -292,11 +291,11 @@ failclean() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 There was a problem unmounting $mount. Please reboot your server and try
-a redeploy of PGClone again. If this problem persists after a reboot, join
+a redeploy of PTSClone again. If this problem persists after a reboot, join
 discord and ask for help.
 
 ⚠ Warning: Your apps have been stopped to prevent data loss. Please reboot
-and redepoy PGClone to fix.
+and redepoy PTSClone to fix.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
