@@ -42,9 +42,7 @@ EOF
   exitclone
 
   num=$typed
-  if [[ "$typed" -le "0" || "$typed" -ge "51" ]]; then
-    keystart
-  elif [[ "$typed" -ge "1" && "$typed" -le "50" ]]; then
+  if [[ "$typed" -ge "1" && "$typed" -le "21" ]]; then
     keyphase2
   else keystart; fi
 }
