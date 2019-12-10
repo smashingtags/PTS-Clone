@@ -45,6 +45,7 @@ EOF
   echo "client_id = $pgclonepublic" >>/opt/appdata/plexguide/.${type}
   echo "client_secret = $pgclonesecret" >>/opt/appdata/plexguide/.${type}
   echo "type = drive" >>/opt/appdata/plexguide/.${type}
+  echo "server_side_across_configs = true" >>/opt/appdata/plexguide/.${type}
   echo -n "token = {\"access_token\":${accesstoken}\"token_type\":\"Bearer\",\"refresh_token\":${refreshtoken}\"expiry\":\"${final}\"}" >>/opt/appdata/plexguide/.${type}
   echo "" >>/opt/appdata/plexguide/.${type}
   if [ "$type" == "tdrive" ]; then
@@ -127,7 +128,6 @@ EOF
   if [[ "$token" == "exit" || "$token" == "Exit" || "$token" == "EXIT" || "$token" == "z" || "$token" == "Z" ]]; then clonestart; fi
   curl --request POST --data "code=${token}&client_id=${pgclonepublic}&client_secret=${pgclonesecret}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code" https://accounts.google.com/o/oauth2/token >/var/plexguide/token.part1
   curl -H "GData-Version: 3.0" -H "Authorization: Bearer $(cat /var/plexguide/token.part1 | grep access_token | awk '{ print $2 }' | cut -c2- | rev | cut -c3- | rev)" $gtype >$storage
-
   teamdriveselect
 }
 

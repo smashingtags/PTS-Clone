@@ -10,7 +10,7 @@ deploypgblitz() {
 
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
-  echo "#PGClone| Visit https://pgblitz.com" >>/opt/appdata/plexguide/rclone.conf
+  echo "# rClone.config created over rclone " >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
 
   cat /opt/appdata/plexguide/.gdrive >>/opt/appdata/plexguide/rclone.conf
@@ -35,7 +35,7 @@ deploypgblitz() {
 deploypgmove() {
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
-  echo "#PGClone| Visit https://pgblitz.com" >>/opt/appdata/plexguide/rclone.conf
+  echo "# rClone.config created over rclone"  >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
 
   cat /opt/appdata/plexguide/.gdrive >/opt/appdata/plexguide/rclone.conf
@@ -233,9 +233,8 @@ prunedocker() {
 ################################################################################
 createmountfolders() {
   mkdir -p /mnt/{gdrive,tdrive,gcrypt,tcrypt}
-
-  chown 1000:1000 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
-  chmod 755 -R /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
+  chown -R 1000:1000 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
+  chmod -R 755 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
 }
 
 cleanmounts() {
@@ -292,11 +291,11 @@ failclean() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 There was a problem unmounting $mount. Please reboot your server and try
-a redeploy of PGClone again. If this problem persists after a reboot, join
+a redeploy of PTSClone again. If this problem persists after a reboot, join
 discord and ask for help.
 
 ⚠ Warning: Your apps have been stopped to prevent data loss. Please reboot
-and redepoy PGClone to fix.
+and redepoy PTSClone to fix.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -336,18 +335,19 @@ deployFail() {
 ⛔ DEPLOY FAILED: $finaldeployoutput
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-An error has occurred when deploying PGClone.
+An error has occurred when deploying rClone.
 Your apps are currently stopped to prevent data loss.
 
-Things to try: If you just finished the initial setup, you likely made a typo
-or other error when configuring PGClone. Please redo the pgclone config first
-before reporting an issue.
+Things to try: 
+If you just finished the initial setup, you likely made a typo
+or other error when configuring rClone. 
+Please redo the rclone config first before reporting an issue.
 
 If this issue still persists:
 Please share this error on discord or the forums before proceeding.
 
 If there error says the mount is not empty, then you need to reboot your
-server and redeploy PGClone to fix.
+server and redeploy rClone to fix.
 
 Error details: 
 $erroroutput

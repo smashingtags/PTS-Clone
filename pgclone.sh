@@ -24,7 +24,6 @@ source /opt/pgclone/functions/oauthcheck.sh
 source /opt/pgclone/functions/keysbuild.sh
 source /opt/pgclone/functions/emails.sh
 source /opt/pgclone/functions/deploy.sh
-source /opt/pgclone/functions/rcloneinstall.sh
 source /opt/pgclone/functions/deploymove.sh
 source /opt/pgclone/functions/deployblitz.sh
 source /opt/pgclone/functions/multihd.sh
@@ -32,7 +31,6 @@ source /opt/pgclone/functions/deploylocal.sh
 source /opt/pgclone/functions/createtdrive.sh
 source /opt/pgclone/functions/bwlimit.sh
 ################################################################################
-rcloneinstall
 
 # (functions.sh) Ensures variables and folders exist
 pgclonevars
@@ -43,4 +41,5 @@ mustset
 # (functions.sh) Ensures that fuse is set correct for rclone
 rcpiece
 
+sudocheck
 clonestart

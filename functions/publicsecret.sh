@@ -11,7 +11,7 @@ keyinputpublic() {
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 PG Clone - Change Values? ~ pgclone.pgblitz.com
+🚀 rClone - Change Values?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CLIENT ID
 $pgclonepublic
@@ -57,8 +57,9 @@ EOF
 🚀 rClone - Client ID
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Visit oauth.pgblitz.com in order to generate your Client ID! Ensure that
-you input the CORRECT Client ID from your current project!
+Visit https://github.com/PTS-Team/PTS-Team/wiki/Google-OAuth-Keys in order to generate your Client ID! 
+
+Ensure that you input the CORRECT Client ID from your current project!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
@@ -79,8 +80,9 @@ keyinputsecret() {
 🚀 rClone - Secret
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Visit oauth.pgblitz.com in order to generate your Secret! Ensure that
-you input the CORRECT Secret ID from your current project!
+Visit https://github.com/PTS-Team/PTS-Team/wiki/Google-OAuth-Keys in order to generate your Secret! 
+
+Ensure thatyou input the CORRECT Secret ID from your current project!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
@@ -160,8 +162,8 @@ publicsecretchecker() {
 
 💬  Public & Secret Key - NOT SET!
 
-NOTE: Nothing can occur unless the public & secret key are set! Without
-setting them; PGBlitz cannot create keys, nor create rclone configurations
+NOTE: Nothing can occur unless the public & secret key are set! 
+Without setting them; PTS cannot create keys, or create rclone configurations
 to mount the required drives!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
