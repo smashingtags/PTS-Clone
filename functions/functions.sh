@@ -68,68 +68,6 @@ keysprocessed() {
   ls -1 /opt/appdata/plexguide/keys/processed | wc -l >/var/plexguide/project.keycount
 }
 
-# deletemelateron() {
-  # pgclonevars
-
-  # tee <<-EOF
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 💪 rClone Key Management
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# [1] Google Account Login   [$pgcloneemail]
-# [2] Project Name           [$pgcloneproject]
-# [3] Build Service Keys     [$displaykey]
-# [4] E-Mail Generator
-
-# [A] Keys Backup  ~ NOT READY
-# [B] Keys Restore ~ NOT READY
-# [C] Keys Destroy
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# [Z] Exit
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-# EOF
-
-  # read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
-
-  # case $typed in
-  # 1)
-    # glogin
-    # ;;
-  # 2)
-    # projectname
-    # ;;
-  # 3)
-    # projectnamecheck
-    # keystart
-    # gdsaemail
-    # ;;
-  # 4)
-    # projectnamecheck
-    # deployblitzstartcheck
-    # emailgen
-    # ;;
-  # c)
-    # deletekeys
-    # ;;
-  # C)
-    # deletekeys
-    # ;;
-  # z)
-    # clonestart
-    # ;;
-  # Z)
-    # clonestart
-    # ;;
-  # *)
-    # clonestart
-    # ;;
-  # esac
-  # clonestart
-# }
-
 ShortNotice() {
 
     tee <<-EOF
