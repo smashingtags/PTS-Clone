@@ -6,3 +6,5 @@
 *.html
 *.backup~
 *.partical~
+*.rar
+*.r[a0-9][r0-9]
