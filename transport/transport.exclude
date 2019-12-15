@@ -1,0 +1,11 @@
+# filename patterns to exclude from uploading
+#*.mkv
+*.nfo
+*.jpeg
+*.jpg
+*sample*
+*SAMPLE*
+*.png
+*.html
+*.backup~
+*.partical~
