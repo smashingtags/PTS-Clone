@@ -43,7 +43,7 @@ startscript() {
 
         rsync "$hdpath/downloads/" "$hdpath/move/" \
             -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
-            --exclude-from="/opt/appdata/plexguide/transport.exclude" \
+            --exclude-from="/opt/appdata/plexguide/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
         if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
@@ -61,7 +61,7 @@ startscript() {
                 --bwlimit="$bwlimit" \
                 --drive-chunk-size="$vfs_dcs" \
                 --user-agent="$useragent" \
-                --exclude-from="/opt/appdata/plexguide/transport.exclude" \
+                --exclude-from="/opt/appdata/plexguide/transport-tdrive.exclude" \
                 --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
             echo " Upload has finished. " >>/var/plexguide/logs/pgblitz.log
