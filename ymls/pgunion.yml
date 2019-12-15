@@ -70,12 +70,6 @@
         - 'downloads'
         - 'incomplete'
 
-    - name: 'Creating transport exclude file'
-      copy:
-        src: /opt/pgclone/transport/transport.exclude
-        dest: /opt/appdata/plexguide/transport.exclude
-        force: no
-
     - name: Transport Type
       shell: 'echo "" >> /opt/appdata/plexguide/rclone.conf'
 
