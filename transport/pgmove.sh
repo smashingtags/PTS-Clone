@@ -27,28 +27,19 @@ while true; do
     # USER specifying VARS 
     useragent="$(cat /var/plexguide/uagent)"
     bwlimit="$(cat /var/plexguide/move.bw)"
-
     # VFS var
     vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
-
-
     let "cyclecount++"
-
     if [[ $cyclecount -gt 4294967295 ]]; then
-        cyclecount=0
-    fi
-
+        cyclecount=0; fi
     echo "" >>/var/plexguide/logs/pgmove.log
     echo "---Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
     echo " Checking for files to upload... " >>/var/plexguide/logs/pgmove.log
-
     rsync "$hdpath/downloads/" "$hdpath/move/" \
         -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
         --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
         --exclude-from="/opt/pgclone/excluded/excluded.folder"
-
     if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
-
         rclone move "$hdpath/move/" "{{type}}:/" \
             --config=/opt/appdata/plexguide/rclone.conf \
             --log-file=/var/plexguide/logs/pgmove.log \
@@ -64,16 +55,12 @@ while true; do
             --user-agent="$useragent" \
             --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
-
         echo " Upload has finished. " >>/var/plexguide/logs/pgmove.log
     else
         echo " No files in $hdpath/move to upload. " >>/var/plexguide/logs/pgmove.log
     fi
     echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
-
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
-
-    sleep 30
-
-    cloneclean
+    sleep 10
+        cloneclean && removefilesgdrive
 done
