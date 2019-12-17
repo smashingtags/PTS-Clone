@@ -329,8 +329,8 @@ clonestartactions() {
             ;;
         s) rcloneSettings;;
         S) rcloneSettings ;;
-        o) optionsmenumove ;;
-        O) optionsmenumove ;;
+        o) optionsmenu ;;
+        O) optionsmenu ;;
         *) clonestart ;;
         esac
 
