@@ -43,7 +43,8 @@ startscript() {
                 --log-file=/var/plexguide/logs/pgblitz.log \
                 --log-level=INFO --stats=5s --stats-file-name-length=0 \
                 --max-size=300G \
-                --tpslimit=10 \
+                --tpslimit=8 \
+                --drive-pacer-min-sleep=100ms \
                 --checkers="$vfs_c" \
                 --transfers="$vfs_t" \
                 --no-traverse \
