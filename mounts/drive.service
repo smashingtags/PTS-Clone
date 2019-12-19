@@ -21,7 +21,7 @@ ExecStart=/usr/bin/rclone mount {{drive}}: /mnt/{{drive}} \
 --uid=1000 --gid=1000 --umask=002 \
 --allow-other \
 --timeout=1h \
---tpslimit=10 \
+--tpslimit=8 \
 --drive-skip-gdocs \
 --user-agent="${uagent}" \
 --dir-cache-time="${vfs_dct}" \
