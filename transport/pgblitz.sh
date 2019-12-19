@@ -37,6 +37,7 @@ startscript() {
             -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
+
         if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
             rclone moveto "$hdpath/move" "${p}{{encryptbit}}:/" \
                 --config=/opt/appdata/plexguide/rclone.conf \
@@ -48,6 +49,7 @@ startscript() {
                 --checkers="$vfs_c" \
                 --transfers="$vfs_t" \
                 --no-traverse \
+                --retries=3 \
                 --fast-list \
                 --max-transfer "$vfs_mt" \
                 --bwlimit="$bwlimit" \
