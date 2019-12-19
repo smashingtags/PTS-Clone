@@ -61,8 +61,8 @@ startscript() {
         echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
         echo "  $(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
         #sed -i -e "/Duplicate directory found in destination/d" /var/plexguide/logs/pgblitz.log
-        sleep 10
-        cloneclean && removefilestdrive
+        sleep 10 
+		cloneclean && removefilestdrive
     done </var/plexguide/.blitzfinal
 }
 

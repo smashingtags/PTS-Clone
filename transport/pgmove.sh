@@ -62,5 +62,5 @@ while true; do
     echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
     sleep 10
-        cloneclean && removefilesgdrive
+	cloneclean && removefilesgdrive
 done
