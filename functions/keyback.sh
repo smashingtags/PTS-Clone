@@ -103,7 +103,7 @@ EOF
 NOTE: Standby, takes a minute!
 
 EOF
-  rclone copyto  gdrive:/plexguide/system/$idbackup /tmp/backup/ \
+  rclone copyto gdrive:/plexguide/system/$idbackup /tmp/backup/ \
    --config=/opt/appdata/plexguide/rclone.conf \
    --stats-one-line \
    --log-level=INFO --stats=5s --stats-file-name-length=0 \

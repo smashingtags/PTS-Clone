@@ -169,7 +169,6 @@ EOF
 [A] Deploy $outputversion
 [O] Options
 [B] Backup Keys
-[R] Restore Keys
 [S] RClone Settings
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -199,23 +198,11 @@ clonestartactions() {
     if [[ "$transport" == "mu" ]]; then
         case $typed in
         1)  keyinputpublic ;;
-        2)
-            publicsecretchecker
-            echo "gdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
+        2)  publicsecretchecker && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
         z)  exit ;;
         Z)  exit ;;
-        a)
-            publicsecretchecker
-            mountchecker
-            deploypgmove
-            ;; ## fill
-        A)
-            publicsecretchecker
-            mountchecker
-            deploypgmove
-            ;; ## flll
+        a) publicsecretchecker && mountchecker && deploypgmove ;;
+		A) publicsecretchecker && mountchecker && deploypgmove ;;
         o) optionsmenumove ;;
         O) optionsmenumove ;;
         s) rcloneSettings ;;
@@ -225,31 +212,13 @@ clonestartactions() {
 
     elif [[ "$transport" == "me" ]]; then
         case $typed in
-        1)  keyinputpublic ;;
-        2)
-            publicsecretchecker
-            blitzpasswordmain
-            ;;
-        3)
-            publicsecretchecker
-            passwordcheck
-            echo "gdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
+        1) keyinputpublic ;;
+        2) publicsecretchecker && blitzpasswordmain ;;
+        3) publicsecretchecker && passwordcheck && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
         z) exit ;;
         Z) exit ;;
-        a)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            deploypgmove
-            ;; ## fill
-        A)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            deploypgmove
-            ;;
+        a) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
+        A) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
         s) rcloneSettings ;;
         S) rcloneSettings ;;
         o) optionsmenumove ;;
@@ -259,74 +228,20 @@ clonestartactions() {
 
     elif [[ "$transport" == "bu" ]]; then
         case $typed in
-        1)  glogin ;;
-        2)  exisitingproject ;;
-        3)  keyinputpublic ;;
-        4)
-            publicsecretchecker
-            tlabeloauth
-            ;;
-        5)
-            publicsecretchecker
-            tlabelchecker
-            echo "tdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
-        6)
-            publicsecretchecker
-            echo "gdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
-        7)
-            publicsecretchecker
-            tlabelchecker
-            mountchecker
-            projectnamecheck
-            keystart
-            gdsaemail
-            ;;
-        8)
-            publicsecretchecker
-            tlabelchecker
-            mountchecker
-            projectnamecheck
-            deployblitzstartcheck
-            emailgen
-            ;;
-        z)  exit ;;
-        Z)  exit ;;
-        a)
-            publicsecretchecker
-            tlabelchecker
-            mountchecker
-            deploypgblitz
-            ;; ## fill
-        A)
-            publicsecretchecker
-            tlabelchecker
-            mountchecker
-            deploypgblitz
-            ;; ## flll
-        b)
-            publicsecretchecker
-            mountchecker
-            keybackup
-            ;; ## fill
-        B)
-            publicsecretchecker
-            mountchecker
-            keybackup
-            ;; ## flll
-        r)
-            publicsecretchecker
-            mountchecker
-            keyrestore
-            ;; ## fill
-        R)
-            publicsecretchecker
-            mountchecker
-            keyrestore
-            ;;
+        1) glogin ;;
+        2) exisitingproject ;;
+        3) keyinputpublic ;;
+        4) publicsecretchecker && tlabeloauth ;;
+        5) publicsecretchecker && tlabelchecker && echo "tdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
+        6) publicsecretchecker && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
+        7) publicsecretchecker && tlabelchecker && mountchecker && projectnamecheck && keystart && gdsaemail ;;
+        8) publicsecretchecker && tlabelchecker && mountchecker && projectnamecheck && deployblitzstartcheck && emailgen ;;
+        z) exit ;;
+        Z) exit ;;
+        a) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
+        A) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
+        b) publicsecretchecker && mountchecker && keybackup ;;
+        B) publicsecretchecker && mountchecker && keybackup ;;
         s) rcloneSettings;;
         S) rcloneSettings ;;
         o) optionsmenu ;;
@@ -336,87 +251,21 @@ clonestartactions() {
 
     elif [[ "$transport" == "be" ]]; then
         case $typed in
-        1)  glogin ;;
-        2)  exisitingproject ;;
-        3)  keyinputpublic ;;
-        4)
-            publicsecretchecker
-            blitzpasswordmain
-            ;;
-        5)
-            publicsecretchecker
-            tlabeloauth
-            ;;
-        6)
-            publicsecretchecker
-            passwordcheck
-            tlabelchecker
-            echo "tdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
-        7)
-            publicsecretchecker
-            passwordcheck
-            echo "gdrive" >/var/plexguide/rclone/deploy.version
-            oauth
-            ;;
-        8)
-            publicsecretchecker
-            passwordcheck
-            tlabelchecker
-            mountchecker
-            projectnamecheck
-            keystart
-            gdsaemail
-            ;;
-        9)
-            publicsecretchecker
-            passwordcheck
-            tlabelchecker
-            mountchecker
-            projectnamecheck
-            deployblitzstartcheck
-            emailgen
-            ;;
+        1) glogin ;;
+        2) exisitingproject ;;
+        3) keyinputpublic ;;
+        4) publicsecretchecker && blitzpasswordmain ;;
+        5) publicsecretchecker && tlabeloauth ;;
+        6) publicsecretchecker && passwordcheck && tlabelchecker && echo "tdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
+        7) publicsecretchecker && passwordcheck && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
+        8) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && projectnamecheck && keystart && gdsaemail ;;
+        9) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && projectnamecheck && deployblitzstartcheck && emailgen ;;
         z) exit ;;
         Z) exit ;;
-        a)
-            publicsecretchecker
-            passwordcheck
-            tlabelchecker
-            mountchecker
-            deploypgblitz
-            ;; 
-        A)
-            publicsecretchecker
-            passwordcheck
-            tlabelchecker
-            mountchecker
-            deploypgblitz
-            ;; 
-        b)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            keybackup
-            ;; 
-        B)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            keybackup
-            ;; 
-        r)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            keyrestore
-            ;; 
-        R)
-            publicsecretchecker
-            passwordcheck
-            mountchecker
-            keyrestore ;;
+        a) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
+        A) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
+        b) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
+        B) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         o) optionsmenu ;;
         O) optionsmenu ;;
         s) rcloneSettings ;;
@@ -521,5 +370,4 @@ demomode() {
 EOF
     read -rp '' typed </dev/tty
     optionsmenu
-
 }

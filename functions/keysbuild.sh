@@ -233,21 +233,11 @@ EOF
 
   read -p '↘️  Type y or n | PRESS [ENTER]: ' typed </dev/tty
   case $typed in
-  y)
-    yesdeletekeys
-    ;;
-  Y)
-    yesdeletekeys
-    ;;
-  N)
-    clonestart
-    ;;
-  n)
-    clonestart
-    ;;
-  *)
-    deletekeys
-    ;;
+  y) yesdeletekeys ;;
+  Y) yesdeletekeys ;;
+  N) clonestart ;;
+  n) clonestart ;;
+  *) deletekeys ;;
   esac
 }
 
