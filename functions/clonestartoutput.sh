@@ -168,7 +168,7 @@ EOF
 
 [A] Deploy $outputversion
 [O] Options
-[B] Backup Keys
+[B] Backup Rclone Settings
 [S] RClone Settings
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
