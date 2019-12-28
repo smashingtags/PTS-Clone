@@ -62,6 +62,7 @@ EOF
     read -rp '↘️  Input Selection | Press [ENTER]: ' fluffycat </dev/tty
 
     case $fluffycat in
+
     1) setThrottle ;;
     2) setIntegerVariable ;;
     3) setIntegerVariable ;;
@@ -75,13 +76,14 @@ EOF
     11) setIntegerVariable ;;
     12) setIntegerVariable ;;
     13) uagent ;;
-    s) rcloneSpeedTest;;
+    s) rcloneSpeedTest ;;
     S) rcloneSpeedTest ;;
     a) reloadServices ;;
     A) reloadServices ;;
     z) clonestart && exit ;;
     Z) clonestart && exit ;;
     *) rcloneSettings ;;
+
     esac
 
 }
