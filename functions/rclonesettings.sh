@@ -31,24 +31,24 @@ Once you are done updating these settings, [A] Quick Deploy to take effect.
 [1]  BW Limit  [$bwlimit]
 [2]  Drive-Chunk-Size          64M     [$vfs_dcs]
 [3]  Transfers                 8       [$vfs_t]
-[4]  Max-Transfer              750G    [$vfs_mt]
+[4]  Max-Transfer              350G    [$vfs_mt]
 
 ⏬ Download Settings          Default  Current
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [5]  Buffer-Size               16M     [$vfs_bs]
 [6]  VFS-Read-Chunk-Size       64M     [$vfs_rcs]
-[7]  VFS-Read-Chunk-Size-Limit 1024M   [$vfs_rcsl]
+[7]  VFS-Read-Chunk-Size-Limit 2048M   [$vfs_rcsl]
 
 🔄 VFS Cache Mode Settings    Default  Current
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [8]  VFS-Cache-Mode            writes  [$vfs_cm]
 [9]  VFS-Cache-Max-Age         1h      [$vfs_cma]
-[10] VFS-Cache-Max-Size        100G    [$vfs_cms]
+[10] VFS-Cache-Max-Size        10G     [$vfs_cms]
 
 🔣 Misc Settings              Default  Current
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [11] Dir-Cache-Time            5m      [$vfs_dct]
-[12] Log-Level                 NOTICE  [$vfs_ll]
+[12] Log-Level                 ERROR   [$vfs_ll]
 [13] User Agent [$uagent]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -62,68 +62,26 @@ EOF
     read -rp '↘️  Input Selection | Press [ENTER]: ' fluffycat </dev/tty
 
     case $fluffycat in
-    1)
-        setThrottle
-        ;;
-    2)
-        setIntegerVariable
-        ;;
-    3)
-        setIntegerVariable
-        ;;
-    4)
-        setIntegerVariable
-        ;;
-    5)
-        setIntegerVariable
-        ;;
-    6)
-        setIntegerVariable
-        ;;
-    7)
-        setIntegerVariable
-        ;;
-    8)
-        setIntegerVariable
-        ;;
-    9)
-        setIntegerVariable
-        ;;
-    10)
-        setIntegerVariable
-        ;;
-    11)
-        setIntegerVariable
-        ;;
-    12)
-        setIntegerVariable
-        ;;
-    13)
-        uagent
-        ;;
-    s)
-        rcloneSpeedTest
-        ;;
-    S)
-        rcloneSpeedTest
-        ;;
-    a)
-        reloadServices
-        ;;
-    A)
-        reloadServices
-        ;;
-    z)
-        clonestart
-        exit
-        ;;
-    Z)
-        clonestart
-        exit
-        ;;
-    *)
-        rcloneSettings
-        ;;
+    1) setThrottle ;;
+    2) setIntegerVariable ;;
+    3) setIntegerVariable ;;
+    4) setIntegerVariable ;;
+    5) setIntegerVariable ;;
+    6) setIntegerVariable ;;
+    7) setIntegerVariable ;;
+    8) setIntegerVariable ;;
+    9) setIntegerVariable ;;
+    10) setIntegerVariable ;;
+    11) setIntegerVariable ;;
+    12) setIntegerVariable ;;
+    13) uagent ;;
+    s) rcloneSpeedTest;;
+    S) rcloneSpeedTest ;;
+    a) reloadServices ;;
+    A) reloadServices ;;
+    z) clonestart && exit ;;
+    Z) clonestart && exit ;;
+    *) rcloneSettings ;;
     esac
 
 }
@@ -185,8 +143,8 @@ There is no need to quick deploy for this setting.
     if [[ "$menuSelection" == "4" ]]; then
         name="Max-Transfer"
         sizeSuffix="G"
-        start="375"
-        end="1500"
+        start="350"
+        end="1000"
         note="Limits a single upload cycle to only upload up until the max limit specified. 
 This is useful for when you have over 750gb to upload in the move folder.
 This is only used in Blitz mode!
@@ -451,10 +409,10 @@ EOF
     systemctl restart tdrive 2>/dev/null
     systemctl restart tcrypt 2>/dev/null
     docker restart plex 2>/dev/null
-	docker restart emby 2>/dev/null
-	docker restart sonarr 2>/dev/null
-	docker restart radarr 2>/dev/null
-	docker restart lidarr 2>/dev/null
+    docker restart emby 2>/dev/null
+    docker restart sonarr 2>/dev/null
+    docker restart radarr 2>/dev/null
+    docker restart lidarr 2>/dev/null
     #### site Note ### docker restart for apps building
 
     tee <<-EOF
