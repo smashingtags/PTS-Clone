@@ -20,7 +20,7 @@ cloneclean() {
     find "$hdpath/move" -mindepth 1 -exec chown -cR 1000:1000 {} \+
 
     #permissions part for clonecleaner */downloads folder*#    
-	find "$hdpath/downloads/" -mindepth 1 -exec chmod -cR 755 {} \+
+    find "$hdpath/downloads/" -mindepth 1 -exec chmod -cR 755 {} \+
     find "$hdpath/downloads/" -mindepth 1 -exec chown -cR 1000:1000 {} \+
 
     #NOTE NZB CLIENTS USED THEN SAME NOW
