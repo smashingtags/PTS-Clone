@@ -13,7 +13,7 @@ pgclonevars() {
     }
     touch /var/plexguide/uagent
     uagentrandom="$(cat /var/plexguide/uagent)"
-    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.48" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
+    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.*" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
     randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     uagent=$(cat /var/plexguide/uagent)
     echo "$randomagent" >/var/plexguide/uagent
@@ -21,7 +21,7 @@ pgclonevars() {
 
     touch /var/plexguide/cloneclean
     cloneclean="$(cat /var/plexguide/cloneclean)"
-    if [[ "$cloneclean" == "600" || "$cloneclean" == "" ||"$cloneclean" == "NON-SET" ]]; then
+    if [[ "$cloneclean" == "600" || "$cloneclean" == "" || "$cloneclean" == "NON-SET" ]]; then
     echo "600" >/var/plexguide/cloneclean; fi
 	
     # rest standard
@@ -37,9 +37,9 @@ pgclonevars() {
     hdpath="$(cat /var/plexguide/server.hd.path)"
 
     gce="/var/plexguide/gce.check"
-   if [[ ! -e $gce ]]; then
+    if [[ ! -e $gce ]]; then
        variable /var/plexguide/blitz.bw "1000M"
-   else variable /var/plexguide/blitz.bw "4500M"; fi
+    else variable /var/plexguide/blitz.bw "4500M"; fi
 
     variable /var/plexguide/oauth.check ""
     oauthcheck=$(cat /var/plexguide/oauth.check)
@@ -111,7 +111,7 @@ pgclonevars() {
     variable /var/plexguide/deployed.version ""
     dversion=$(cat /var/plexguide/deployed.version)
 
-    variablet /var/plexguide/.tmp.multihd
+    variable /var/plexguide/.tmp.multihd
     multihds=$(cat /var/plexguide/.tmp.multihd)
 
     if [[ "$dversion" == "mu" ]]; then
@@ -127,17 +127,18 @@ pgclonevars() {
     else dversionoutput="None"; fi
 
     # For Clone Clean
-    variable /var/plexguide/cloneclean "600"
+    if [[ ! -e $gce ]]; then
+       variable /var/plexguide/cloneclean "600"
+    else variable /var/plexguide/cloneclean "120"; fi
     cloneCleanInterval=$(cat /var/plexguide/cloneclean)
 
-    # For PG Blitz Mounts
     variable /var/plexguide/vfs_bs "16M"
     vfs_bs=$(cat /var/plexguide/vfs_bs)
 
     variable /var/plexguide/vfs_dcs "64M"
     vfs_dcs=$(cat /var/plexguide/vfs_dcs)
 
-    variable /var/plexguide/vfs_dct "360m"
+    variable /var/plexguide/vfs_dct "5m"
     vfs_dct=$(cat /var/plexguide/vfs_dct)
 
     variable /var/plexguide/vfs_cm "writes"
@@ -146,7 +147,7 @@ pgclonevars() {
     variable /var/plexguide/vfs_cma "1h"
     vfs_cma=$(cat /var/plexguide/vfs_cma)
 
-    variable /var/plexguide/vfs_cms "100G"
+    variable /var/plexguide/vfs_cms "10G"
     vfs_cms=$(cat /var/plexguide/vfs_cms)
 
     variable /var/plexguide/vfs_rcs "64M"
@@ -158,28 +159,30 @@ pgclonevars() {
     variable /var/plexguide/vfs_ll "ERROR"
     vfs_ll=$(cat /var/plexguide/vfs_ll)
 
-   if [[ ! -e $gce ]]; then
-     variable /var/plexguide/vfs_t "8"
-   else variable /var/plexguide/vfs_t "16"; fi
+    if [[ ! -e $gce ]]; then
+       variable /var/plexguide/vfs_t "8"
+    else variable /var/plexguide/vfs_t "16"; fi
     vfs_t=$(cat /var/plexguide/vfs_t)
 
-   if [[ ! -e $gce ]]; then
-     variable /var/plexguide/vfs_c "16"
-   else variable /var/plexguide/vfs_c "32"; fi
+    if [[ ! -e $gce ]]; then
+       variable /var/plexguide/vfs_c "16"
+    else variable /var/plexguide/vfs_c "32"; fi
     vfs_c=$(cat /var/plexguide/vfs_c)
-    
-    variable /var/plexguide/vfs_mt "720G"
+
+    if [[ ! -e $gce ]]; then    
+       variable /var/plexguide/vfs_mt "350G"
+    else variable /var/plexguide/vfs_mt "720G"; fi
     vfs_mt=$(cat /var/plexguide/vfs_mt)
 
-   if [[ ! -e $gce ]]; then
-     variable /var/plexguide/vfs_test "4G"
-   else variable /var/plexguide/vfs_test "16G"; fi
+    if [[ ! -e $gce ]]; then
+       variable /var/plexguide/vfs_test "4G"
+    else variable /var/plexguide/vfs_test "16G"; fi
     vfs_test=$(cat /var/plexguide/vfs_test)
 
     # For BWLimit
-   if [[ ! -e $gce ]]; then
-    variable /var/plexguide/timetable.bw "14:00,40M"
-   else variable /var/plexguide/vfs_test "off"; fi
+    if [[ ! -e $gce ]]; then
+       variable /var/plexguide/timetable.bw "14:00,40M"
+    else variable /var/plexguide/timetable.bw "off"; fi
 
     # Upgrade old var format to new var format
 
