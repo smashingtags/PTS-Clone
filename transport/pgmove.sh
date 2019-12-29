@@ -35,8 +35,9 @@ while true; do
     echo "" >>/var/plexguide/logs/pgmove.log
     echo "---Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
     echo " Checking for files to upload... " >>/var/plexguide/logs/pgmove.log
-    rsync "$hdpath/downloads/" "$hdpath/move/" \
-        -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
+
+        rsync "$hdpath/downloads/" "$hdpath/move/" \
+        -aq --remove-source-files --link-dest="$hdpath/downloads/" \
         --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
         --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
@@ -64,6 +65,6 @@ while true; do
     fi
     echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
-    sleep 10
+    sleep 30
 	cloneclean && removefilesgdrive
 done

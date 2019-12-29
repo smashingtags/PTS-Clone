@@ -33,8 +33,9 @@ startscript() {
         echo "" >>/var/plexguide/logs/pgblitz.log
         echo " -- Begin cycle $cyclecount --  $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
         echo "Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
+		
         rsync "$hdpath/downloads/" "$hdpath/move/" \
-            -aqp --remove-source-files --link-dest="$hdpath/downloads/" \
+            -aq --remove-source-files --link-dest="$hdpath/downloads/" \
             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
@@ -64,7 +65,7 @@ startscript() {
         echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
         echo "  $(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
         #sed -i -e "/Duplicate directory found in destination/d" /var/plexguide/logs/pgblitz.log
-        sleep 10 
+    sleep 30
 		cloneclean && removefilestdrive
     done </var/plexguide/.blitzfinal
 }
