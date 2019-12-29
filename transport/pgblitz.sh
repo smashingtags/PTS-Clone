@@ -44,7 +44,7 @@ startscript() {
                 --config=/opt/appdata/plexguide/rclone.conf \
                 --log-file=/var/plexguide/logs/pgblitz.log \
                 --log-level=INFO --stats=5s --stats-file-name-length=0 \
-                --max-size=300G --min-age 2min \
+                --max-size=300G --min-age 2m \
                 --tpslimit=8 \
                 --drive-pacer-min-sleep=100ms \
                 --checkers="$vfs_c" \

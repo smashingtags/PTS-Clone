@@ -47,7 +47,7 @@ while true; do
             --log-file=/var/plexguide/logs/pgmove.log \
             --log-level=INFO --stats=5s --stats-file-name-length=0 \
             --max-size=300G \
-			--min-age 2min \
+			--min-age 2m \
             --tpslimit=8 \
             --checkers=2 \
             --retries=3 \
