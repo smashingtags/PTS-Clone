@@ -33,20 +33,21 @@ while true; do
     if [[ $cyclecount -gt 4294967295 ]]; then
         cyclecount=0; fi
     echo "" >>/var/plexguide/logs/pgmove.log
-    echo "---Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
-    echo " Checking for files to upload... " >>/var/plexguide/logs/pgmove.log
+    echo "-Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgmove.log
+    echo "Checking for files to upload..." >>/var/plexguide/logs/pgmove.log
 
         rsync "$hdpath/downloads/" "$hdpath/move/" \
         -aq --remove-source-files --link-dest="$hdpath/downloads/" \
         --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
         --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
-    if [[ $(find "$hdpath/move" -type f | wc -l) -gt 0 ]]; then
+    if [[ $(find "$hdpath/move" -type f | wc -l) -gt 1 ]]; then
         rclone move "$hdpath/move/" "{{type}}:/" \
             --config=/opt/appdata/plexguide/rclone.conf \
             --log-file=/var/plexguide/logs/pgmove.log \
             --log-level=INFO --stats=5s --stats-file-name-length=0 \
             --max-size=300G \
+			--min-age 2min \
             --tpslimit=8 \
             --checkers=2 \
             --retries=3 \
@@ -59,11 +60,11 @@ while true; do
             --user-agent="$useragent" \
             --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
-        echo " Upload has finished. " >>/var/plexguide/logs/pgmove.log
+        echo "Upload has finished. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
     else
-        echo " No files in $hdpath/move to upload. " >>/var/plexguide/logs/pgmove.log
+        echo "No files in $hdpath/move to upload. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
     fi
-    echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
+    echo "-Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgmove.log
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
     sleep 30
 	cloneclean && removefilesgdrive
