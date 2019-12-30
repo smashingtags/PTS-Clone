@@ -24,7 +24,7 @@ cloneclean() {
 
     #NOTE NZB CLIENTS USED THEN SAME NOW
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type d -mmin +"$(cat /var/plexguide/cloneclean)" -exec rm -rf \{} \;
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type f -size 1M -cmin +2 -exec rm -rf \{} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type f -size -10M -mmin +2 -exec rm -rf \{} \;
     nzbremoverunwantedfiles
     find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$nzb" -exec rm -rf \{} \;
 
