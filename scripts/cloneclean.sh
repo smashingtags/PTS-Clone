@@ -12,12 +12,12 @@ cloneclean() {
     ((torrent=${cleaner}*2))
     ((nzb=${cleaner}/3))
     runner
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chmod -cR 755 {}\+
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chown -cR 1000:1000 {}\+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chmod -cR 755 {}\+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chown -cR 1000:1000 {}\+
+    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chmod -cR 755 {} \+
+    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chown -cR 1000:1000 {} \+
+    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chmod -cR 755 {} \+
+    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chown -cR 1000:1000 {} \+
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type d -mmin +"$(cat /var/plexguide/cloneclean)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type f -size -10M -mmin +2 --delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type f -size -10M -delete
     nzbremoverunwantedfiles
     find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$nzb" -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type d -mmin +"$torrent" -delete
@@ -71,6 +71,7 @@ command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${cond
 echo "Executing ${command}"
 eval "${command}"
 }
+
 removefilestdrive() {
 UNWANTED_FILES=(
 '*.nfo'
