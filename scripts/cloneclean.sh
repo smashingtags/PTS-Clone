@@ -23,10 +23,10 @@ cloneclean() {
     find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chown -cR 1000:1000 \{}\;
 
     #NOTE NZB CLIENTS USED THEN SAME NOW
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type d -cmin +"$(cat /var/plexguide/cloneclean)" -exec rm -rf \{} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type d -mmin +"$(cat /var/plexguide/cloneclean)" -exec rm -rf \{} \;
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb/" -mindepth 1 -type f -size 1M -cmin +2 -exec rm -rf \{} \;
     nzbremoverunwantedfiles
-    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -cmin +"$nzb" -exec rm -rf \{} \;
+    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$nzb" -exec rm -rf \{} \;
 
     #NOTE TORRENT CLIENTS USED THE SAME NOW
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type d -mmin +"$torrent" -exec rm -rf \{} \;
