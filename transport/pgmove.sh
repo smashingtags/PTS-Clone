@@ -10,47 +10,43 @@
 # Variables come from what's being called from deploymove.sh under functions
 ## BWLIMIT 9 and Lower Prevents Google 750GB Google Upload Ban
 ################################################################################
-source /opt/pgclone/scripts/cloneclean.sh
 
 if pidof -o %PPID -x "$0"; then
     exit 1
 fi
 
+source /opt/pgclone/scripts/cloneclean.sh
 touch /var/plexguide/logs/pgmove.log
 truncate -s 0 /var/plexguide/logs/pgmove.log
 echo "" >>/var/plexguide/logs/pgmove.log
 echo "" >>/var/plexguide/logs/pgmove.log
-echo " -- Starting Move: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgmove.log
-hdpath="$(cat /var/plexguide/server.hd.path)"
+echo "--Starting Move: $(date "+%Y-%m-%d %H:%M:%S")--" >>/var/plexguide/logs/pgmove.log
+
 while true; do
 
-    # USER specifying VARS 
     useragent="$(cat /var/plexguide/uagent)"
     bwlimit="$(cat /var/plexguide/move.bw)"
     # VFS var
     vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
     let "cyclecount++"
-    if [[ $cyclecount -gt 4294967295 ]]; then
-        cyclecount=0; fi
+    if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
     echo "" >>/var/plexguide/logs/pgmove.log
-    echo "-Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgmove.log
-    echo "Checking for files to upload..." >>/var/plexguide/logs/pgmove.log
+    echo "-- Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgmove.log
+    echo "-- Checking for files to upload..." >>/var/plexguide/logs/pgmove.log
 
-        rsync "$hdpath/downloads/" "$hdpath/move/" \
-        -aq --remove-source-files --link-dest="$hdpath/downloads/" \
-        --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
-        --exclude-from="/opt/pgclone/excluded/excluded.folder"
-
-    if [[ $(find "$hdpath/move" -type f | wc -l) -gt 1 ]]; then
-        rclone move "$hdpath/move/" "{{type}}:/" \
+        rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+              -aq --remove-source-files --link-dest="$hdpath/downloads/" \
+              --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
+              --exclude-from="/opt/pgclone/excluded/excluded.folder"
+		
+        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
+          rclone move "$(cat /var/plexguide/server.hd.path)/move/" "{{type}}:/" \
             --config=/opt/appdata/plexguide/rclone.conf \
             --log-file=/var/plexguide/logs/pgmove.log \
             --log-level=INFO --stats=5s --stats-file-name-length=0 \
-            --max-size=300G \
-			--min-age 2m \
+            --max-size=300G --min-age 30s \
             --tpslimit=8 \
             --checkers=2 \
-            --retries=3 \
             --drive-pacer-min-sleep=100ms \
             --no-traverse \
             --fast-list \
@@ -60,12 +56,13 @@ while true; do
             --user-agent="$useragent" \
             --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
-        echo "Upload has finished. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
+        sleep 5
+        echo "-- Upload has finished." >>/var/plexguide/logs/pgmove.log
+        echo "-- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgmove.log
+	    echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >>/var/plexguide/logs/pgmove.log
     else
-        echo "No files in $hdpath/move to upload. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
+        echo "No files in $(cat /var/plexguide/server.hd.path)move to upload. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
     fi
-    echo "-Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgmove.log
-    echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
-    sleep 30
-	cloneclean && removefilesgdrive
+	    cloneclean && removefilesgdrive && nzbremoverunwantedfiles
+	    echo "-- CloneCleane done." >>/var/plexguide/logs/pgmove.log
 done

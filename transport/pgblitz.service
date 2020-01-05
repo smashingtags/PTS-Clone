@@ -6,15 +6,17 @@
 # GNU:        General Public License v3.0
 ################################################################################
 [Unit]
-Description='PGBlitz Loaded Balanced Multi SA GDrive Uploader'
-After=multi-user.target network-online.target
+Description=Multi SA TDrive Uploader
+After=network-online.target
 
 [Service]
 Type=simple
 User=0
 Group=0
 ExecStart=/bin/bash /opt/appdata/plexguide/pgblitz.sh
-KillMode=process
+#KillMode=process
+RestartSec=15
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

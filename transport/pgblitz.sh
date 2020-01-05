@@ -6,19 +6,17 @@
 #
 # fuck off brandings 
 ################################################################################
-
-source /opt/pgclone/scripts/cloneclean.sh
-
 # Starting Actions
 touch /var/plexguide/logs/pgblitz.log
 truncate -s 0 /var/plexguide/logs/pgblitz.log
 echo "" >>/var/plexguide/logs/pgblitz.log
 echo "" >>/var/plexguide/logs/pgblitz.log
-echo " -- Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
-hdpath="$(cat /var/plexguide/server.hd.path)"
+echo "-- Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
+source /opt/pgclone/scripts/cloneclean.sh
 
 startscript() {
     while read p; do
+
         # User specifying  VARS 
         useragent="$(cat /var/plexguide/uagent)"
         bwlimit="$(cat /var/plexguide/blitz.bw)"
@@ -28,29 +26,27 @@ startscript() {
         vfs_t="$(cat /var/plexguide/vfs_t)"
         vfs_c="$(cat /var/plexguide/vfs_c)"
         let "cyclecount++"
-        if [[ $cyclecount -gt 4294967295 ]]; then
-            cyclecount=0 ; fi
+        if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
         echo "" >>/var/plexguide/logs/pgblitz.log
-        echo " -- Begin cycle $cyclecount --  $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
-        echo "Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
+        echo "-- Begin cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
+        echo "-- Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
 
-        rsync "$hdpath/downloads/" "$hdpath/move/" \
-            -aq --remove-source-files --link-dest="$hdpath/downloads/" \
+        rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+            -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
-        if [[ $(find "$hdpath/move" -type f | wc -l) -gt 1 ]]; then
+        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
             rclone moveto "$hdpath/move" "${p}{{encryptbit}}:/" \
                 --config=/opt/appdata/plexguide/rclone.conf \
                 --log-file=/var/plexguide/logs/pgblitz.log \
                 --log-level=INFO --stats=5s --stats-file-name-length=0 \
-                --max-size=300G --min-age 2m \
+                --max-size=300G --min-age 30s \
                 --tpslimit=8 \
                 --drive-pacer-min-sleep=100ms \
                 --checkers="$vfs_c" \
                 --transfers="$vfs_t" \
                 --no-traverse \
-                --retries=3 \
                 --fast-list \
                 --max-transfer "$vfs_mt" \
                 --bwlimit="$bwlimit" \
@@ -58,15 +54,16 @@ startscript() {
                 --user-agent="$useragent" \
                 --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
                 --exclude-from="/opt/pgclone/excluded/excluded.folder"
-            echo "Upload has finished. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgblitz.log
+            echo "-- Upload has finished --" >>/var/plexguide/logs/pgblitz.log
+            echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
         else
-            echo "No files in $hdpath/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
+            echo "No files in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
         fi
-        echo "-Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")-" >>/var/plexguide/logs/pgblitz.log
-        echo " $(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
-        #sed -i -e "/Duplicate directory found in destination/d" /var/plexguide/logs/pgblitz.log
-    sleep 30
-		cloneclean && removefilestdrive
+		    echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
+        sleep 30
+
+	cloneclean && removefilestdrive && nzbremoverunwantedfiles
+
     done </var/plexguide/.blitzfinal
 }
 

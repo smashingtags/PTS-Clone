@@ -7,23 +7,26 @@
 ################################################################################
 pgclonevars() {
 
-    variablet() {
-        file="$1"
-        if [ ! -e "$file" ]; then touch "$1"; fi
-    }
+	variable() {
+		file="$1"
+		if [ ! -e "$file" ]; then echo "$2" >$1; fi
+		}
+
     touch /var/plexguide/uagent
     uagentrandom="$(cat /var/plexguide/uagent)"
-    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" ||"$uagentrandom" == "rclone/v1.*" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
-    randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    uagent=$(cat /var/plexguide/uagent)
-    echo "$randomagent" >/var/plexguide/uagent
-    echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
+    if [[ "$uagentrandom" == "NON-SET" || "$uagentrandom" == "" || "$uagentrandom" == "rclone/v1.*" || "$uagentrandom" == "random" || "$uagentrandom" == "RANDOM" ]]; then
+		randomagent=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+		uagent=$(cat /var/plexguide/uagent)
+		echo "$randomagent" >/var/plexguide/uagent
+		echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
 
-    touch /var/plexguide/cloneclean
-    cloneclean="$(cat /var/plexguide/cloneclean)"
-    if [[ "$cloneclean" == "600" || "$cloneclean" == "" || "$cloneclean" == "NON-SET" ]]; then
-    echo "600" >/var/plexguide/cloneclean; fi
-	
+	touch /var/plexguide/cloneclean.nzb
+	touch /var/plexguide/cloneclean.torrent
+	cleanernzb="$(cat /var/plexguide/cloneclean.nzb)"
+	cleanertorrenet="$(cat /var/plexguide/cloneclean.torrent)"
+	if [[ "$cleanernzb" == "600" || "$cleanernzb" == "" || "$cleanernzb" == "NON-SET" ]]; then echo "600" >/var/plexguide/cloneclean.nzb; fi
+	if [[ "$cleanertorrenet" == "2400" || "$cleanertorrenet" == "" || "$cleanertorrenet" == "NON-SET" ]]; then echo "2400" >/var/plexguide/cloneclean.torrent; fi
+
     # rest standard
     mkdir -p /var/plexguide/rclone
     variable /var/plexguide/project.account "NOT-SET"
@@ -126,11 +129,10 @@ pgclonevars() {
         dversionoutput="Local"
     else dversionoutput="None"; fi
 
-    # For Clone Clean
-    if [[ ! -e $gce ]]; then
-       variable /var/plexguide/cloneclean "600"
-    else variable /var/plexguide/cloneclean "120"; fi
-    cloneCleanInterval=$(cat /var/plexguide/cloneclean)
+    # # For Clone Clean
+    # if [[ ! -e $gce ]]; then
+       # variable /var/plexguide/cloneclean "600"
+    # else variable /var/plexguide/cloneclean "120"; fi
 
     variable /var/plexguide/vfs_bs "16M"
     vfs_bs=$(cat /var/plexguide/vfs_bs)
@@ -187,40 +189,13 @@ pgclonevars() {
     # Upgrade old var format to new var format
 
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-
-    if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then
-        echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw
-    fi
-
-    if [[ $(cat /var/plexguide/move.bw) != *"M"* && $(cat /var/plexguide/move.bw) != 0 ]]; then
-        echo "$(cat /var/plexguide/move.bw)M" >/var/plexguide/move.bw
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_bs) != *"M" ]]; then
-        echo "$(cat /var/plexguide/vfs_bs)M" >/var/plexguide/vfs_bs
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_dcs) != *"M" ]]; then
-        echo "$(cat /var/plexguide/vfs_dcs)M" >/var/plexguide/vfs_dcs
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_dct) != *"m" ]]; then
-        echo "$(cat /var/plexguide/vfs_dct)m" >/var/plexguide/vfs_dct
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_cma) != *"h" ]]; then
-        echo "1h" >/var/plexguide/vfs_cma
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_cms) != *"G" && $(cat /var/plexguide/vfs_cms) != "off" ]]; then
-        echo "off" >/var/plexguide/vfs_cms
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_rcs) != *"M" ]]; then
-        echo "$(cat /var/plexguide/vfs_rcs)M" >/var/plexguide/vfs_rcs
-    fi
-
-    if [[ $(cat /var/plexguide/vfs_rcsl) != *"M" && $(cat /var/plexguide/vfs_rcsl) != "off" ]]; then
-        echo "2048M" >/var/plexguide/vfs_rcsl
-    fi
+    if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw; fi
+    if [[ $(cat /var/plexguide/move.bw) != *"M"* && $(cat /var/plexguide/move.bw) != 0 ]]; then echo "$(cat /var/plexguide/move.bw)M" >/var/plexguide/move.bw; fi
+    if [[ $(cat /var/plexguide/vfs_bs) != *"M" ]]; then echo "$(cat /var/plexguide/vfs_bs)M" >/var/plexguide/vfs_bs; fi
+    if [[ $(cat /var/plexguide/vfs_dcs) != *"M" ]]; then echo "$(cat /var/plexguide/vfs_dcs)M" >/var/plexguide/vfs_dcs; fi
+    if [[ $(cat /var/plexguide/vfs_dct) != *"m" ]]; then echo "$(cat /var/plexguide/vfs_dct)m" >/var/plexguide/vfs_dct; fi
+    if [[ $(cat /var/plexguide/vfs_cma) != *"h" ]]; then echo "1h" >/var/plexguide/vfs_cma; fi
+    if [[ $(cat /var/plexguide/vfs_cms) != *"G" && $(cat /var/plexguide/vfs_cms) != "off" ]]; then echo "off" >/var/plexguide/vfs_cms; fi
+    if [[ $(cat /var/plexguide/vfs_rcs) != *"M" ]]; then echo "$(cat /var/plexguide/vfs_rcs)M" >/var/plexguide/vfs_rcs; fi
+    if [[ $(cat /var/plexguide/vfs_rcsl) != *"M" && $(cat /var/plexguide/vfs_rcsl) != "off" ]]; then echo "2048M" >/var/plexguide/vfs_rcsl; fi
 }

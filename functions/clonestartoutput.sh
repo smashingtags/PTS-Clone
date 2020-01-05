@@ -290,7 +290,7 @@ optionsmenu() {
 [3] Destroy All Service Keys     | WARN: Wipes All Keys for the Project
 [4] Create New Project           | WARN: Resets Everything
 [5] Demo Mode                    | Hide the E-Mail Address on the Front
-[6] Clone Clean                  | [$cloneCleanInterval] minutes
+[6] Clone Clean                  | Set NZB or Torrent
 
 [7] Create a TeamDrive
 
@@ -331,7 +331,7 @@ optionsmenumove() {
 
 [1] Transport Select           | INFO: Change Transport Type
 [2] Multi-HD Option            | INFO: Add Multi-Points and Options
-[3] Clone Clean                | [$cloneclean] minutes
+[3] Clone Clean                | Set NZB or Torrent
 
 NOTE: When creating a NEW PROJECT, the USER must create the
 CLIENT ID and SECRET for that project! We will assist in creating the
