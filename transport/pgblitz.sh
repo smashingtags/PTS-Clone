@@ -36,14 +36,16 @@ startscript() {
             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
-		 if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) == "1" ]]; then
-            echo "one file is in $(cat /var/plexguide/server.hd.path)/move, waiting for next file before uploading" >>/var/plexguide/logs/pgblitz.log
-            cloneclean
-			removefilestdrive
-			nzbremoverunwantedfiles
-            echo "-- CloneCleane done --" >>/var/plexguide/logs/pgblitz.log
-            echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
-         elif [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
+        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) == "0" ]]; then
+               echo "No files in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
+               echo " -- waiting for next file before uploading starting -- " >>/var/plexguide/logs/pgblitz.log
+        elif  [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) == "1" ]]; then
+               echo " -- one file is in $(cat /var/plexguide/server.hd.path)/move --">>/var/plexguide/logs/pgblitz.log
+               echo " -- waiting for next file before uploading starting -- " >>/var/plexguide/logs/pgblitz.log
+               cloneclean
+               removefilestdrive
+               nzbremoverunwantedfiles
+        elif [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
             rclone moveto "$(cat /var/plexguide/server.hd.path)/move" "${p}{{encryptbit}}:/" \
                 --config=/opt/appdata/plexguide/rclone.conf \
                 --log-file=/var/plexguide/logs/pgblitz.log \
@@ -61,19 +63,19 @@ startscript() {
                 --user-agent="$useragent" \
                 --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
                 --exclude-from="/opt/pgclone/excluded/excluded.folder"
-            echo "-- Completed cycle $cyclecount --" >>/var/plexguide/logs/pgblitz.log
-            sleep 5
-            echo "-- Upload has finished --" >>/var/plexguide/logs/pgblitz.log
-            cloneclean
-			removefilestdrive
-			nzbremoverunwantedfiles
-            echo "-- CloneCleane done --" >>/var/plexguide/logs/pgblitz.log
-            echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
+                echo "-- Completed cycle $cyclecount --" >>/var/plexguide/logs/pgblitz.log
+                sleep 5
+                echo "-- Upload has finished --" >>/var/plexguide/logs/pgblitz.log
+                cloneclean
+                removefilestdrive
+                nzbremoverunwantedfiles
+                echo "-- CloneCleane done --" >>/var/plexguide/logs/pgblitz.log
+                echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
         else
-            echo "No files in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
+               echo "No files in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
         fi
     done </var/plexguide/.blitzfinal
-    sleep 30
+    sleep 10
 }
 
 # keeps the function in a loop
