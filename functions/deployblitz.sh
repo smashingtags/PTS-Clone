@@ -75,7 +75,17 @@ executeblitz() {
     if [[ $failed == true ]]; then
         deployFail
     else
-        restartapps
-        deploySuccess
+        restartapps && runner && deploySuccess
     fi
+
+}
+
+runner() {
+        pgblitz=$(systemctl list-unit-files | grep pgblitz.service | awk '{ print $2 }')
+        pgblitzcheck=$(systemctl is-active pgblitz)
+        rm -rf /var/plexguide/pg.blitz && touch /var/plexguide/pg.blitz
+        if [[ "$pgblitz" == "enabled" ]]; then
+           if [[ "$pgblitzcheck" != "active" ]]; then service pgblitz restart; fi
+        else echo "🔴 Not Operational UPLOADER" >/var/plexguide/pg.blitz
+        fi
 }
