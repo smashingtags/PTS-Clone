@@ -36,7 +36,14 @@ startscript() {
             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
-        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
+		 if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) == "1" ]]; then
+            echo "one file is in $(cat /var/plexguide/server.hd.path)/move, waiting for next file before uploading" >>/var/plexguide/logs/pgblitz.log
+            cloneclean
+			removefilestdrive
+			nzbremoverunwantedfiles
+            echo "-- CloneCleane done --" >>/var/plexguide/logs/pgblitz.log
+            echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
+         elif [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
             rclone moveto "$(cat /var/plexguide/server.hd.path)/move" "${p}{{encryptbit}}:/" \
                 --config=/opt/appdata/plexguide/rclone.conf \
                 --log-file=/var/plexguide/logs/pgblitz.log \
