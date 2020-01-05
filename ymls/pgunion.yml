@@ -96,7 +96,7 @@
 
         - name: Install Blitz Service
           template:
-            src: /opt/pgclone/transport/pgblitz.service
+            src: /opt/pgclone/transport/pgblitz.service.j2
             dest: /etc/systemd/system/pgblitz.service
             force: yes
 
@@ -132,7 +132,7 @@
 
         - name: Install MOVE Service
           template:
-            src: /opt/pgclone/transport/pgmove.service
+            src: /opt/pgclone/transport/pgmove.service.j2
             dest: /etc/systemd/system/pgmove.service
             force: yes
 
