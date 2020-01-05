@@ -7,13 +7,14 @@
 ################################################################################
 [Unit]
 Description=Multi SA TDrive Uploader
-After=multi-user.target network-online.target
+After=multi-user.target
 
 [Service]
 Type=simple
 User=0
 Group=0
 ExecStart=/bin/bash /opt/appdata/plexguide/pgblitz.sh
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target

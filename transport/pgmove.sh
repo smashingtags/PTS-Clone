@@ -63,6 +63,8 @@ while true; do
     else
         echo "No files in $(cat /var/plexguide/server.hd.path)move to upload. $(date "+%Y-%m-%d %H:%M:%S")" >>/var/plexguide/logs/pgmove.log
     fi
-	    cloneclean && removefilesgdrive && nzbremoverunwantedfiles
+	    cloneclean
+		removefilesgdrive
+		nzbremoverunwantedfiles
 	    echo "-- CloneCleane done." >>/var/plexguide/logs/pgmove.log
 done

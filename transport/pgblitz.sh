@@ -57,7 +57,9 @@ startscript() {
             echo "-- Completed cycle $cyclecount --" >>/var/plexguide/logs/pgblitz.log
             sleep 5
             echo "-- Upload has finished --" >>/var/plexguide/logs/pgblitz.log
-            cloneclean && removefilestdrive && && nzbremoverunwantedfiles
+            cloneclean
+			removefilestdrive
+			nzbremoverunwantedfiles
             echo "-- CloneCleane done --" >>/var/plexguide/logs/pgblitz.log
             echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
         else
