@@ -37,7 +37,7 @@ startscript() {
             --exclude-from="/opt/pgclone/excluded/excluded.folder"
 
         if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
-            rclone moveto "$hdpath/move" "${p}{{encryptbit}}:/" \
+            rclone moveto "$(cat /var/plexguide/server.hd.path)/move" "${p}{{encryptbit}}:/" \
                 --config=/opt/appdata/plexguide/rclone.conf \
                 --log-file=/var/plexguide/logs/pgblitz.log \
                 --log-level=INFO --stats=5s --stats-file-name-length=0 \
