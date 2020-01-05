@@ -40,7 +40,7 @@ while true; do
               --exclude-from="/opt/pgclone/excluded/excluded.folder"
 		
         if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then
-          rclone move "$(cat /var/plexguide/server.hd.path)/move/" "{{type}}:/" \
+         rclone move "$(cat /var/plexguide/server.hd.path)/move/" "{{type}}:/" \
             --config=/opt/appdata/plexguide/rclone.conf \
             --log-file=/var/plexguide/logs/pgmove.log \
             --log-level=INFO --stats=5s --stats-file-name-length=0 \
