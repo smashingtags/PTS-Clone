@@ -64,16 +64,7 @@ executemove() {
     if [[ $failed == true ]]; then
         deployFail
     else
-        restartapps && runner && deploySuccess
+        restartapps
+		deploySuccess
     fi
-}
-
-runner() {
-        pgmovecheck=$(systemctl is-active pgmove)
-        pgmove=$(systemctl list-unit-files | grep pgmove.service | awk '{ print $2 }')
-        rm -rf /var/plexguide/pg.blitz && touch /var/plexguide/pg.blitz
-        if [[ "$pgmove" == "enabled" ]]; then
-           if [[ "$pgmovecheck" != "active" ]]; then service pgmove restart; fi
-        else echo " 🔴 Not Operational UPLOADER" >/var/plexguide/pg.blitz
-        fi
 }
