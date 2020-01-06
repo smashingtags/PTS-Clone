@@ -22,7 +22,9 @@ cloneclean() {
     #Torrent Area
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type f -cmin +"$(cat /var/plexguide/cloneclean.torrent)" -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type d -empty -delete
-	find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 2 -type d -empty -delete
+	find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -type d -empty -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 2 -type d \( ! -name **nzb** ! -name **torrent** ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
+
 }
 nzbremoverunwantedfiles() {
 UNWANTED_FILES=(
