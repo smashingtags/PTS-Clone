@@ -22,7 +22,7 @@ cloneclean() {
     #Torrent Area
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type f -cmin +"$(cat /var/plexguide/cloneclean.torrent)" -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type d -empty -delete
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 2 -type d -empty -delete
+	find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 2 -type d -empty -delete
 }
 nzbremoverunwantedfiles() {
 UNWANTED_FILES=(
@@ -135,10 +135,4 @@ done
 command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${condition} ! -name **nzb** ! -name **torrent** \) ${FIND_ACTION}"
 echo "Executing ${command}"
 eval "${command}"
-}
-runner() {
-rpat=$(cat /var/plexguide/status.mounts)
-if [[ $rpat != "1" ]]; then
-removefilestdrive && nzbremoverunwantedfiles
-else removefilesgdrive && nzbremoverunwantedfiles; fi
 }
