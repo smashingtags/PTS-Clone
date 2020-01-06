@@ -46,7 +46,7 @@ rcone() {
  startscript
 }
 rcupload() {
-# Update the vars
+ while read p; do
 useragent="$(cat /var/plexguide/uagent)"
 bwlimit="$(cat /var/plexguide/blitz.bw)"
 vfs_dcs="$(cat /var/plexguide/vfs_dcs)"
@@ -73,7 +73,7 @@ rclone moveto "$(cat /var/plexguide/server.hd.path)/move" "${p}{{encryptbit}}:/"
   --exclude-from="/opt/pgclone/excluded/excluded.folder"
   echo "Upload has finished." >>/var/plexguide/logs/pgblitz.log
   remover
-  startscript
+ done </var/plexguide/.blitzfinal
 }
 remover() {
 source /opt/pgclone/scripts/cloneclean.sh
