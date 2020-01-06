@@ -13,22 +13,20 @@ echo "" >>/var/plexguide/logs/pgblitz.log
 echo "---Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
 
 startscript() {
-    while read p; do
-        let "cyclecount++"
-        if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
-        rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
-             -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
-             --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
-             --exclude-from="/opt/pgclone/excluded/excluded.folder"
-        echo "" >>/var/plexguide/logs/pgblitz.log
-        echo "---Begin cycle $cyclecount - $p: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
-        echo "Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
-        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -eq 0 ]]; then rczero; fi
-        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -eq 1 ]]; then rcone; fi
-        if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then rcupload; fi
-        echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
-        echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
-    done </var/plexguide/.blitzfinal
+   let "cyclecount++"
+   if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
+     rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+      -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
+      --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
+      --exclude-from="/opt/pgclone/excluded/excluded.folder"
+    echo "" >>/var/plexguide/logs/pgblitz.log
+    echo "---Begin cycle $cyclecount - $p: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
+    echo "Checking for files to upload..." >>/var/plexguide/logs/pgblitz.log
+      if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -eq 0 ]]; then rczero; fi
+      if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -eq 1 ]]; then rcone; fi
+      if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then rcupload; fi
+    echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
+    echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
 }
 ################################################################################
 rczero() {
