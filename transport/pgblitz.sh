@@ -52,7 +52,7 @@ rcupload() {
     --config=/opt/appdata/plexguide/rclone.conf \
     --log-file=/var/plexguide/logs/pgblitz.log \
     --log-level=INFO --stats=5s --stats-file-name-length=0 \
-    --max-size=300G --min-age 2m --tpslimit=8 \
+    --max-size=300G --min-age 1m --tpslimit=8 \
     --drive-pacer-min-sleep=100ms --checkers="$vfs_c" \
     --transfers="$vfs_t" --no-traverse \
     --fast-list --max-transfer "$vfs_mt" --bwlimit="$bwlimit" \
