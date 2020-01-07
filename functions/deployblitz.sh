@@ -38,7 +38,7 @@ executeblitz() {
     ansible-playbook /opt/pgclone/ymls/drive.yml -e "drive=tdrive"
 
     # deploy only if using encryption
-    if [[ "$transport" == "be" ]]; then
+    if [[ "$(cat /var/plexguide/pgclone.transport)" == "be"  ]]; then
         ansible-playbook /opt/pgclone/ymls/drive.yml -e "drive=gcrypt"
 
         echo "be" >/var/plexguide/deployed.version
@@ -53,8 +53,7 @@ executeblitz() {
     touch /var/plexguide/.blitzbuild
     while read p; do
         echo $p >/var/plexguide/.blitztemp
-        blitzcheck=$(grep "GDSA" /var/plexguide/.blitztemp)
-        if [[ "$blitzcheck" != "" ]]; then echo $p >>/var/plexguide/.blitzfinal; fi
+        if [[ "$(grep "GDSA" /var/plexguide/.blitztemp)" != "" ]]; then echo $p >>/var/plexguide/.blitzfinal; fi
     done </var/plexguide/.blitzlist
 
     # deploy union
@@ -76,17 +75,6 @@ executeblitz() {
         deployFail
     else
         restartapps
-		runner
         deploySuccess
     fi
-}
-
-runner() {
-        pgblitz=$(systemctl list-unit-files | grep pgblitz.service | awk '{ print $2 }')
-        pgblitzcheck=$(systemctl is-active pgblitz)
-        rm -rf /var/plexguide/pg.blitz && touch /var/plexguide/pg.blitz
-        if [[ "$pgblitz" == "enabled" ]]; then
-           if [[ "$pgblitzcheck" != "active" ]]; then service pgblitz restart; fi
-        else echo "🔴 Not Operational UPLOADER" >/var/plexguide/pg.blitz
-        fi
 }

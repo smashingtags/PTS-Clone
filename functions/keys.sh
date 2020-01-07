@@ -173,7 +173,7 @@ EOF
 }
 
 deploygdsa01check() {
-  type=gdsa01
+  type=GDSA01
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -346,14 +346,8 @@ EOF
     deletekeys
   fi
 }
-
 gdsabuild() {
-
   ## what sets if encrypted is on or not
-  encheck=$(cat /var/plexguide/pgclone.transport)
-  bencrypted=no
-  if [ "$encheck" == "be" ]; then bencrypted=yes; fi
-
   downloadpath=$(cat /var/plexguide/server.hd.path)
   tempbuild=$(cat /var/plexguide/json.tempbuild)
   path=/opt/appdata/plexguide/keys
@@ -361,26 +355,23 @@ gdsabuild() {
   tdrive=$(cat /opt/appdata/plexguide/rclone.conf | grep team_drive | head -n1)
   tdrive="${tdrive:13}"
 
-  if [ "$bencrypted" == "yes" ]; then
-    PASSWORD=$(cat /var/plexguide/pgclone.password)
-    SALT=$(cat /var/plexguide/pgclone.salt)
-    ENC_PASSWORD=$(rclone obscure "$PASSWORD")
-    ENC_SALT=$(rclone obscure "$SALT")
-  fi
+  if [[ "$(cat /var/plexguide/pgclone.transport)" == "be" ]]; then
+    # PASSWORD=$(cat /var/plexguide/pgclone.password)
+    # SALT=$(cat /var/plexguide/pgclone.salt)
+    ENC_PASSWORD=$(rclone obscure "$(cat /var/plexguide/pgclone.password)")
+    ENC_SALT=$(rclone obscure "$(cat /var/plexguide/pgclone.salt)")
 
-  ####tempbuild is need in order to call the correct gdsa
-  mkdir -p $downloadpath/move/$tempbuild
-  echo "" >>$rpath
-  echo "[$tempbuild]" >>$rpath
-  echo "type = drive" >>$rpath
-  echo "client_id =" >>$rpath
-  echo "client_secret =" >>$rpath
-  echo "scope = drive" >>$rpath
-  echo "root_folder_id =" >>$rpath
-  echo "service_account_file = /opt/appdata/plexguide/keys/processed/$tempbuild" >>$rpath
-  echo "team_drive = $tdrive" >>$rpath
+    mkdir -p $downloadpath/move/$tempbuild
+    echo "" >>$rpath
+    echo "[$tempbuild]" >>$rpath
+    echo "type = drive" >>$rpath
+    echo "client_id =" >>$rpath
+    echo "client_secret =" >>$rpath
+    echo "scope = drive" >>$rpath
+    echo "root_folder_id =" >>$rpath
+    echo "service_account_file = /opt/appdata/plexguide/keys/processed/$tempbuild" >>$rpath
+    echo "team_drive = $tdrive" >>$rpath
 
-  if [ "$bencrypted" == "yes" ]; then
     echo "" >>$rpath
     echo "[${tempbuild}C]" >>$rpath
     echo "type = crypt" >>$rpath
@@ -390,10 +381,25 @@ gdsabuild() {
     echo "password = $ENC_PASSWORD" >>$rpath
     echo "password2 = $ENC_SALT" >>$rpath
   fi
+  
+  if [[ "$(cat /var/plexguide/pgclone.transport)" == "bu" ]]; then
+  ####tempbuild is need in order to call the correct gdsa
+    mkdir -p $downloadpath/move/$tempbuild
+    echo "" >>$rpath
+    echo "[$tempbuild]" >>$rpath
+    echo "type = drive" >>$rpath
+    echo "client_id =" >>$rpath
+    echo "client_secret =" >>$rpath
+    echo "scope = drive" >>$rpath
+    echo "root_folder_id =" >>$rpath
+    echo "service_account_file = /opt/appdata/plexguide/keys/processed/$tempbuild" >>$rpath
+    echo "team_drive = $tdrive" >>$rpath
+  fi
+
 }
 deploykeys3() {
  kread=$(gcloud --account=${pgcloneemail} iam service-accounts list | awk '{print $1}' | tail -n +2 | cut -c7- | cut -f1 -d "?" | sort | uniq | head -n 1 >/var/plexguide/.gcloudposs)
- keyposs=$( cat /var/plexguide/.gcloudposs )
+ keyposs=$(cat /var/plexguide/.gcloudposs )
 
 FIRSTV=$keyposs
 SECONDV=1
@@ -497,15 +503,15 @@ deploykeys2() {
 }
 
 deploykeys() {
-  gcloud iam service-accounts list --filter="GDSA" >/var/plexguide/gdsa.list
+  gcloud iam service-accounts list --filter="gdsa" >/var/plexguide/gdsa.list
   cat /var/plexguide/gdsa.list | awk '{print $2}' | tail -n +2 >/var/plexguide/gdsa.cut
   deploykeys2
 }
 
 projectid() {
-  gcloud projects list >/var/plexguide/projects.list
-  cat /var/plexguide/projects.list | cut -d' ' -f1 | tail -n +2 >/var/plexguide/project.cut
-  projectlist=$(cat /var/plexguide/project.cut)
+  # gcloud projects list >/var/plexguide/projects.list
+  gcloud projects list | cut -d' ' -f1 | tail -n +2 >/var/plexguide/project.cut
+  projectlist=$(gcloud projects list | cut -d' ' -f1 | tail -n +2)
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -542,11 +548,6 @@ ufsbuilder() {
   rm -rf /tmp/pg.gdsa.build 1>/dev/null 2>&1
 
   encryption="off"
-  #fi
-
-  #if [ "$encryption" == "on" ]; then
-  #  echo -n "/mnt/gcrypt=RO:" >> /tmp/pg.gdsa.build
-  #fi
   ##### Encryption Portion ### END
   file="/var/plexguide/unionfs.pgpath"
   if [ -e "$file" ]; then rm -rf /var/plexguide/unionfs.pgpath && touch /var/plexguide/unionfs.pgpath; fi
@@ -570,20 +571,20 @@ EOF
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: Creating Test Directory - gdsa01:/plexguide
+🚀 System Message: Creating Test Directory - GDSA01:/plexguide
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
   sleep 1
-  rclone mkdir --config /opt/appdata/plexguide/rclone.conf gdsa01:/plexguide
+  rclone mkdir --config /opt/appdata/plexguide/rclone.conf GDSA01:/plexguide
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 System Message: Checking Existance of gdsa01:/plexguide
+🚀 System Message: Checking Existance of GDSA01:/plexguide
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-  rcheck=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdsa01: | grep -oP plexguide | head -n1)
+  rcheck=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01: | grep -oP plexguide | head -n1)
 
   if [ "$rcheck" != "plexguide" ]; then
     tee <<-EOF
@@ -680,7 +681,6 @@ keymenu() {
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [A] Backup  Keys
-[B] Restore Keys
 [C] Destory All Prior Service Accounts
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -714,9 +714,6 @@ EOF
     keymenu
   elif [[ "$typed" == "A" || "$typed" == "a" ]]; then
     keybackup
-    keymenu
-  elif [[ "$typed" == "B" || "$typed" == "b" ]]; then
-    keyrestore
     keymenu
   else
     badinput
