@@ -11,13 +11,13 @@ cloneclean() {
     find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chown -cR 1000:1000 {} \+
     find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chmod -cR 755 {} \+
     find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chown -cR 1000:1000 {} \+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 2 -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 2 -type f -size -2M -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 2 -type d -empty -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete    
-    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type f -cmin +"$(cat /var/plexguide/cloneclean.torrent)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 2 -type d -empty -delete
-	find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -type d -empty -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -type f -mmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -type f -size -2M -mmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty -mmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
+    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type f -mmin +"$(cat /var/plexguide/cloneclean.torrent)" -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type d -empty -delete
+    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -type d -empty -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 2 -type d \( ! -name **nzb** ! -name **torrent** ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
 }
 nzbremoverunwantedfiles() {
@@ -134,17 +134,18 @@ eval "${command}"
 }
 
 runner() {
-  pgblitz=$(systemctl list-unit-files | grep pgblitz.service | awk '{ print $2 }')
-  pgmove=$(systemctl list-unit-files | grep pgmove.service | awk '{ print $2 }')
-  if [[ "$pgmove" == "enabled" ]]; then
+  pgblitzcheck=$(systemctl is-active pgblitz)
+  pgmovecheck=$(systemctl is-active pgmove)
+
+  if [[ "$pgmovecheck" == "active" ]]; then
     cloneclean
     nzbremoverunwantedfiles
     removefilesgdrive
-  elif [[ "$pgblitz" == "enabled" ]]; then
+  fi
+  if [[ "$pgblitzcheck" == "active" ]]; then
     cloneclean
     nzbremoverunwantedfiles
     removefilestdrive
-  else cloneclean; fi
+  fi
 }
-
 runner
