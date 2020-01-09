@@ -24,7 +24,7 @@ startscript() {
       if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -eq 1 ]]; then rcone; fi
       if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f | wc -l ) -gt 1 ]]; then rcupload; fi
 	  ###adon later
-	  #if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f \( -name *.srt -o -name *.idx -o -name *.sub \) ) ]]; then rcdrive;fi
+	  #if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f \( -name *.srt -o -name *.idx -o -name *.sub \) ) ]]; then rcdrive; fi
 	  ###adon later
     echo " -- Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgblitz.log
     echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >/var/plexguide/logs/pgblitz.log
