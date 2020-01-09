@@ -5,7 +5,7 @@
 *SAMPLE*
 *.html
 *.backup~
-*.partical~
+*.partial~
 *.rar
 *.r[a0-9][r0-9]
 *.lsn
