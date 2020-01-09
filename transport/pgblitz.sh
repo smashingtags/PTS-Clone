@@ -43,6 +43,7 @@ rcone() {
  sleep 5
 }
 rcupload() {
+sleep 5
  while read p; do
    useragent="$(cat /var/plexguide/uagent)"
    bwlimit="$(cat /var/plexguide/blitz.bw)"
@@ -63,7 +64,9 @@ rcupload() {
     --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" \
     --exclude-from="/opt/pgclone/excluded/excluded.folder"
   echo " -- Upload has finished --" >>/var/plexguide/logs/pgblitz.log
+sleep 30
  done </var/plexguide/.blitzfinal
+sleep 5
 }
 rcdrive() {
    useragent="$(cat /var/plexguide/uagent)"
