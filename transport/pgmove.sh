@@ -45,7 +45,7 @@ rcupload() {
        --log-file=/var/plexguide/logs/pgmove.log \
        --log-level=INFO --stats=5s --stats-file-name-length=0 \
        --max-size=300G --tpslimit=18 --checkers=8 --transfers=4 --no-traverse --fast-list \
-       --max-transfer 740G 4--bwlimit="$bwlimit" \
+       --max-transfer 740G --bwlimit="$bwlimit" \
        --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
        --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
     echo " -- Completed complete for cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
