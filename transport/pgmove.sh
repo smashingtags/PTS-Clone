@@ -51,7 +51,7 @@ while true; do
             --config=/opt/appdata/plexguide/rclone.conf \
             --log-file=/var/plexguide/logs/pgmove.log \
             --log-level=INFO --stats=5s --stats-file-name-length=0 \
-            --max-size=300G --mina-age 2m \
+            --max-size=300G --min-age 2m \
             --tpslimit=10 \
             --checkers=8 \
             --transfers=4 \

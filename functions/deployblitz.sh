@@ -59,6 +59,11 @@ executeblitz() {
     # deploy union
     ansible-playbook /opt/pgclone/ymls/pgunion.yml -e "transport=$transport type=$type multihds=$multihds encryptbit=$encryptbit"
 
+    # output final display
+    if [[ "$type" == "tdrive" ]]; then
+        finaldeployoutput="Blitz - Unencrypted"
+    else finaldeployoutput="Blitz - Encrypted"; fi
+
     # check if services are active and running
     failed=false
 

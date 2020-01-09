@@ -47,8 +47,8 @@ executemove() {
 
     # output final display
     if [[ "$type" == "gdrive" ]]; then
-        finaldeployoutput="PG Move - Unencrypted"
-    else finaldeployoutput="PG Move - Encrypted"; fi
+        finaldeployoutput="Move - Unencrypted"
+    else finaldeployoutput="Move - Encrypted"; fi
 
     # check if services are active and running
     failed=false
@@ -65,17 +65,6 @@ executemove() {
         deployFail
     else
         restartapps
-		runner
 		deploySuccess
     fi
-}
-
-runner() {
-        pgmovecheck=$(systemctl is-active pgmove)
-        pgmove=$(systemctl list-unit-files | grep pgmove.service | awk '{ print $2 }')
-        rm -rf /var/plexguide/pg.blitz && touch /var/plexguide/pg.blitz
-        if [[ "$pgmove" == "enabled" ]]; then
-           if [[ "$pgmovecheck" != "active" ]]; then service pgmove restart; fi
-        else echo " 🔴 Not Operational UPLOADER" >/var/plexguide/pg.blitz
-        fi
 }
