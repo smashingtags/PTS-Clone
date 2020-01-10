@@ -46,7 +46,7 @@ rcupload() {
        --max-transfer 740G --bwlimit="$bwlimit" \
        --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
        --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
-    echo " -- Completed complete for cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
+    echo " -- Completed Move for cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
     echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
 }
 cloneclean() {
