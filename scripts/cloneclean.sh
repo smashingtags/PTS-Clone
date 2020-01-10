@@ -7,17 +7,17 @@
 # GNU:        General Public License v3.0
 ################################################################################
 cloneclean() {
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chmod -cR 755 {} \+
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -exec chown -cR 1000:1000 {} \+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chmod -cR 755 {} \+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 1 -exec chown -cR 1000:1000 {} \+
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -type f -size -2M -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty -cmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$(cat /var/plexguide/cloneclean.nzb)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type f -mmin +"$(cat /var/plexguide/cloneclean.torrent)" -delete
-    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type d -empty -delete
-    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -type d -empty -delete
+    #NZB
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -size -2M -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -mmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
+	#Torrent
+    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type f -cmin +"$(cat /var/plexguide/cloneclean.torrent)" 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type d -empty 2>/dev/null -exec rm -rf {} \;
+    #ALL
+    find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 2 -type d -empty -delete
+    find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 3 -type d \( ! -name syncthings ! -name .stfolder \) -empty -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 2 -type d \( ! -name **nzb** ! -name **torrent** ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
 }
 nzbremoverunwantedfiles() {
