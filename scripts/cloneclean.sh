@@ -9,9 +9,9 @@
 cloneclean() {
     #NZB
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -size -2M -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
-    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
-    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -cmin +"$(cat /var/plexguide/cloneclean.nzb)" 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -size -5M -cmin +2 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty 2>/dev/null -exec rm -rf {} \;
+    find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -cmin +60 2>/dev/null -exec rm -rf {} \;
 	#Torrent
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type f -cmin +"$(cat /var/plexguide/cloneclean.torrent)" 2>/dev/null -exec rm -rf {} \;
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type d -empty 2>/dev/null -exec rm -rf {} \;
