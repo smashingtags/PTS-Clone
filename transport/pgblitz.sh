@@ -11,7 +11,6 @@ truncate -s 0 /var/plexguide/logs/pgblitz.log
 echo "" >>/var/plexguide/logs/pgblitz.log
 echo "" >>/var/plexguide/logs/pgblitz.log
 echo "-- Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
-source /opt/pgclone/scripts/cloneclean.sh
 
 startscript() {
 while read p; do
@@ -25,7 +24,7 @@ while read p; do
   let "cyclecount++"
   if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
   echo "" >>/var/plexguide/logs/pgblitz.log
-  echo " -- Starting Blitz: cycle $cyclecount:  $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
+  echo " -- Starting Blitz: cycle $cyclecount: $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
   rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
     -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
     --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
@@ -36,7 +35,7 @@ while read p; do
        --log-level=INFO --stats=5s --stats-file-name-length=0 \
        --max-size=100G --min-age 30s --tpslimit=8 \
        --drive-pacer-min-sleep=100ms --checkers="$vfs_c" \
-       --transfers="$vfs_t" --no-traverse  --fast-list \
+       --transfers="$vfs_t" --no-traverse --fast-list \
        --max-transfer "$vfs_mt" --bwlimit="$bwlimit" \
        --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
        --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
@@ -56,7 +55,7 @@ while read p; do
         --max-size=100G --min-age 1m --tpslimit=8 \
         --drive-pacer-min-sleep=100ms --checkers=8 \
         --transfers="$vfs_t" --no-traverse \
-        --fast-list --max-transfer "$vfs_mt" --bwlimit="$bwlimit" \
+        --fast-list --max-transfer 750G --bwlimit="$bwlimit" \
         --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
         --include="*.srt*" --include="*.idx" --include="*.sub"
         echo " -- Subs Upload has finished to GDCRYPT: --" >>/var/plexguide/logs/pgblitz.log
@@ -69,7 +68,7 @@ while read p; do
         --max-size=100G --min-age 1m --tpslimit=8 \
         --drive-pacer-min-sleep=100ms --checkers=8 \
         --transfers="$vfs_t" --no-traverse \
-        --fast-list --max-transfer "$vfs_mt" --bwlimit="$bwlimit" \
+        --fast-list --max-transfer 750G --bwlimit="$bwlimit" \
         --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
         --include="*.srt*" --include="*.idx" --include="*.sub"
         echo " -- Subs Upload has finished to GDRIVE: --" >>/var/plexguide/logs/pgblitz.log
