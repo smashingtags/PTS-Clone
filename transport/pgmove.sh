@@ -6,10 +6,10 @@
 #
 # fuck off brandings
 ################################################################################
-touch /var/plexguide/logs/pgmove.log
-truncate -s 0 /var/plexguide/logs/pgmove.log
-echo "" >>/var/plexguide/logs/pgmove.log
-echo "---Starting Move: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
+touch /var/plexguide/logs/uploader/upload.log
+truncate -s 0 /var/plexguide/logs/uploader/upload.log
+echo "" >>/var/plexguide/logs/uploader/upload.log
+echo " -- Starting Move: -- " >>/var/plexguide/logs/uploader/upload.log
 
 startscript() {
 while true; do
@@ -31,8 +31,8 @@ rcupload() {
    let "cyclecount++"
    if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
 
-    echo "" >>/var/plexguide/logs/pgmove.log
-    echo " -- Starting Move Upload cycle $cyclecount - $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgmove.log
+    echo "" >>/var/plexguide/logs/uploader/upload.log
+    echo " -- Starting Move Upload cycle $cyclecount -- " >>/var/plexguide/logs/uploader/upload.log
 
     useragent="$(cat /var/plexguide/uagent)"
     bwlimit="$(cat /var/plexguide/move.bw)"
@@ -46,8 +46,8 @@ rcupload() {
        --max-transfer 740G --bwlimit="$bwlimit" \
        --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
        --exclude-from="/opt/pgclone/transport/transport-gdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
-    echo " -- Completed Move for cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/var/plexguide/logs/pgmove.log
-    echo "$(tail -n 200 /var/plexguide/logs/pgmove.log)" >/var/plexguide/logs/pgmove.log
+    echo " -- Completed Move for cycle $cyclecount --" >>/var/plexguide/logs/uploader/upload.log
+    echo "$(tail -n 200 /var/plexguide/logs/uploader/upload.log)" >/var/plexguide/logs/pgmove.log
 }
 cloneclean() {
 bash /opt/pgclone/scripts/cloneclean.sh

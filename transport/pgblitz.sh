@@ -6,11 +6,11 @@
 # fuck off brandings 
 ################################################################################
 # Starting Actions
-touch /var/plexguide/logs/pgblitz.log
-truncate -s 0 /var/plexguide/logs/pgblitz.log
-echo "" >>/var/plexguide/logs/pgblitz.log
-echo "" >>/var/plexguide/logs/pgblitz.log
-echo "-- Starting Blitz: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
+touch /var/plexguide/logs/uploader/upload.log
+truncate -s 0 /var/plexguide/logs/uploader/upload.log
+echo "" >>/var/plexguide/logs/uploader/upload.log
+echo "" >>/var/plexguide/logs/uploader/upload.log
+echo " -- Starting Blitz: --" >>/var/plexguide/logs/uploader/upload.log
 
 startscript() {
 while read p; do
@@ -23,8 +23,8 @@ while read p; do
   vfs_c="$(cat /var/plexguide/vfs_c)"
   let "cyclecount++"
   if [[ $cyclecount -gt 4294967295 ]]; then cyclecount=0; fi
-  echo "" >>/var/plexguide/logs/pgblitz.log
-  echo " -- Starting Blitz: cycle $cyclecount: $p: $(date "+%Y-%m-%d %H:%M:%S") --" >>/var/plexguide/logs/pgblitz.log
+  echo "" >>/var/plexguide/logs/uploader/upload.log
+  echo " -- Starting Blitz: cycle $cyclecount: $p: --" >>/var/plexguide/logs/uploader/upload.log
   rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
     -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
     --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
@@ -39,12 +39,11 @@ while read p; do
        --max-transfer "$vfs_mt" --bwlimit="$bwlimit" \
        --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
        --exclude-from="/opt/pgclone/transport/transport-tdrive.exclude" --exclude-from="/opt/pgclone/excluded/excluded.folder"
-       echo " -- Upload has finished -- " >>/var/plexguide/logs/pgblitz.log
-       echo "$(tail -n 200 /var/plexguide/logs/pgblitz.log)" >>/var/plexguide/logs/pgblitz.log
+       echo " -- Upload has finished -- " >>/var/plexguide/logs/uploader/upload.log
+       echo "$(tail -n 200 /var/plexguide/logs/uploader/upload.log)" >>/var/plexguide/logs/uploader/upload.log
   else
-       echo " No files in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
+       echo " No files in $(cat /var/plexguide/server.hd.path)/move to upload. " >>/var/plexguide/logs/uploader/upload.log
   fi
-  bash /opt/pgclone/scripts/cloneclean.sh
   if [[ $(find "$(cat /var/plexguide/server.hd.path)/move" -type f \( -name *.srt -o -name *.idx -o -name *.sub \) ) ]]; then
     catter=$(cat /opt/appdata/plexguide/rclone.conf | grep "GDSA01C")
     if [[ "$catter" == "[GDSA01C]" ]]; then
@@ -58,7 +57,7 @@ while read p; do
         --fast-list --max-transfer 750G --bwlimit="$bwlimit" \
         --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
         --include="*.srt*" --include="*.idx" --include="*.sub"
-        echo " -- Subs Upload has finished to GDCRYPT: --" >>/var/plexguide/logs/pgblitz.log
+        echo " -- Subs Upload has finished to GDCRYPT: --" >>/var/plexguide/logs/uploader/upload.log
     fi
     if [[ "$catter" != "[GDSA01C]" ]]; then
         rclone moveto "$(cat /var/plexguide/server.hd.path)/move" "gdrive:/" \
@@ -71,12 +70,13 @@ while read p; do
         --fast-list --max-transfer 750G --bwlimit="$bwlimit" \
         --drive-chunk-size="$vfs_dcs" --user-agent="$useragent" \
         --include="*.srt*" --include="*.idx" --include="*.sub"
-        echo " -- Subs Upload has finished to GDRIVE: --" >>/var/plexguide/logs/pgblitz.log
+        echo " -- Subs Upload has finished to GDRIVE: --" >>/var/plexguide/logs/uploader/upload.log
     fi
   else
-      echo " No Subs in $(cat /var/plexguide/server.hd.path)/move to upload. $(date "+%Y-%m-%d %H:%M:%S") " >>/var/plexguide/logs/pgblitz.log
+      echo " No Subs in $(cat /var/plexguide/server.hd.path)/move to upload. " >>/var/plexguide/logs/uploader/upload.log
   fi
-      echo " -- Completed Blitz cycle $cyclecount - $p:  $(date "+%Y-%m-%d %H:%M:%S") -- " >>/var/plexguide/logs/pgblitz.log
+      echo " -- Completed Blitz cycle $cyclecount - $p -- " >>/var/plexguide/logs/uploader/upload.log
+  bash /opt/pgclone/scripts/cloneclean.sh
       sleep 30
 done </var/plexguide/.blitzfinal
 }
