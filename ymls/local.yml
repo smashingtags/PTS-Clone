@@ -19,6 +19,16 @@
       shell: 'cat /var/plexguide/server.hd.path'
       register: hdpath
 
+    - name: Create Basic Directories
+      file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000 recurse=true'
+      with_items:
+        - '/var/plexguide/logs'
+        - '/var/plexguide/logs/drive'
+        - '/var/plexguide/logs/emergency'
+        - '/var/plexguide/logs/uploader'
+        - '/opt/plexguide/roles/log'
+      ignore_errors: yes
+
     - debug: msg="Combined Path - {{multihds}}"
 
     - name: Install Union Script
