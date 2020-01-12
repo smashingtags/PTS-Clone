@@ -114,7 +114,7 @@ echo "Executing ${command}"
 eval "${command}"
 }
 
-rsync() {
+rcommand() {
     rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
     -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
     --exclude-from="/opt/pgclone/excluded/transport.exclude" \
@@ -123,13 +123,12 @@ rsync() {
 
 runner() {
 while read p; do
-    rsync
+    rcommand
     cloneclean
     nzbremoverunwantedfiles
     removefiles
  sleep 60
  done </var/plexguide/.blitzfinal
 }
-# keeps the function in a loop
-cheeseballs=0
-while [[ "$cheeseballs" == "0" ]]; do runner; done
+
+runner
