@@ -131,9 +131,9 @@ EOF
         clonestartoutput
         tee <<-EOF
 
-[1] Deploy               (Local HD/Mounts)
-[2] MultiHD              (Add Mounts xor Hard Drives)
-[3] Transport            (Change Transportion Mode)
+[1] Deploy               ( Local HD / Mounts )
+[2] MultiHD              ( Add Mounts or Hard Drives )
+[3] Transport            ( Change Transportion Mode )
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [Z] Exit
@@ -155,8 +155,8 @@ EOF
 		dockerstatus
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[A] Deploy Mounts             [ $outputversion ]
-[D] Deploy Docker Uploader    [ $dstatus ]
+[A] Deploy Mounts            [ $outputversion ]
+[D] Deploy Docker Uploader   [ $dstatus ]
 [O] Options
 [B] Backup Rclone Settings
 [S] RClone Settings
