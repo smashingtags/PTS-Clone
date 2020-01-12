@@ -124,11 +124,14 @@ rcommand() {
 runner() {
 while read p; do
     rcommand
+  sleep 90
     cloneclean
     nzbremoverunwantedfiles
     removefiles
- sleep 60
+ sleep 180
  done </var/plexguide/.blitzfinal
 }
 
-runner
+# keeps the function in a loop
+cheeseballs=0
+while [[ "$cheeseballs" == "0" ]]; do runner; done
