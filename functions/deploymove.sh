@@ -44,7 +44,7 @@ executemove() {
 
     # deploy union
     ansible-playbook /opt/pgclone/ymls/pgunion.yml -e "transport=$transport multihds=$multihds type=$type"
-
+    ansible-playbook /opt/pgclone/ymls/uploader.yml
     # output final display
     if [[ "$type" == "gdrive" ]]; then
         finaldeployoutput="Move - Unencrypted"

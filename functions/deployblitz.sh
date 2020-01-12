@@ -58,6 +58,7 @@ executeblitz() {
 
     # deploy union
     ansible-playbook /opt/pgclone/ymls/pgunion.yml -e "transport=$transport type=$type multihds=$multihds encryptbit=$encryptbit"
+    ansible-playbook /opt/pgclone/ymls/uploader.yml
 
     # check if services are active and running
     failed=false
