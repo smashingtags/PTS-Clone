@@ -62,7 +62,7 @@
 
      ########## SERVICE CLONECLEAN ##########
 
-    - name: 'Check Service's Existance'
+    - name: 'Check Services Existance'
       stat:
         path: '/etc/systemd/systemd/cloneclean.service'
       register: cxp
