@@ -82,8 +82,7 @@ command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${cond
 echo "Executing ${command}"
 eval "${command}"
 }
-
-removefilestdrive() {
+removefiles() {
 UNWANTED_FILES=(
 '*.nfo'
 '*.jpeg'
@@ -114,61 +113,23 @@ command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${cond
 echo "Executing ${command}"
 eval "${command}"
 }
-removefilesgdrive() {
-UNWANTED_FILES=(
-'*.nfo'
-'*.rar'
-'*.r[a0-9][r0-9]'
-'*sample*'
-)
-# advanced settings
-FIND=$(which find)
-FIND_BASE_CONDITION='-type f'
-FIND_ADD_NAME='-o -name'
-FIND_ACTION=' -delete'
-#Folder Setting
-TARGET_FOLDER=$1"$(cat /var/plexguide/server.hd.path)/downloads/"
-if [ ! -d "${TARGET_FOLDER}" ]; then
-   echo 'Target directory does not exist.'
-   exit 1
-fi
-condition="-name '${UNWANTED_FILES[0]}'"
-for ((i = 1; i < ${#UNWANTED_FILES[@]}; i++))
-do
-    condition="${condition} ${FIND_ADD_NAME} '${UNWANTED_FILES[i]}'"
-done
-command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${condition} ! -name **nzb** ! -name **torrent** \) ${FIND_ACTION}"
-echo "Executing ${command}"
-eval "${command}"
+
+rsync() {
+    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+    -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
+    --exclude-from="/opt/pgclone/excluded/transport.exclude" \
+    --exclude-from="/opt/pgclone/excluded/excluded.folder"
 }
 
 runner() {
 while read p; do
-  pgblitzcheck=$(systemctl is-active pgblitz)
-  pgmovecheck=$(systemctl is-active pgmove)
-
-  if [[ "$pgmovecheck" == "active" ]]; then
-    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
-    -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
-    --exclude-from="/opt/pgclone/excluded/transport-gdrive.exclude" \
-	--exclude-from="/opt/pgclone/excluded/excluded.folder"
+    rsync
     cloneclean
     nzbremoverunwantedfiles
-    removefilesgdrive
-  fi
-  if [[ "$pgblitzcheck" == "active" ]]; then
-    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
-    -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
-    --exclude-from="/opt/pgclone/excluded/transport-tdrive.exclude" \
-	--exclude-from="/opt/pgclone/excluded/excluded.folder"
-    cloneclean
-    nzbremoverunwantedfiles
-    removefilestdrive
-	
-  fi
- done
+    removefiles
+ sleep 60
+ done </var/plexguide/.blitzfinal
 }
 # keeps the function in a loop
 cheeseballs=0
 while [[ "$cheeseballs" == "0" ]]; do runner; done
-
