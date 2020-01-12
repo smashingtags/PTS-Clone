@@ -52,7 +52,7 @@ EOF
 [5] TDrive OAuth             [ $tstatus ]
 [6] GDrive OAuth             [ $gstatus ] 
 [7] Key Management           [ $displaykey ] Built
-[8] TDrive	              ( E-Mail Share Generator )
+[8] TDrive	             ( E-Mail Share Generator )
 EOF
     elif [[ "$transport" == "be" ]]; then
         tee <<-EOF
@@ -66,7 +66,7 @@ EOF
 [6] TDrive | TCrypt          [ $tstatus ] - [ $tcstatus ]
 [7] GDrive | GCrypt          [ $gstatus ] - [ $gcstatus ]
 [8] Key Management           [ $displaykey ] Built
-[9] TDrive	              ( E-Mail Share Generator )
+[9] TDrive	             ( E-Mail Share Generator )
 
 EOF
     elif [[ "$transport" == "le" ]]; then
@@ -155,8 +155,8 @@ EOF
 		dockerstatus
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[A] Deploy Mounts                 [ $outputversion ]
-[D] Deploy Docker Uploader        [ $dstatus ]
+[A] Deploy Mounts             [ $outputversion ]
+[D] Deploy Docker Uploader    [ $dstatus ]
 [O] Options
 [B] Backup Rclone Settings
 [S] RClone Settings
