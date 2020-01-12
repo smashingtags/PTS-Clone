@@ -56,9 +56,8 @@ executemove() {
     gdrivecheck=$(systemctl is-active gdrive)
     gcryptcheck=$(systemctl is-active gcrypt)
     pgunioncheck=$(systemctl is-active pgunion)
-    pgmovecheck=$(systemctl is-active pgmove)
 
-    if [[ "$gdrivecheck" != "active" || "$pgunioncheck" != "active" || "$pgmovecheck" != "active" ]]; then failed=true; fi
+    if [[ "$gdrivecheck" != "active" || "$pgunioncheck" != "active" ]]; then failed=true; fi
     if [[ "$gcryptcheck" != "active" && "$transport" == "me" ]]; then failed=true; fi
 
     if [[ $failed == true ]]; then

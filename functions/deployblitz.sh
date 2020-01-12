@@ -68,9 +68,8 @@ executeblitz() {
     tdrivecheck=$(systemctl is-active tdrive)
     tcryptcheck=$(systemctl is-active tcrypt)
     pgunioncheck=$(systemctl is-active pgunion)
-    pgblitzcheck=$(systemctl is-active pgblitz)
 
-    if [[ "$gdrivecheck" != "active" || "$tdrivecheck" != "active" || "$pgunioncheck" != "active" || "$pgblitzcheck" != "active" ]]; then failed=true; fi
+    if [[ "$gdrivecheck" != "active" || "$tdrivecheck" != "active" || "$pgunioncheck" != "active" ]]; then failed=true; fi
     if [[ "$gcryptcheck" != "active" || "$tcryptcheck" != "active" ]] && [[ "$transport" == "be" ]]; then failed=true; fi
     if [[ $failed == true ]]; then
         deployFail
