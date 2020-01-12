@@ -19,6 +19,7 @@ cloneclean() {
     find "$(cat /var/plexguide/server.hd.path)/move" -mindepth 1 -type d -empty -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 3 -type d \( ! -name syncthings ! -name .stfolder \) -empty -delete
     find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 2 -type d \( ! -name **nzb** ! -name **torrent** ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
+    sleep 30
 }
 nzbremoverunwantedfiles() {
 UNWANTED_FILES=(
@@ -81,6 +82,7 @@ done
 command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${condition} \) ${FIND_ACTION}"
 echo "Executing ${command}"
 eval "${command}"
+sleep 30
 }
 removefiles() {
 UNWANTED_FILES=(
@@ -112,6 +114,7 @@ done
 command="${FIND} '${TARGET_FOLDER}' -maxdepth 3 ${FIND_BASE_CONDITION} \( ${condition} ! -name **nzb** ! -name **torrent** \) ${FIND_ACTION}"
 echo "Executing ${command}"
 eval "${command}"
+sleep 30
 }
 
 rcommand() {
@@ -119,16 +122,15 @@ rcommand() {
     -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
     --exclude-from="/opt/pgclone/excluded/transport.exclude" \
     --exclude-from="/opt/pgclone/excluded/excluded.folder"
+	sleep 30
 }
 
 runner() {
 while read p; do
     rcommand
-  sleep 90
     cloneclean
     nzbremoverunwantedfiles
     removefiles
- sleep 180
  done </var/plexguide/.blitzfinal
 }
 
