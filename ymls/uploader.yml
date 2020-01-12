@@ -51,14 +51,27 @@
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
-          UID: '1000'
-          GID: '1000'
+          PUID: '1000'
+          PGID: '1000'
           TZ: '${TZ}'
           DISABLE_UNIONFS_CHOWN: 'true'
           DISABLE_TDRIVE1: 'true'
           DISABLE_TDRIVE2: 'true'
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
+
+    - name: Install CloceClean Service
+      template:
+        src: /opt/pgclone/scripts/cloneclean.service.j2
+        dest: /etc/systemd/system/cloneclean.service
+        force: yes
+
+    - name: Reload cloneclean Service
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: reloaded
+        name: cloneclean
 
     - name: Remove old rclone.conf
       shell: 'rm -rf /opt/appdata/uploader/rclone.conf'

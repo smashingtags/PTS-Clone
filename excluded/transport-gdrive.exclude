@@ -1,0 +1,11 @@
+# filename patterns to exclude from uploading
+#*.sample
+*.nfo
+*sample*
+*SAMPLE*
+*.html
+*.backup~
+*.partial~
+*.rar
+*.r[a0-9][r0-9]
+*.lsn

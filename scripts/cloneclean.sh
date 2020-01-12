@@ -143,18 +143,32 @@ eval "${command}"
 }
 
 runner() {
+while read p; do
   pgblitzcheck=$(systemctl is-active pgblitz)
   pgmovecheck=$(systemctl is-active pgmove)
 
   if [[ "$pgmovecheck" == "active" ]]; then
+    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+    -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
+    --exclude-from="/opt/pgclone/excluded/transport-gdrive.exclude" \
+	--exclude-from="/opt/pgclone/excluded/excluded.folder"
     cloneclean
     nzbremoverunwantedfiles
     removefilesgdrive
   fi
   if [[ "$pgblitzcheck" == "active" ]]; then
+    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
+    -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
+    --exclude-from="/opt/pgclone/excluded/transport-tdrive.exclude" \
+	--exclude-from="/opt/pgclone/excluded/excluded.folder"
     cloneclean
     nzbremoverunwantedfiles
     removefilestdrive
+	
   fi
+ done
 }
-runner
+# keeps the function in a loop
+cheeseballs=0
+while [[ "$cheeseballs" == "0" ]]; do runner; done
+

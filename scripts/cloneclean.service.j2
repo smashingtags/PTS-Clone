@@ -1,0 +1,14 @@
+################################################################################
+[Unit]
+Description=cloneclean service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=0
+Group=0
+ExecStart=/bin/bash /opt/pgclone/scripts/cloneclean.sh
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
