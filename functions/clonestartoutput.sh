@@ -24,7 +24,6 @@ clonestartoutput() {
 echo "ACTIVELY DEPLOYED: 	  $dversionoutput "
 echo ""
     if [[ "$demo" == "ON " ]]; then mainid="********"; else mainid="$pgcloneemail"; fi
-
     if [[ "$transport" == "mu" ]]; then
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -76,7 +75,6 @@ or hard drives are required to be added!
 EOF
     fi
 }
-
 errorteamdrive() {
     if [[ "$tdname" == "NOT-SET" ]]; then
         tee <<-EOF
@@ -96,10 +94,8 @@ EOF
         clonestart
     fi
 }
-
 clonestart() {
     pgclonevars
-
     # pull throttle speeds based on role
     if [[ "$transport" == "mu" || "$transport" == "me" ]]; then
         throttle=$(cat /var/plexguide/move.bw)
@@ -108,12 +104,10 @@ clonestart() {
         throttle=$(cat /var/plexguide/blitz.bw)
         output1="[S] RClone Settings"
     fi
-
     if [[ "$transport" != "mu" && "$transport" != "me" && "$transport" != "bu" && "$transport" != "be" && "$transport" != "le" ]]; then
         rm -rf /var/plexguide/pgclone.transport 1>/dev/null 2>&1
         mustset
     fi
-
     if [[ "$transport" == "mu" ]]; then
         outputversion="Unencrypted Move"
     elif [[ "$transport" == "me" ]]; then
@@ -125,7 +119,6 @@ clonestart() {
     elif [[ "$transport" == "le" ]]; then
         outputversion="Local Hard Drives"
     fi
-
     if [[ "$transport" == "le" ]]; then
         tee <<-EOF
 
@@ -135,7 +128,6 @@ clonestart() {
 
 EOF
         clonestartoutput
-
         tee <<-EOF
 
 [1] Deploy     (Local HD/Mounts)
@@ -143,16 +135,13 @@ EOF
 [3] Transport  (Change Transportion Mode)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 [Z] Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
 EOF
         read -rp '↘️  Input Selection | Press [ENTER]: ' typed </dev/tty
-
         localstartoutput
-
     else
         tee <<-EOF
 
@@ -162,11 +151,12 @@ EOF
 
 EOF
         clonestartoutput
-
+		dockerstatus
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [A] Deploy $outputversion
+[D] Deploy Docker Uploader                  [ $dstatus ]
 [O] Options
 [B] Backup Rclone Settings
 [S] RClone Settings
@@ -180,7 +170,12 @@ EOF
         clonestartactions
     fi
 }
-
+dockerstatus() {
+upper=$(docker ps --format '{{.Names}}' | grep "uploader")
+if [[ "$upper" == "uploader" ]]; then
+ dstatus="✅ DEPLOYED"
+  else dstatus="⚠️ NOT DEPLOYED"; fi
+}
 localstartoutput() {
     case $typed in
     1) executelocal ;;
@@ -190,10 +185,8 @@ localstartoutput() {
     Z) exit ;;
     *) clonestart ;;
     esac
-
     clonestart
 }
-
 clonestartactions() {
     if [[ "$transport" == "mu" ]]; then
         case $typed in
@@ -202,7 +195,9 @@ clonestartactions() {
         z)  exit ;;
         Z)  exit ;;
         a) publicsecretchecker && mountchecker && deploypgmove ;;
-		A) publicsecretchecker && mountchecker && deploypgmove ;;
+        A) publicsecretchecker && mountchecker && deploypgmove ;;
+        D) publicsecretchecker && deploydockeruplader ;;
+        d) publicsecretchecker && deploydockeruplader ;;
         o) optionsmenumove ;;
         O) optionsmenumove ;;
         s) rcloneSettings ;;
@@ -219,6 +214,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
         A) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
+        D) publicsecretchecker && passwordcheck && deploydockeruplader ;;
+        d) publicsecretchecker && passwordcheck && deploydockeruplader ;;
         s) rcloneSettings ;;
         S) rcloneSettings ;;
         o) optionsmenumove ;;
@@ -240,6 +237,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
         A) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
+        D) publicsecretchecker && tlabelchecker && deploydockeruplader ;;
+        d) publicsecretchecker && tlabelchecker && deploydockeruplader ;;
         b) publicsecretchecker && mountchecker && keybackup ;;
         B) publicsecretchecker && mountchecker && keybackup ;;
         s) rcloneSettings;;
@@ -264,6 +263,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
         A) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
+        D) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruplader ;;
+        d) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruplader ;;
         b) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         B) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         o) optionsmenu ;;
@@ -275,7 +276,6 @@ clonestartactions() {
     fi
     clonestart
 }
-
 # For Blitz
 optionsmenu() {
     pgclonevars
@@ -319,7 +319,6 @@ EOF
     esac
     optionsmenu
 }
-
 # For Move
 optionsmenumove() {
     pgclonevars
@@ -354,7 +353,6 @@ EOF
     esac
     optionsmenu
 }
-
 demomode() {
     if [[ "$demo" == "OFF" ]]; then
         echo "ON " >/var/plexguide/pgclone.demo

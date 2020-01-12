@@ -121,7 +121,6 @@
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
-        privileged: 'true'
         devices:
           - '/dev/fuse'
         privileged: true
