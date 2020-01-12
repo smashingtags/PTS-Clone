@@ -23,7 +23,7 @@
       include_tasks: '/opt/pgclone/ymls/_core.yml'
     
     - name: Remove old symlinks
-      include_tasks: '/opt/pgclone/ymls/symlink.yml
+      include_tasks: '/opt/pgclone/ymls/symlink.yml'
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -61,6 +61,12 @@
           DISABLE_TDRIVE2: 'true'
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
+
+    - name: CLone rclone.config
+      shell: 'cp -r /opt/appdata/plexguide/rclone.conf /opt/appdata/uploader/rclone.conf'
+    
+    - name: Clone key
+      shell: 'cp -rv cp -rv "/opt/appdata/plexguide/.blitzkeys" /opt/appdata/uploader/keys'
 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
