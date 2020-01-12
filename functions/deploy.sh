@@ -292,12 +292,13 @@ failclean() {
 ⛔ Failure during $mount unmount
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-There was a problem unmounting $mount. Please reboot your server and try
-a redeploy of PTSClone again. If this problem persists after a reboot, join
+There was a problem unmounting $mount. 
+Please reboot your server and trya redeploy of PTS-Clone again. 
+If this problem persists after a reboot, join
 discord and ask for help.
 
-⚠ Warning: Your apps have been stopped to prevent data loss. Please reboot
-and redepoy PTSClone to fix.
+⚠ Warning: Your apps have been stopped to prevent data loss. 
+Please reboot and redepoy PTS-Clone to fix.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -337,19 +338,19 @@ deployFail() {
 ⛔ DEPLOY FAILED: $finaldeployoutput
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-An error has occurred when deploying rClone.
+An error has occurred when deploying PTS-Clone.
 Your apps are currently stopped to prevent data loss.
 
 Things to try: 
 If you just finished the initial setup, you likely made a typo
-or other error when configuring rClone. 
-Please redo the rclone config first before reporting an issue.
+or other error when configuring PTS-Clone. 
+Please redo the PTS-Clone config first before reporting an issue.
 
 If this issue still persists:
 Please share this error on discord or the forums before proceeding.
 
 If there error says the mount is not empty, then you need to reboot your
-server and redeploy rClone to fix.
+server and redeploy PTS-Clone to fix.
 
 Error details: 
 $erroroutput
@@ -365,16 +366,26 @@ EOF
 
 }
 deploySuccess() {
-
+domain=$(cat /var/plexguide/server.domain)
+ip=$(cat /var/plexguide/server.ip)
   tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💪 DEPLOYED: $finaldeployoutput
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-rClone has been deployed sucessfully!
+PTS-Clone has been deployed sucessfully!
 All services are active and running normally.
 
+The Uploader is under
+
+     https://uploader.${domain}
+
+     or
+
+     http://${ip}:7777
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
 }
