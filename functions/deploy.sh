@@ -49,7 +49,7 @@ deploypgmove() {
 ### Docker Uploader Deploy start ##
 deploydockeruploader() {
 rcc=/opt/appdata/plexguide/rclone.conf
-if [[ ! -f "$rcc" ]]; then no
+if [[ ! -f "$rcc" ]]; then
 unionrunning
 else deploydocker; fi
 }
