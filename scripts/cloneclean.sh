@@ -12,7 +12,7 @@ cloneclean() {
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type f -size -5M -amin +2 2>/dev/null -exec rm -rf {} \;
     find "$(cat /var/plexguide/server.hd.path)/downloads/nzb" -mindepth 1 -type d -empty 2>/dev/null -exec rm -rf {} \;
     find "$(cat /var/plexguide/server.hd.path)/nzb/" -mindepth 1 -name "*.nzb.*" -type f -amin +60 2>/dev/null -exec rm -rf {} \;
-	#Torrent
+    #Torrent
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type f -amin +"$(cat /var/plexguide/cloneclean.torrent)" 2>/dev/null -exec rm -rf {} \;
     find "$(cat /var/plexguide/server.hd.path)/downloads/torrent" -mindepth 1 -type d -empty 2>/dev/null -exec rm -rf {} \;
     #ALL
