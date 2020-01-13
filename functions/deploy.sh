@@ -46,7 +46,35 @@ deploypgmove() {
   fi
   deploydrives
 }
-deploydockeruplader() {
+### Docker Uploader Deploy start ##
+deploydockeruploader() {
+#check for running unionfs#
+pgunioncheck=$(systemctl is-active pgunion)
+if [[ "$pgunioncheck" == "active" ]]; then
+ deploydocker
+else nounionrunning; fi
+}
+nounionrunning() {
+pgunioncheck=$(systemctl is-active pgunion)
+if [[ "$pgunioncheck" != "active" ]]; then
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ Fail Notice for deploy of Docker Uploader
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Sorry we can't  Deploy the Docker Uploader.
+ No mounts are running , please deploy first the mounts.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ Fail Notice for deploy of Docker Uploader 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+cleanlogs
+  read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
+clonestart 
+fi
+}
+deploydocker() {
 upper=$(docker ps --format '{{.Names}}' | grep "uploader")
 if [[ "$upper" != "uploader" ]]; then
 	  tee <<-EOF
@@ -94,8 +122,9 @@ ip=$(cat /var/plexguide/server.ip)
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   
-else clonestartoutput; fi
+else clonestart; fi
 }
+### Docker Uploader Deploy end ##
 
 deploydrives() {
   fail=0
