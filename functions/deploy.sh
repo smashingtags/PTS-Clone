@@ -50,7 +50,7 @@ deploypgmove() {
 deploydockeruploader() {
 rcc=/opt/appdata/plexguide/rclone.conf
 if [[ ! -f "$rcc" ]]; then
-nunionrunning
+nounionrunning
 else deploydocker; fi
 }
 nounionrunning() {
