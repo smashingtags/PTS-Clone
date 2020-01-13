@@ -110,13 +110,13 @@ clonestart() {
         mustset
     fi
     if [[ "$transport" == "mu" ]]; then
-        outputversion="Unencrypted Move"
+        outputversion="Unencrypted Gdrive"
     elif [[ "$transport" == "me" ]]; then
-        outputversion="Encrypted Move"
+        outputversion="Encrypted Gcrypt"
     elif [[ "$transport" == "bu" ]]; then
-        outputversion="Unencrypted Blitz"
+        outputversion="Unencrypted TDrive"
     elif [[ "$transport" == "be" ]]; then
-        outputversion="Encrypted Blitz"
+        outputversion="Encrypted Tcrypt"
     elif [[ "$transport" == "le" ]]; then
         outputversion="Local Hard Drives"
     fi
