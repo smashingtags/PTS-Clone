@@ -48,15 +48,14 @@ deploypgmove() {
 }
 ### Docker Uploader Deploy start ##
 deploydockeruploader() {
-#check for running unionfs#
-pgunioncheck=$(systemctl is-active pgunion)
-if [[ "$pgunioncheck" == "active" ]]; then
- deploydocker
-else nounionrunning; fi
+rcc=/opt/appdata/plexguide/rclone.conf
+if [[ ! -f "$rcc" ]]; then no
+unionrunning
+else deploydocker; fi
 }
 nounionrunning() {
-pgunioncheck=$(systemctl is-active pgunion)
-if [[ "$pgunioncheck" != "active" ]]; then
+rcc=/opt/appdata/plexguide/rclone.conf
+if [[ ! -f "$rcc" ]]; then
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔ Fail Notice for deploy of Docker Uploader
@@ -71,12 +70,16 @@ tee <<-EOF
 EOF
 cleanlogs
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-clonestart 
+clonestart
 fi
 }
 deploydocker() {
 upper=$(docker ps --format '{{.Names}}' | grep "uploader")
-if [[ "$upper" != "uploader" ]]; then
+if [[ "$upper" != "uploader" ]]; then 
+dduploader
+else ddredeploy; fi
+}
+dduploader() {
 	  tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	🚀      Deploy of Docker Uploader
@@ -96,8 +99,11 @@ if [[ "$upper" != "uploader" ]]; then
      http://${ip}:7777
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-  read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-elif [[ "$upper" == "uploader" ]]; then
+cleanlogs
+    read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
+    clonestart
+}
+ddredeploy() {
 	  tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	🚀      Redeploy of Docker Uploader
@@ -120,9 +126,9 @@ ip=$(cat /var/plexguide/server.ip)
      http://${ip}:7777
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-  read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-  
-else clonestart; fi
+cleanlogs
+    read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
+    clonestart
 }
 ### Docker Uploader Deploy end ##
 
