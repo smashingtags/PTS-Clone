@@ -68,7 +68,6 @@ tee <<-EOF
 ⛔ Fail Notice for deploy of Docker Uploader 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-cleanlogs
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
 clonestart
 fi
@@ -99,7 +98,6 @@ dduploader() {
      http://${ip}:7777
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-cleanlogs
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
     clonestart
 }
@@ -126,7 +124,6 @@ ip=$(cat /var/plexguide/server.ip)
      http://${ip}:7777
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-cleanlogs
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
     clonestart
 }
