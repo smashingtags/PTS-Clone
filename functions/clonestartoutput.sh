@@ -195,8 +195,8 @@ clonestartactions() {
         Z)  exit ;;
         a) publicsecretchecker && mountchecker && deploypgmove ;;
         A) publicsecretchecker && mountchecker && deploypgmove ;;
-        D) publicsecretchecker && deploydockeruplader ;;
-        d) publicsecretchecker && deploydockeruplader ;;
+        D) publicsecretchecker && deploydockeruploader ;;
+        d) publicsecretchecker && deploydockeruploader ;;
         o) optionsmenumove ;;
         O) optionsmenumove ;;
         s) rcloneSettings ;;
@@ -213,8 +213,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
         A) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
-        D) publicsecretchecker && passwordcheck && deploydockeruplader ;;
-        d) publicsecretchecker && passwordcheck && deploydockeruplader ;;
+        D) publicsecretchecker && passwordcheck && deploydockeruploader ;;
+        d) publicsecretchecker && passwordcheck && deploydockeruploader ;;
         s) rcloneSettings ;;
         S) rcloneSettings ;;
         o) optionsmenumove ;;
@@ -236,8 +236,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
         A) publicsecretchecker && tlabelchecker && mountchecker && deploypgblitz ;;
-        D) publicsecretchecker && tlabelchecker && deploydockeruplader ;;
-        d) publicsecretchecker && tlabelchecker && deploydockeruplader ;;
+        D) publicsecretchecker && tlabelchecker && deploydockeruploader ;;
+        d) publicsecretchecker && tlabelchecker && deploydockeruploader ;;
         b) publicsecretchecker && mountchecker && keybackup ;;
         B) publicsecretchecker && mountchecker && keybackup ;;
         s) rcloneSettings;;
@@ -262,8 +262,8 @@ clonestartactions() {
         Z) exit ;;
         a) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
         A) publicsecretchecker && passwordcheck && tlabelchecker && mountchecker && deploypgblitz ;;
-        D) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruplader ;;
-        d) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruplader ;;
+        D) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruploader ;;
+        d) publicsecretchecker && passwordcheck && tlabelchecker && deploydockeruploader ;;
         b) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         B) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         o) optionsmenu ;;
