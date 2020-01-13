@@ -110,16 +110,16 @@ clonestart() {
         mustset
     fi
     if [[ "$transport" == "mu" ]]; then
-        outputversion="Unencrypted Gdrive"
+        outputversion="Unencrypted Mounts"
 		output="Gdrive"
     elif [[ "$transport" == "me" ]]; then
-        outputversion="Encrypted Gcrypt"
+        outputversion="Encrypted Mounts"
 		output="Gcrypt"
     elif [[ "$transport" == "bu" ]]; then
-        outputversion="Unencrypted TDrive"
+        outputversion="Unencrypted Mounts"
 		output="TDrive"
     elif [[ "$transport" == "be" ]]; then
-        outputversion="Encrypted Tcrypt"
+        outputversion="Encrypted Mounts"
 		output="Tcrypt"
     elif [[ "$transport" == "le" ]]; then
         outputversion="Local Hard Drives"
@@ -160,7 +160,7 @@ EOF
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [A] Deploy Mounts            [ $outputversion ]
-[D] Deploy Docker Uploader   [ $dstatus ] for [ $output ]
+[D] Deploy Docker Uploader   [ $dstatus ] - [ $output ]
 [O] Options
 [B] Backup Rclone Settings
 [S] RClone Settings
