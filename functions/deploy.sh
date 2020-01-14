@@ -146,15 +146,18 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
+	agreebase
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
     multihdreadonly
+	agreebasecrypt
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
     gdsamod
     multihdreadonly
+	agreebase
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
     tdrivemod
@@ -163,7 +166,7 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
-	echo "physk/rclone-mergerfs" >/var/plexguide/uploader.image
+    agreebasecrypt
   fi
 
   cat /var/plexguide/.drivelog
@@ -204,6 +207,53 @@ EOF
 }
 
 ########################################################################################
+agreebase() {    tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔️ READ THIS NOTE 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Be aware that transferring more than 750GB/day 
+with less than 5 users will increase your risk 
+of data deletion by Google. 
+
+We do not condone or support users of Education accounts.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+sleep 90
+doneokay
+}
+agreebasecrypt() {
+
+    tee <<-EOF
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔️ READ THIS NOTE 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Be aware that transferring more than 750GB/day 
+with less than 5 users will increase your risk 
+of data deletion by Google. Please do not use 
+encryption for media as this will place your 
+data at risk of deletion by Google as they do not 
+condone encrypting content placed on Google Drive. 
+This data is already encrypted behind your Google 
+credentials and encrypting further has no benefit.
+
+We do not condone or support users of 
+this service whom are using Education accounts.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EOF
+sleep 90
+doneokay
+}
+doneokay() {
+ echo
+  read -p 'Confirm Info | PRESS [ENTER] ' typed </dev/tty
+}
 gdrivemod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive: | grep -oP plexguide | head -n1)
 
