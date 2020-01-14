@@ -63,11 +63,6 @@
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
 
-     ########## REGISTER IAMGE ##########
-    - name: Register {{pgrole}} Docker image
-      shell: 'cat /var/plexguide/uploader.image'
-      register: upperimage
-
      ########## DEPLOYMENT ##########
 
     - name: 'Deploying {{pgrole}}'
