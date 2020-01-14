@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Title:      Docker Uploader 
+# Author(s):  PhyskX
+# CoAuthot:   MrDoob
+# GNU:        General Public License v3.0
+################################################################################
+---
+- name: 'CloneClean || Check Services Existance'
+  stat:
+    path: '/etc/systemd/system/cloneclean.service'
+  register: cxp
+
+- name: 'CloneClean || Get running processes'
+  shell: "ps -ef | grep -v grep | grep -w cloneclean | awk '{print $2}'"
+  register: running_processes
+
+- name: 'CloneClean || Kill running processes'
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+
+- wait_for:
+    path: "/proc/{{ item }}/status"
+    state: absent
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+  register: killed_processes
+
+- name: 'CloneClean || Force kill stuck processes'
+  shell: "kill -9 {{ item }}"
+  with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
+
+- name: 'Install CloceClean Service'
+  template:
+    src: /opt/pgclone/scripts/cloneclean.service.j2
+    dest: /etc/systemd/system/cloneclean.service
+    force: yes
+
+- name: 'Daemon-Reload for cloneclean'
+  systemd: state=stopped name=cloneclean daemon_reload=yes enabled=no
+  when: cxp.stat.exists
+
+- name: 'Start Service for CloneClean'
+  systemd: state=started name=cloneclean enabled=yes
+  when: cxp.stat.exists

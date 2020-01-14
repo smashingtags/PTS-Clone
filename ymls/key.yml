@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# Title:      Docker Uploader 
+# Author(s):  PhyskX
+# CoAuthot:   MrDoob
+# GNU:        General Public License v3.0
+################################################################################
+---
+- name: 'Check of Existance files in {{ pgrole }}'
+  stat:
+    path: '/opt/appdata/uploader/rclone.conf'
+  register: rcp
+
+- name: 'Remove old rclone.conf from {{ pgrole }} folder'
+  shell: 'rm -rf /opt/appdata/uploader/rclone.conf'
+  ignore_errors: yes
+  when: rcp.stat.exists == true
+
+- name: 'Remove old Keys from {{ pgrole }} folder'
+  shell: 'rm -rf /opt/appdata/uploader/keys'
+  ignore_errors: yes
+  when: rcp.stat.exists == true
+
+- name: 'Clone rclone.config to {{ pgrole }} folder' 
+  shell: 'cp -r /opt/appdata/plexguide/rclone.conf /opt/appdata/uploader/rclone.conf'
+
+- name: 'Check of Existance file for TDrive and TCrypt'
+  stat:
+    path: '/opt/appdata/uploader/keys/GDSA01'
+  register: tdgdsa
+
+- name: 'Clone fresh keys TDrive and TCrypt'
+  shell: 'cp -rv "/opt/appdata/plexguide/.blitzkeys" /opt/appdata/uploader/keys'
+  ignore_errors: yes
+  when: tdgdsa.stat.exists == false
+
+- name: 'Setting permissions on appdata'
+  shell: 'chmod 775 /opt/appdata/{{pgrole}}'
+
+- name: 'Setting ownership on appdata recursivley (this can take a while!)'
+  shell: 'chown -R 1000:1000 /opt/appdata/{{pgrole}}'
+
+- name: 'Setting permissions on appdata recursivley (this can take a while!)'
+  shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'

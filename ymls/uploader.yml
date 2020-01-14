@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Title:      Jdownloader2 (OAuth security)
-# Author(s):  timekills
-# URL:        https://github.com/timekills/jdownloader2-for-Plexguide
+# Title:      Docker Uploader 
+# Author(s):  PhyskX
+# CoAuthot:   MrDoob
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -19,9 +19,14 @@
         image: 'physk/rclone-mergerfs'
 
     # CORE (MANDATORY) ############################################################
-    - name: 'Including cron job'
-      include_tasks: '/opt/pgclone/ymls/_core.yml'
-    
+    - name: 'Including main job'
+      include_tasks: './core.yml'
+
+    - name: 'Including cleaner job'
+      include_tasks: './cleaner.yml'
+
+    - name: 'Including key and rclone job'
+      include_tasks: './key.yml'
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -29,7 +34,7 @@
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
           traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
+          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
           traefik.frontend.headers.STSIncludeSubdomains: 'true'
@@ -60,31 +65,6 @@
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
 
-     ########## SERVICE CLONECLEAN ##########
-
-    - name: 'Check Services Existance'
-      stat:
-        path: '/etc/systemd/systemd/cloneclean.service'
-      register: cxp
-
-    - name: 'Stop service cloneclean'
-      service:
-        name: cloneclean
-        state: stopped
-      when: cxp.stat.exists
-
-    - name: 'Install CloceClean Service'
-      template:
-        src: /opt/pgclone/scripts/cloneclean.service.j2
-        dest: /etc/systemd/system/cloneclean.service
-        force: yes
-
-    - name: 'Daemon-Reload for cloneclean'
-      systemd: state=stopped name=cloneclean daemon_reload=yes enabled=no
-
-    - name: 'Start Service for CloneClean'
-      systemd: state=started name=cloneclean enabled=yes
-
      ########## COPY PART ##########
 
     - name: 'Check of Existance files in {{ pgrole }}'
@@ -95,18 +75,25 @@
     - name: 'Remove old rclone.conf from {{ pgrole }} folder'
       shell: 'rm -rf /opt/appdata/uploader/rclone.conf'
       ignore_errors: yes
-      when: rcp.stat.exists
+      when: rcp.stat.exists == true
 
     - name: 'Remove old Keys from {{ pgrole }} folder'
       shell: 'rm -rf /opt/appdata/uploader/keys'
       ignore_errors: yes
-      when: rcp.stat.exists
+      when: rcp.stat.exists == true
 
-    - name: 'Clone rclone.config in {{ pgrole }} folder' 
+    - name: 'Clone rclone.config to {{ pgrole }} folder' 
       shell: 'cp -r /opt/appdata/plexguide/rclone.conf /opt/appdata/uploader/rclone.conf'
 
-    - name: 'Clone fresh keys for {{ pgrole}}'
+    - name: 'Check of Existance file for TDrive and TCrypt'
+      stat:
+        path: '/opt/appdata/uploader/keys/GDSA01'
+      register: tdgdsa
+
+    - name: 'Clone fresh keys TDrive and TCrypt'
       shell: 'cp -rv "/opt/appdata/plexguide/.blitzkeys" /opt/appdata/uploader/keys'
+      ignore_errors: yes
+      when: tdgdsa.stat.exists == false
 
      ########## DEPLOYMENT ##########
 

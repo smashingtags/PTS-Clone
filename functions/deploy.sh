@@ -146,18 +146,15 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
-	deploydocker
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
     multihdreadonly
-	deploydocker
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
     gdsamod
     multihdreadonly
-	deploydocker
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
     tdrivemod
@@ -166,7 +163,6 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
-	deploydocker
   fi
 
   cat /var/plexguide/.drivelog
