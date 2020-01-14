@@ -10,13 +10,11 @@
   gather_facts: false
   tasks:
     # FACTS #######################################################################
-
     - name: 'Set Known Facts'
       set_fact:
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
-        image: 'physk/rclone-mergerfs'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
@@ -27,6 +25,7 @@
 
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
+
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -65,42 +64,17 @@
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
 
-     ########## COPY PART ##########
-
-    - name: 'Check of Existance files in {{ pgrole }}'
-      stat:
-        path: '/opt/appdata/uploader/rclone.conf'
-      register: rcp
-
-    - name: 'Remove old rclone.conf from {{ pgrole }} folder'
-      shell: 'rm -rf /opt/appdata/uploader/rclone.conf'
-      ignore_errors: yes
-      when: rcp.stat.exists == true
-
-    - name: 'Remove old Keys from {{ pgrole }} folder'
-      shell: 'rm -rf /opt/appdata/uploader/keys'
-      ignore_errors: yes
-      when: rcp.stat.exists == true
-
-    - name: 'Clone rclone.config to {{ pgrole }} folder' 
-      shell: 'cp -r /opt/appdata/plexguide/rclone.conf /opt/appdata/uploader/rclone.conf'
-
-    - name: 'Check of Existance file for TDrive and TCrypt'
-      stat:
-        path: '/opt/appdata/uploader/keys/GDSA01'
-      register: tdgdsa
-
-    - name: 'Clone fresh keys TDrive and TCrypt'
-      shell: 'cp -rv "/opt/appdata/plexguide/.blitzkeys" /opt/appdata/uploader/keys'
-      ignore_errors: yes
-      when: tdgdsa.stat.exists == false
+     ########## REGISTER IAMGE ##########
+    - name: Register {{pgrole}} Docker image
+      shell: 'cat /var/plexguide/uploader.image'
+      register: upperimage
 
      ########## DEPLOYMENT ##########
 
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
-        image: '{{image}}'
+        image: '{{upperimage.stdout}}'
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
