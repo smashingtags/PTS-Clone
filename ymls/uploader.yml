@@ -26,6 +26,10 @@
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
 
+    - name: 'Register {{pgrole}} Docker image'
+      shell: 'cat /var/plexguide/uploader.image'
+      register: upperimage
+
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
