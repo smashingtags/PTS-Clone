@@ -130,6 +130,9 @@ EOF
 ### Docker Uploader Deploy end ##
 
 deploydrives() {
+rm -rf /var/plexguide/uploader.image
+touch /var/plexguide/uploader.image
+
   fail=0
   tee <<-EOF
 
