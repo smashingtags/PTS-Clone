@@ -36,22 +36,37 @@ with from your Google GSuite? Ensure that it exists!
 
 EOF
 
+
     read -p '↘️  Input E-Mail | Press [ENTER]: ' typed </dev/tty
 
-    if [[ "$typed" == "" ]]; then glogin; fi
-    if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" || "$typed" == "z" || "$typed" == "Z" ]]; then clonestart; fi
+    if [[ "$typed" == "exit" || "$typed" == "Exit" || "$typed" == "EXIT" || "$typed" == "z" || "$typed" == "Z" ]]; then
+        clonestart
+     else
+    echo $typed >/var/plexguide/project.accountvalid
+    eduvalid=$(sed -n '1p' /var/plexguide/project.accountvalid |  cut -d\; -f1 | grep edu)
+    if [[ "$eduvalid" != "" ]]; then
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          We do not condone or support users of
+        this service whom are using Education accounts.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+    sleep 30
+           exit 1   
+   else gcllg; fi
+  fi
+}
 
-    gcloud auth login --account = $typed
+gcllg() {
+    gcloud auth login --account = $(cat /var/plexguide/project.accountvalid)
     gcloud info | grep Account: | cut -c 10- >/var/plexguide/project.account
     account=$(cat /var/plexguide/project.account)
-
-    testcheck=$(gcloud auth list | grep "$typed")
+    testcheck=$(gcloud auth list | grep "$(cat /var/plexguide/project.accountvalid)")
     if [[ "$testcheck" == "" ]]; then
         echo
         echo "INFO CHECK: E-Mail Address Failed!"
         read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
         glogin
     fi
-
-    echo "$typed" >/var/plexguide/pgclone.email
+    cp -rv /var/plexguide/project.accountvalid /var/plexguide/pgclone.email
 }
