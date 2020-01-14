@@ -149,18 +149,15 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
-	echo "physk/rclone-mergerfs:gdrivedev" >/var/plexguide/uploader.image
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
     multihdreadonly
-	echo "physk/rclone-mergerfs:gdrivedev" >/var/plexguide/uploader.image
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
     gdsamod
     multihdreadonly
-	echo "physk/rclone-mergerfs" >/var/plexguide/uploader.image
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
     tdrivemod

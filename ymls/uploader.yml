@@ -15,7 +15,6 @@
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
-
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
       include_tasks: './core.yml'
@@ -25,10 +24,6 @@
 
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
-
-    - name: 'Register {{pgrole}} Docker image'
-      shell: 'cat /var/plexguide/uploader.image'
-      register: upperimage
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
@@ -78,7 +73,7 @@
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
-        image: '{{upperimage.stdout}}'
+        image: 'physk/rclone-mergerfs'
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
