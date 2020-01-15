@@ -207,6 +207,13 @@ EOF
 }
 
 ########################################################################################
+timer() {
+seconds=90; date1=$((`date +%s` + $seconds)); 
+while [ "$date1" -ge `date +%s` ]; do 
+  echo -ne "$(date -u --date @$(($date1 - `date +%s` )) +%H:%M:%S)\r"; 
+done
+}
+
 agreebase() {    
 tee <<-EOF
 
@@ -222,7 +229,7 @@ We do not condone or support users of Education accounts.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-sleep 90
+timer
 doneokay
 }
 agreebasecrypt() {
@@ -248,7 +255,7 @@ this service whom are using Education accounts.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-sleep 90
+timer
 doneokay
 }
 doneokay() {
