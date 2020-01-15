@@ -22,7 +22,7 @@ startscript() {
         find "$(cat /var/plexguide/server.hd.path)/downloads/torrent/" -mindepth 1 -type d -empty -amin +"$(cat /var/plexguide/cloneclean.torrent)" 2>/dev/null -exec rm -rf {} \;
         #ALL
 		find "$(cat /var/plexguide/server.hd.path)/downloads" -mindepth 2 -type d \( ! -name **nzb** ! -name **torrent** ! -name .stfolder ! -name **games** ! -name ebooks ! -name abooks ! -name sonarr** ! -name radarr** ! -name lidarr** ! -name **kids** ! -name **tv** ! -name **movies** ! -name music** ! -name audio** ! -name anime** ! -name software ! -name xxx \) -empty -delete
-        find "$(cat /var/plexguide/server.hd.path)/move/" -mindepth 1 -type d -empty -delete
+        find "$(cat /var/plexguide/server.hd.path)/move/" -mindepth 2 -type d -empty -delete
 
     sleep 30
 
