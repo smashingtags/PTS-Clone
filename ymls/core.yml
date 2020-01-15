@@ -49,9 +49,8 @@
 - name: 'Setting ownership on appdata'
   shell: 'chown 1000:1000 /opt/appdata/{{pgrole}}'
 
-# FOR AUTHENTICATION
 - name: 'Script Execute Part I'
-  shell: 'bash /opt/plexguide/menu/shield/pgshield.sh'
+  shell: 'bash /opt/plexguide/menu/shield/drop.sh'
 
 - name: 'Script Execute Part II'
   shell: 'cat /var/plexguide/auth.var'
