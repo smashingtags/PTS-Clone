@@ -31,7 +31,6 @@ startscript() {
     '*.jpeg'
     '*.jpg'
     '*.rar'
-    '*.mp4'
     '*sample*'
     '*.sh'
     '*.1'
