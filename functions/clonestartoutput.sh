@@ -163,7 +163,6 @@ EOF
 [D] Deploy Docker Uploader   [ $dstatus ] - [ $output ]
 [O] Options
 [B] Backup Rclone Settings
-[S] RClone Settings
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [Z] Exit
@@ -203,8 +202,6 @@ clonestartactions() {
         d) publicsecretchecker && deploydockeruploader ;;
         o) optionsmenumove ;;
         O) optionsmenumove ;;
-        s) rcloneSettings ;;
-        S) rcloneSettings ;;
         *) clonestart ;;
         esac
 
@@ -219,8 +216,6 @@ clonestartactions() {
         A) publicsecretchecker && passwordcheck && mountchecker && deploypgmove ;;
         D) publicsecretchecker && passwordcheck && deploydockeruploader ;;
         d) publicsecretchecker && passwordcheck && deploydockeruploader ;;
-        s) rcloneSettings ;;
-        S) rcloneSettings ;;
         o) optionsmenumove ;;
         O) optionsmenumove ;;
         *) clonestart ;;
@@ -244,8 +239,6 @@ clonestartactions() {
         d) publicsecretchecker && tlabelchecker && deploydockeruploader ;;
         b) publicsecretchecker && mountchecker && keybackup ;;
         B) publicsecretchecker && mountchecker && keybackup ;;
-        s) rcloneSettings;;
-        S) rcloneSettings ;;
         o) optionsmenu ;;
         O) optionsmenu ;;
         *) clonestart ;;
@@ -272,8 +265,6 @@ clonestartactions() {
         B) publicsecretchecker && passwordcheck && mountchecker && keybackup ;;
         o) optionsmenu ;;
         O) optionsmenu ;;
-        s) rcloneSettings ;;
-        S) rcloneSettings ;;
         *) clonestart ;;
         esac
     fi
