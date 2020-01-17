@@ -68,5 +68,5 @@ gcllg() {
         read -p '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
         glogin
     fi
-    cp -rv /var/plexguide/project.accountvalid /var/plexguide/pgclone.email
+    cp -rv $testcheck /var/plexguide/pgclone.email
 }

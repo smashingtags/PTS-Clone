@@ -72,7 +72,6 @@ startscript() {
     '*.srt'
     '*.idx'
     '*.rar'
-    '*.r[a0-9][r0-9]'
     '*sample*'
     )
     # advanced settings
