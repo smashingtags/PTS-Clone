@@ -45,10 +45,7 @@ executeblitz() {
     done </var/plexguide/.blitzlist
     # deploy union
     ansible-playbook /opt/pgclone/ymls/pgunion.yml -e "transport=$transport type=$type multihds=$multihds encryptbit=$encryptbit"
-    upper=$(docker ps --format '{{.Names}}' | grep "uploader")
-    if [[ "$upper" != "uploader" ]]; then 
-       dduploader
-    else ddredeploy; fi
+    ansible-playbook /opt/pgclone/ymls/uploader.yml
     # check if services are active and running
     failed=false
 
