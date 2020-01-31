@@ -24,6 +24,9 @@
 
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
+      
+    - name: 'Remove Obsolete Cron'
+      include_tasks: './cron.yml'
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
