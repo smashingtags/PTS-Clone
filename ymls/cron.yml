@@ -7,19 +7,6 @@
 ################################################################################
 ---
 - cron:
-    name: Hourly Clean Clone Clean
-    special_time: 'hourly'
-    job: 'bash /opt/pgclone/bin/templates/cloneclean.sh'
-    state: absent
-  ignore_errors: yes
-
-- cron:
-    name: Hourly downloads cleaner
-    special_time: 'hourly'
-    job: 'bash /opt/pgclone/scripts/cloneclean.sh'
-    state: present
-
-- cron:
     name: Daily log cleaner
     special_time: 'daily'
     job: 'tlogs'
