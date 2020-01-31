@@ -17,7 +17,7 @@
     name: Hourly downloads cleaner
     special_time: 'hourly'
     job: 'bash /opt/pgclone/scripts/cloneclean.sh'
-    state: present
+    state: absent
 
 - cron:
     name: Daily log cleaner
