@@ -38,8 +38,6 @@
 
 - name: 'Daemon-Reload for cloneclean'
   systemd: state=stopped name=cloneclean daemon_reload=yes enabled=no
-  when: cxp.stat.exists
 
 - name: 'Start Service for CloneClean'
   systemd: state=started name=cloneclean enabled=yes
-  when: cxp.stat.exists
