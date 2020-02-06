@@ -13,7 +13,7 @@
 *.idx
 *.rar
 *.r[a0-9][r0-9]
-*.avi
+#*.avi
 *.nfo
 *.jpeg
 *.jpg
