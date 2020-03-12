@@ -56,7 +56,6 @@ startscript() {
     '*.sfv'
     '*.pdf'
     '*.xml'
-    #'*.avi'
     '*.exe'
     '*.lsn'
     '*.nzb'
