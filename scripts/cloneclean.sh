@@ -67,7 +67,6 @@ startscript() {
     '*.nfo'
     '*.jpeg'
     '*.jpg'
-    '*.srt'
     '*.idx'
     '*.rar'
     '*sample*'
